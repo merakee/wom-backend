@@ -20,6 +20,10 @@ gem 'devise'
 # To use Jbuilder templates for JSON
  gem 'jbuilder'
 
+
+# server thin
+gem 'thin'
+
 # Use unicorn as the app server
 # gem 'unicorn'
 

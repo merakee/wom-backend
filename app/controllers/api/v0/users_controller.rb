@@ -1,5 +1,5 @@
 class API::V0::UsersController < API::V0::APIController
-    #before_filter :authenticate_user!
+    before_filter  :authenticate_user_or_auth_token! # :authenticate_user!
   
   def index
     #authorize! :index, @user, :message => 'Not authorized as an administrator.'
