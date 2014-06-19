@@ -10,7 +10,7 @@ class API::V0::RegistrationsController < Devise::RegistrationsController
   
     def create
   
-      puts params
+      #puts params
       #user = User.new(params[:user])
       user = User.new(user_params)
       if user.save

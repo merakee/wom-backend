@@ -20,10 +20,6 @@ class User < ActiveRecord::Base
     save
   end
 
-  def valid_authentication_token?(token)
-    self.authentication_token == token
-  end
-  
   private
 
   def generate_authentication_token

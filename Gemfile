@@ -4,7 +4,7 @@ gem 'rails', '4.1.1'
 
 gem 'rails-api'
 
-gem 'spring', :group => :development
+gem 'spring', :group => :development  # preloader to seep up development process 
 
 gem 'sqlite3', :group => [:development, :test]
 gem 'pg', :group => :production 
@@ -18,7 +18,7 @@ gem 'devise'
 # gem 'bcrypt-ruby', '~> 3.1.2'
 
 # To use Jbuilder templates for JSON
- gem 'jbuilder'
+# gem 'jbuilder'
 
 
 # server thin

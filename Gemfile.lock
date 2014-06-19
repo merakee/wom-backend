@@ -41,9 +41,6 @@ GEM
     eventmachine (1.0.3)
     hike (1.2.3)
     i18n (0.6.9)
-    jbuilder (2.1.1)
-      activesupport (>= 3.0.0, < 5)
-      multi_json (~> 1.2)
     json (1.8.1)
     mail (2.5.4)
       mime-types (~> 1.16)
@@ -107,7 +104,6 @@ PLATFORMS
 
 DEPENDENCIES
   devise
-  jbuilder
   pg
   rails (= 4.1.1)
   rails-api

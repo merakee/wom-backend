@@ -26,11 +26,13 @@ elif [ "$1" == "sign_up" ]  ; then
 # sign_up
 #curl  http://localhost:3000/api/v0/users/sign_up?ema/api/v0/users/sign_up?email=this@that.com&password=asertgdfg&password_confirmation=sertgdfg&name=user4
  req='POST'
- auth_token=$2
- header="\"Content-Type: application/json\""
+ #auth_token=$2
+ #header="Content-Type: application/json"
  #data='{ "user": { "name": "'$2'", "email": "'$3'", "password": "'$4'",  "password_confirmation": "'$4'"}}'
- data='{ "user": { "name": "'$2'", "email": "'$3'", "password": "'$4'"}}'
- url="http://localhost:3000/api/v0/users"
+ #data="'{ "\"user\"": { "\"userid\"": \"$2\", "\"email\"": \"$3\", "\"password\"": \"$4\"}}'"
+ #data='{ "user: {userid": \"'$2'\", "email": "'$3'", "password": "'$4'"}}'
+url="http://localhost:3000/api/v0/users"
+curl -H "Content-Type: application/json" -X POST -d '{ "user": { "userid": "'$2'", "email": "'$3'", "password": "'$4'"}}' $url
 
 else 
 # get users
@@ -51,11 +53,9 @@ if [ "$req" == "GET" ]
 	else
 		curl $url"?"$data
 	fi 
-
-else
-	#echo -H $header	-X $req -d $data $url 
+elif [ "$1" != "sign_up" ] ; then 
 	curl -H $header	-X $req -d $data $url 
-	#curl -H "Content-Type: application/json" -X POST -d '{ "user": { "userid": "user1", "email": "user1@example.com", "password": "password"}}' http://localhost:3000/api/v0/users
+	#curl -H "Content-Type: application/json" -X POST -d $data $url
 fi
 
 

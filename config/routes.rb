@@ -1,15 +1,14 @@
 Rails.application.routes.draw do
-  devise_for :users
+  #devise_for :users
   
    # API related routes
   namespace :api, :defaults => {:format => :json} do  # url: domain/api
     #namespace :api,  :path => "", :constraints => {:subdomain => "api"}, :defaults => {:format => :json} do # sumdomain api.domain/
     namespace :v0 do  # full path version number /api/v0/
     #scope module: :v0, constraints: APIConstraints.new(version: 0, default: true) do # with constraints - no need to specif api/v0/ api/ is enough
-      devise_for :users, :controllers => {:sessions => "api/v0/sessions"}
+      devise_for :users#, :controllers => {:sessions => "api/v0/sessions"}
         
       resources :users
-      resources :rumors
     end
   end
   
