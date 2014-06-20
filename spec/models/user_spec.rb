@@ -1,5 +1,5 @@
 require 'rails_helper'
-
+=begin
 describe User do
 
   before(:each) do
@@ -96,3 +96,5 @@ describe User do
   end
 
 end
+
+=end
