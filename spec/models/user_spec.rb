@@ -1,4 +1,29 @@
 require 'rails_helper'
+
+describe User do
+  let(:user) {FactoryGirl.create(:user)}
+  
+    it "should have a valid factory" do
+      expect(user).to be 
+    end
+    
+  it "should have an user id" do
+    expect(user.userid).to be   
+  end
+  
+   it "should have an email" do
+    expect(user.email).to be   
+  end
+  
+    it "should have a password" do
+    expect(user.password).to be   
+  end
+  
+    it "should have a auth token" do
+    expect(user.authentication_token).to be   
+  end
+  
+end
 =begin
 describe User do
 
