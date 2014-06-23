@@ -1,4 +1,8 @@
+require 'rails_helper'
+
 describe API::V0::UsersController do
+  login_user
+  
   let(:user) {FactoryGirl.create(:user)}
   
   it "sign_up should be sucessful" do

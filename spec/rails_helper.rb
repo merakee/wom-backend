@@ -43,7 +43,7 @@ RSpec.configure do |config|
 
   # devise 
   config.include Devise::TestHelpers, :type => :controller
-  config.extend DeviseSupport, :type => :controller
+  config.include DeviseSupport, :type => :request
   
   
   # Json
