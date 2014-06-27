@@ -41,3 +41,6 @@ doc/*
 *.swp
 *~
 .DS_Store
+
+# erd files
+*.pdf
