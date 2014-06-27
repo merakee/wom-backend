@@ -10,19 +10,15 @@
 
 # parmanent seeds
 # user_type
-user_type1 = UserType.create :user_type => "Anonymous"
-user_type2 = UserType.create :user_type => "Email"
-user_type3 = UserType.create :user_type => "Facebook"
-user_type4 = UserType.create :user_type => "Twitter"
-user_type5 = UserType.create :user_type => "GooglePlus"
-user_type6 = UserType.create :user_type => "Others"
+%w[Anonymous Email Facebook Twitter GooglePlus Others].each do |type|
+UserType.create :user_type => type
+end
 
 # content category
-content_category1 = ContentCategory.create :category => "News"
-content_category2 = ContentCategory.create :category => "Secret"
-content_category3 = ContentCategory.create :category => "Rumor"
-content_category4 = ContentCategory.create :category => "Local Info"
-content_category5 = ContentCategory.create :category => "Other"
+
+%w[News Secret Rumor LocalInfo Other].each do |type|
+ContentCategory.create :category => type
+end
 
 # seeds for only Dev and Test
 if Rails.env != 'production'
