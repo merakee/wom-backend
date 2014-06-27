@@ -1,4 +1,8 @@
 class User < ActiveRecord::Base
+  belongs_to :user_type
+  has_many :content
+  has_many :response 
+  
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable,
@@ -9,6 +13,7 @@ class User < ActiveRecord::Base
   :validatable
 
   #attr_accessible :name, :email, :authentication_token
+
 
   before_save :ensure_authentication_token!
   def ensure_authentication_token!

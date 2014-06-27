@@ -38,4 +38,8 @@ gem 'thin'
 group :development, :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
+  gem 'faker'
+  # DB diagram
+  gem 'rails-erd'
+  
 end
