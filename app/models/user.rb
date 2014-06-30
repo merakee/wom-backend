@@ -1,7 +1,8 @@
 class User < ActiveRecord::Base
   belongs_to :user_type
-  has_many :content
-  has_many :response 
+  has_many :content, dependent: :destroy
+  has_many :response, dependent: :destroy
+  validates :user_type, presence: true
   
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable

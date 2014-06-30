@@ -34,7 +34,7 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.string :authentication_token
       # Userid  
       t.string :userid
-      t.belongs_to :user_type
+      t.belongs_to :user_type  # t.belongs_to is alias for t.references, use t.references for other associations 
       
       t.timestamps
     end

@@ -41,5 +41,5 @@ group :development, :test do
   gem 'faker'
   # DB diagram
   gem 'rails-erd'
-  
+  gem 'database_cleaner'
 end

@@ -44,8 +44,8 @@ describe User do
   end
 
   it "should reject duplicate email addresses" do
-    FactoryGirl.create(:user)
-    expect(FactoryGirl.build(:user)).to_not be_valid
+    FactoryGirl.create(:user, email: "user@example.com" )
+    expect(FactoryGirl.build(:user, email: "user@example.com" ).valid?).to_not be
   end
 
   it "should reject email addresses identical up to case" do

@@ -20,8 +20,8 @@ end
 ContentCategory.create :category => type
 end
 
-# seeds for only Dev and Test
-if Rails.env != 'production'
+# seeds for only Dev 
+if Rails.env == 'development'
   
   # Users
   100.times do
@@ -35,8 +35,11 @@ if Rails.env != 'production'
   end
   
   # response
-  1000.times do
-    FactoryGirl.create :response
+  1000.times do 
+    loop do
+      response = FactoryGirl.build :response
+      break response.save if response.valid? 
+    end
   end
   
 end
