@@ -43,7 +43,7 @@ describe "Routes for" do
     end
 
     specify "sign out" do
-      expect(:post =>  "api/v0/signout").to route_to(
+      expect(:delete =>  "api/v0/signout").to route_to(
       :controller => "api/v0/sessions",
       :action => "destroy",
       :format =>:json)
@@ -51,7 +51,10 @@ describe "Routes for" do
     specify "sign out via get" do
       expect(:get =>  "api/v0/signout").not_to be_routable
     end
-
+    specify "sign out via post" do
+      expect(:post =>  "api/v0/signout").not_to be_routable
+    end
+    
   end
 
   describe "User Paths: " do

@@ -19,8 +19,8 @@ elif [ "$1" == "sign_out" ]  ; then
  req='DELETE'
  auth_token=$2
  header="Accept: application/json"
- data="email=user1@example.com&auth_token="$auth_token 
- url="http://localhost:3000/api/v0/users/sign_out"
+ data="email=user100@example.com&auth_token="$auth_token 
+ url="http://localhost:3000/api/v0/signout"
 
 elif [ "$1" == "sign_up" ]  ; then 
 # sign_up
