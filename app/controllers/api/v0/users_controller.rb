@@ -13,6 +13,7 @@ class API::V0::UsersController < API::V0::APIController
   end
   
  def show
+   puts params
     if params[:id] != @current_user.id.to_s
       render :json=> {:success=>false, :message=>"Unauthorized Access"}, :status=>401
     else

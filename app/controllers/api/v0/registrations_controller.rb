@@ -1,12 +1,7 @@
 class API::V0::RegistrationsController < Devise::RegistrationsController
-  skip_before_filter :verify_authenticity_token
+  #skip_before_filter :verify_authenticity_token
   before_filter :update_sanitized_params, if: :devise_controller?
   respond_to :json
-  def update_sanitized_params
-    devise_parameter_sanitizer.for(:sign_up) {|u| u.permit(:name, :email, :password, :password_confirmation)}
-    devise_parameter_sanitizer.for(:account_update) {|u| u.permit(:name, :email, :password, :password_confirmation, :current_password)}
-  end
-
   def create
     #puts params
     #user = User.new(params[:user])
@@ -22,6 +17,12 @@ class API::V0::RegistrationsController < Devise::RegistrationsController
   end
 
   private
+
+  def update_sanitized_params
+    devise_parameter_sanitizer.for(:sign_up) {|u| u.permit(:name, :email, :password, :password_confirmation)}
+    devise_parameter_sanitizer.for(:account_update) {|u| u.permit(:name, :email, :password, :password_confirmation, :current_password)}
+  end
+
   def user_params
     params.require(:user).permit(:name,:email,:password)
   end

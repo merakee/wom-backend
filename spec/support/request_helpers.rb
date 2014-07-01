@@ -19,8 +19,7 @@ module Requests
     end
         
     def auth_params(user)
-      #user.to_json(:only => [:email, :authentication_token])
-      "email=#{user.email}&authentication_token=#{user.authentication_token}"
+      user.as_json(only: [:email, :authentication_token])
     end
 
     def json

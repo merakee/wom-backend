@@ -1,6 +1,5 @@
 class API::V0::SessionsController < Devise::SessionsController
-  #before_filter :authenticate_user!, :except => [:create]
-  #before_filter :authenticate_user_or_authentication_token! , :except => [:create]
+  #before_filter :authenticate_api_v0_user!#, :except => [:create]
   #skip_before_filter :verify_authenticity_token
   respond_to :json
   #force_ssl 
