@@ -1,31 +1,32 @@
 Rails.application.routes.draw do
 #devise_for :users
-root 'api/v0/sessions#create'
-    
-# API related routes
+  root 'api/v0/sessions#create'
+
+  # API related routes
   namespace :api, :defaults => {:format => :json} do  # url: domain/api
     namespace :v0 do  # full path version number /api/v0/
     #scope module: :v0, constraints: APIConstraints.new(version: 0, default: true) do # with constraints - no need to specif api/v0/ api/ is enough
 
     # root ---------------
-    root 'sessions#create'
-    
-    # DEVISE ---------------
-    #devise_for :users#, :controllers => {:sessions => "api/v0/sessions"}
-      #devise_for :users, :skip => [:registrations, :sessions, :password] 
-      as :user do
+      root 'sessions#create'
+
+      # DEVISE ---------------
+      #devise_for :users #, :controllers => {:sessions => "api/v0/sessions"}
+      #devise_for :users, :only => [:registrations, :sessions]
+      devise_for :users, skip: :all
+      devise_scope :api_v0_user do
       # devise/registrations
       #get 'signup' => 'registrations#new', :as => :new_user_registration
         post 'signup' => 'registrations#create', :as => :user_registration
-        #get 'accounts/cancel' => 'registrations#cancel', :as => :cancel_user_registration
-        #get 'accounts/edit' => 'registrations#edit', :as => :edit_user_registration
-        #put 'accouts' => 'registrations#update'
-        #delete 'accounts/cancel' => 'registrations#destroy'
+      #get 'accounts/cancel' => 'registrations#cancel', :as => :cancel_user_registration
+      #get 'accounts/edit' => 'registrations#edit', :as => :edit_user_registration
+      #put 'accouts' => 'registrations#update'
+      #delete 'accounts/cancel' => 'registrations#destroy'
 
-        # devise/sessions
-        #get 'signin' => 'sessions#new', :as => :new_user_session
-        post 'signin' => 'sessions#create', :as => :user_session
-        post 'signout' => 'sessions#destroy', :as => :destroy_user_session
+      # devise/sessions
+      #get 'signin' => 'sessions#new', :as => :new_user_session
+      post 'signin' => 'sessions#create', :as => :user_session
+      post 'signout' => 'sessions#destroy', :as => :destroy_user_session
       end
 
       # RESOURCES ---------------

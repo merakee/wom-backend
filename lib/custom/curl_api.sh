@@ -9,8 +9,8 @@ if [ "$1" == "sign_in" ];	then
 
  req='POST'
  header="Accept: application/json"
- data="email=user1@example.com&password=password" 
- url="http://localhost:3000/api/v0/users/sign_in"
+ data="email=user100@example.com&password=password" 
+ url="http://localhost:3000/api/v0/signin"
 
 elif [ "$1" == "sign_out" ]  ; then 
 
