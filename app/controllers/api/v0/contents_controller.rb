@@ -1,5 +1,5 @@
 class API::V0::ContentsController < API::V0::APIController
-  before_filter  :authenticate_user_or_auth_token!
+  before_filter  :authenticate_user_from_token!
   def index
     # show list of content for user with :id
     render :json => Content.limit(20)

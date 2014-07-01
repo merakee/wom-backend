@@ -150,7 +150,7 @@ config.secret_key = '94ac427e388fe6674a9cf4a5fddb1fbcaf0509b07090e8aa257377f6dfc
   # config.timeout_in = 30.minutes
 
   # If true, expires auth token on session timeout.
-  # config.expire_auth_token_on_timeout = false
+  # config.expire_authentication_token_on_timeout = false
 
   # ==> Configuration for :lockable
   # Defines which strategy will be used to lock an account.

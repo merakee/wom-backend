@@ -1,5 +1,6 @@
 class API::V0::UsersController < API::V0::APIController
-    before_filter  :authenticate_user_or_auth_token! # :authenticate_user!
+  before_filter  :authenticate_user_from_token!
+  #before_filter  :authenticate_api_v0_user! # :authenticate_user!  
   
   def index
     #authorize! :index, @user, :message => 'Not authorized as an administrator.'
@@ -11,14 +12,18 @@ class API::V0::UsersController < API::V0::APIController
     @user = User.new
   end
   
-  def show
-   render :json => User.find(params[:id])
+ def show
+    if params[:id] != @current_user.id.to_s
+      render :json=> {:success=>false, :message=>"Unauthorized Access"}, :status=>401
+    else
+      render :json => User.find(params[:id])
+    end
   end
-  
+
   def edit
     @user = User.find(params[:id])
   end
-  
+
   def update
     authorize! :update, @user, :message => 'Not authorized as an administrator.'
     @user = User.find(params[:id])
@@ -28,7 +33,7 @@ class API::V0::UsersController < API::V0::APIController
       redirect_to users_path, :alert => "Unable to update user."
     end
   end
-    
+
   def destroy
     authorize! :destroy, @user, :message => 'Not authorized as an administrator.'
     user = User.find(params[:id])
