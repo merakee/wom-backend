@@ -1,0 +1,23 @@
+# links and info for Rails app
+HPPT status code and rails symbols
+http://futureshock-ed.com/2011/03/04/http-status-code-symbols-for-rails/
+http://rubydoc.info/github/rack/rack/master/Rack/Utils#HTTP_STATUS_CODES-constant
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

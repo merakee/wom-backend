@@ -19,40 +19,40 @@ describe "Routes for" do
 
   describe "Registration Paths: " do
     specify "sign up" do
-      expect(:post =>  "api/v0/signup").to route_to(
+      expect(:post =>  "api/v0/sign_up").to route_to(
       :controller => "api/v0/registrations",
       :action => "create",
       :format =>:json)
     end
 
     it "sign up via get" do
-      expect(:get =>  "api/v0/signup").not_to be_routable
+      expect(:get =>  "api/v0/sign_up").not_to be_routable
     end
 
   end
 
   describe "Session Paths: " do
     specify "sign in" do
-      expect(:post =>  "api/v0/signin").to route_to(
+      expect(:post =>  "api/v0/sign_in").to route_to(
       :controller => "api/v0/sessions",
       :action => "create",
       :format =>:json)
     end
     specify "sign in via get" do
-      expect(:get =>  "api/v0/signin").not_to be_routable
+      expect(:get =>  "api/v0/sign_in").not_to be_routable
     end
 
     specify "sign out" do
-      expect(:delete =>  "api/v0/signout").to route_to(
+      expect(:delete =>  "api/v0/sign_out").to route_to(
       :controller => "api/v0/sessions",
       :action => "destroy",
       :format =>:json)
     end
     specify "sign out via get" do
-      expect(:get =>  "api/v0/signout").not_to be_routable
+      expect(:get =>  "api/v0/sign_out").not_to be_routable
     end
     specify "sign out via post" do
-      expect(:post =>  "api/v0/signout").not_to be_routable
+      expect(:post =>  "api/v0/sign_out").not_to be_routable
     end
     
   end

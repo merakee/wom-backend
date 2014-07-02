@@ -14,17 +14,17 @@ Rails.application.routes.draw do
       devise_for :users, skip: :all
       devise_scope :api_v0_user do
       # devise/registrations
-      #get 'signup' => 'registrations#new', :as => :new_user_registration
-        post 'signup' => 'registrations#create', :as => :user_registration
+      #get 'sign_up' => 'registrations#new', :as => :new_user_registration
+        post 'sign_up' => 'registrations#create', :as => :user_registration
         #get 'accounts/cancel' => 'registrations#cancel', :as => :cancel_user_registration
         #get 'accounts/edit' => 'registrations#edit', :as => :edit_user_registration
         #put 'accouts' => 'registrations#update'
         #delete 'accounts/cancel' => 'registrations#destroy'
 
         # devise/sessions
-        #get 'signin' => 'sessions#new', :as => :new_user_session
-        post 'signin' => 'sessions#create', :as => :user_session
-        delete 'signout' => 'sessions#destroy', :as => :destroy_user_session
+        #get 'sign_in' => 'sessions#new', :as => :new_user_session
+        post 'sign_in' => 'sessions#create', :as => :user_session
+        delete 'sign_out' => 'sessions#destroy', :as => :destroy_user_session
       end
 
       # RESOURCES ---------------

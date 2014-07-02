@@ -28,7 +28,7 @@ describe "API " do
       get path+ "/#{auth_user.id}", auth_params(user)
       # test for the 200 status-code
       expect(response).not_to be_success
-      expect(response).to have_http_status(401)
+      expect(response).to have_http_status(:unauthorized)
     end
 
     it 'cannot get if token is missing' do
@@ -37,7 +37,7 @@ describe "API " do
       get path+ "/#{auth_user.id}", auth_params(user)
       # test for the 200 status-code
       expect(response).not_to be_success
-      expect(response).to have_http_status(401)
+      expect(response).to have_http_status(:unauthorized)
     end
 
     it 'cannot get if email is wrong' do
@@ -46,7 +46,7 @@ describe "API " do
       get path+ "/#{auth_user.id}", auth_params(user)
       # test for the 200 status-code
       expect(response).not_to be_success
-      expect(response).to have_http_status(401)
+      expect(response).to have_http_status(:unauthorized)
     end
 
     it 'cannot get if token is wrong' do
@@ -55,14 +55,14 @@ describe "API " do
       get path+ "/#{auth_user.id}", auth_params(user)
       # test for the 200 status-code
       expect(response).not_to be_success
-      expect(response).to have_http_status(401)
+      expect(response).to have_http_status(:unauthorized)
     end
 
     it 'cannot get another user info' do
       get path + "/#{auth_user.id}+#{rand(100)+1}", auth_params(auth_user)
       # test for the 200 status-code
       expect(response).not_to be_success
-      expect(response).to have_http_status(401)
+      expect(response).to have_http_status(:unauthorized)
     end
   end
 end

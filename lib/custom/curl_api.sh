@@ -5,41 +5,28 @@
 if [ "$1" == "sign_in" ];	then 
 
 # sign in
-#curl -i  -H "Accept: application/json" -X POST -d "email=user1@example.com&password=password"  http://localhost:3000/api/v0/users/sign_in
-
  req='POST'
- header="Accept: application/json"
- data="email=user100@example.com&password=password" 
- url="http://localhost:3000/api/v0/signin"
+ data=' {"user":{"email":"user100@example.com","password":"password"}}'
+ url="http://localhost:3000/api/v0/sign_in"
+
+#curl  -H "Accept: application/json" -H "Content-type: application/json" -X POST -d ' {"user":{"email":"user100@example.com","password":"password"}}'  http://localhost:3000/api/v0/sign_in
 
 elif [ "$1" == "sign_out" ]  ; then 
 
 # sign out
-#curl -i -H "Accept: application/json" -X DELETE  http://localhost:3000/api/v0/users/sign_out --data "email=admin@example.com&authentication_token=x2zVyYcCszsR1suYafSo"
  req='DELETE'
- authentication_token=$2
- header="Accept: application/json"
- data="email=user100@example.com&authentication_token="$authentication_token 
- url="http://localhost:3000/api/v0/signout"
+ data='{"user":{"email":"user100@example.com","authentication_token":"'$2'"}}'
+ url="http://localhost:3000/api/v0/sign_out"
 
 elif [ "$1" == "sign_up" ]  ; then 
 # sign_up
-#curl  http://localhost:3000/api/v0/signup?email=this@that.com&password=asertgdfg&password_confirmation=sertgdfg&name=user4
  req='POST'
- #authentication_token=$2
- #header="Content-Type: application/json"
- #data='{ "user": { "name": "'$2'", "email": "'$3'", "password": "'$4'",  "password_confirmation": "'$4'"}}'
- #data="'{ "\"user\"": { "\"userid\"": \"$2\", "\"email\"": \"$3\", "\"password\"": \"$4\"}}'"
- #data='{ "user: {userid": \"'$2'\", "email": "'$3'", "password": "'$4'"}}'
-url="http://localhost:3000/api/v0/signup"
-curl -H "Content-Type: application/json" -X POST -d '{ "user": { "userid": "'$2'", user_type "email": "'$3'", "password": "'$4'"}}' $url
-
+ data='{"user":{"user_type_id":"2","email":"'$2'","password":"'$3'","password_confirmation":"'$4'"}}'
+ url="http://localhost:3000/api/v0/sign_up"
 else 
 # get users
  req='GET'
- header=''
-#data="authentication_token="$1
-data="userid=user100&email=user100@example.com&password=password&authentication_token="$1 
+ data='{"user":{"email":"user100@example.com","authentication_token":"'$1'"}}'
  url='http://localhost:3000/api/v0/users/1'
 fi 
 
@@ -49,13 +36,15 @@ if [ "$req" == "GET" ]
 	then
 		if [ "$data" == "" ]
 	then
-		curl  $url
+		curl $url
 	else
-		curl $url"?"$data
+		curl -H "Accept: application/json" -H "Content-type: application/json" $url"?"$data
 	fi 
-elif [ "$1" != "sign_up" ] ; then 
-	curl -H $header	-X $req -d $data $url 
-	#curl -H "Content-Type: application/json" -X POST -d $data $url
+else #if [ "$1" != "sign_up" ] ; then 
+	curl  -H "Accept: application/json" -H "Content-type: application/json" -X $req -d $data  $url
+	#echo -H "Accept: application/json" -H "Content-type: application/json" -X $req -d $data  $url
+	#curl -H $header	-X $req -d $data $url 
+	#curl -H "Content-Type: application/json" -X $req -d $data $url
 fi
 
 

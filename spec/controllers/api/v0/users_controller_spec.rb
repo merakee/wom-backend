@@ -10,10 +10,7 @@ describe API::V0::UsersController do
     #user = FactoryGirl.create(:user)
     #user.confirm! # or set a confirmed_at inside the factory. Only necessary if you are using the "confirmable" module
     sign_in user
-    puts response.status
-    puts respose.body 
     json = JSON.parse(response.body)
-    puts json
     json.should include('success' => true, 'status' => 200)
   end
   

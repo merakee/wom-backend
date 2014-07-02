@@ -8,7 +8,7 @@ class API::V0::ContentsController < API::V0::APIController
   def create
     # add new content
     content = User.new(content_params)
-    contene.save
+    content.save
   end
 
   private

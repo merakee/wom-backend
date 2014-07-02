@@ -3,7 +3,10 @@ class User < ActiveRecord::Base
   has_many :content, dependent: :destroy
   has_many :response, dependent: :destroy
   validates :user_type, presence: true
-  
+  validates :password_confirmation, presence: true
+  validates_format_of :email,:with => Devise.email_regexp
+  #validates_confirmation_of :password
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable,
@@ -14,7 +17,6 @@ class User < ActiveRecord::Base
   :validatable
 
   #attr_accessible :name, :email, :authentication_token
-
 
   before_save :ensure_authentication_token!
   def ensure_authentication_token!
