@@ -37,7 +37,7 @@ if Rails.env == 'development'
   # response
   1000.times do 
     loop do
-      response = FactoryGirl.build :response
+      response = FactoryGirl.build :user_response
       break response.save if response.valid? 
     end
   end

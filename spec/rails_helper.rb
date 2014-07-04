@@ -60,4 +60,9 @@ RSpec.configure do |config|
   # Json
   config.include Requests::JsonHelpers, :type => :request
 
+  # declare an exclusion filter
+  config.filter_run_excluding :exclude => true
+
+  # FactoryGirl
+  config.include FactoryGirl::Syntax::Methods
 end

@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 20140627215259) do
     t.datetime "updated_at"
   end
 
-  create_table "responses", force: true do |t|
+  create_table "user_responses", force: true do |t|
     t.integer  "user_id"
     t.integer  "content_id"
     t.boolean  "response"

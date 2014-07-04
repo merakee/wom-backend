@@ -30,7 +30,7 @@ Rails.application.routes.draw do
       # RESOURCES ---------------
       resources :users, only: [:show]
       resources :contents, only: [:index,:create]
-      resources :responses, only: [:create]
+      resources :user_responses, only: [:create]
 
     end
   end

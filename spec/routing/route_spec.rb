@@ -92,16 +92,16 @@ describe "Routes for" do
 
   end
 
-  describe "Response Paths: " do
+  describe "User Response Paths: " do
     specify "create" do
-      expect(:post =>  "api/v0/responses").to route_to(
-      :controller => "api/v0/responses",
+      expect(:post =>  "api/v0/user_responses").to route_to(
+      :controller => "api/v0/user_responses",
       :action => "create",
       :format =>:json)
     end
 
     it "create via get" do
-      expect(:get => "api/v0/responses").not_to be_routable
+      expect(:get => "api/v0/user_responses").not_to be_routable
     end
 
   end

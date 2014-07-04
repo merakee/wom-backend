@@ -1,9 +1,10 @@
-class Response < ActiveRecord::Base
+class UserResponse < ActiveRecord::Base
   belongs_to :user
   belongs_to :content
-  validates :user, :content, presence: true
+  validates :user, :content,  presence: true
+  #validates :reponse, allow_nil: true 
   validates :user_id, uniqueness: { scope: [:content_id],
-    message: "Only one response per user for one content" }
+    message: "Only one response per user per one content" }
 
   before_save :update_content_stat
 

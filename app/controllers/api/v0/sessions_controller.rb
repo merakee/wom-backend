@@ -6,7 +6,7 @@ class API::V0::SessionsController < Devise::SessionsController
   #force_ssl
   def create
     user = User.find_for_database_authentication(:email => params[:user][:email])
-    return invalid_login_attempt("invalid_userid") unless user
+    return invalid_login_attempt("invalid_email") unless user
 
     if user.valid_password?(params[:user][:password])
       user.ensure_authentication_token!
@@ -38,7 +38,7 @@ class API::V0::SessionsController < Devise::SessionsController
   def invalid_login_attempt(option=nil)
     warden.custom_failure!
     login_err_msg = "Error with your login or password"
-    login_err_msg = "Invalid user id"  if option == "invalid_userid"
+    login_err_msg = "Invalid email"  if option == "invalid_email"
     login_err_msg = "Invalid password" if option == "invalid_password"
 
     render :json=> {:success=>false, :message=>login_err_msg}, :status=> :unauthorized # 401
