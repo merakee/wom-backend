@@ -2,11 +2,11 @@ module Requests
 
   module AuthHelpers
     def new_user
-      FactoryGirl.build(:user)
+      build(:user)
     end
 
     def authenticated_user
-      FactoryGirl.create(:user)
+      create(:user)
     end
   end
 

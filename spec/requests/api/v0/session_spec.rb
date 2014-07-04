@@ -5,7 +5,7 @@ describe "API Session " do
 #allow_any_instance_of(API::V0::UsersController).to receive(:authenticate_user!).and_return(nil)
 #expect_any_instance_of(API::V0::UsersController).to receive(:authenticate_user!).and_return(true)
 #end
-let(:user){FactoryGirl.create(:user)}
+let(:user){create(:user)}
 
   describe "Sign in" do
     let(:path) {"api/v0/sign_in"}

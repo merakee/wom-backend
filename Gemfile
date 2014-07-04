@@ -4,22 +4,20 @@ gem 'rails', '4.1.1'
 
 gem 'rails-api'
 
-gem 'spring', :group => :development  # preloader to seep up development process 
+gem 'spring', :group => :development  # preloader to seep up development process
 
 gem 'sqlite3', :group => [:development, :test]
-gem 'pg', :group => :production 
+gem 'pg', :group => :production
 
 # authetication
 gem 'warden'
 gem 'devise'
-
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'
-
 
 # server thin
 gem 'thin'
@@ -33,13 +31,16 @@ gem 'thin'
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
 
-
 # Testing
 group :development, :test do
-  gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'faker'
-  # DB diagram
   gem 'rails-erd'
+end
+
+group :test do
+  gem 'rspec-rails'
+  gem 'shoulda-matchers'
+  # DB diagram
   gem 'database_cleaner'
 end

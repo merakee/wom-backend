@@ -5,8 +5,8 @@ describe "API " do
   describe "Content " do
     let(:path) {"/api/v0/contents"}
     let(:auth_user){authenticated_user}
-    let(:user) {FactoryGirl.create(:user)}
-    let(:content){FactoryGirl.build(:content, user_id: nil)}
+    let(:user) {create(:user)}
+    let(:content){build(:content, user_id: nil)}
      
     it 'gets content' do
       get path, auth_params(auth_user)
@@ -51,8 +51,8 @@ describe "API " do
     end
     
     it 'gets content list' do
-      (1..3).to_a.each{|x| FactoryGirl.create(:user)}
-      (1..10).to_a.each{|x| FactoryGirl.create(:content, user_id: "1")}
+      (1..3).to_a.each{|x| create(:user)}
+      (1..10).to_a.each{|x| create(:content, user_id: "1")}
       get path, auth_params(auth_user)
       # test for the 200 status-code
       expect(response).to be_success
@@ -60,8 +60,8 @@ describe "API " do
    end
       
     it 'gets content list' do
-      (1..3).to_a.each{|x| FactoryGirl.create(:user)}
-      (1..19).to_a.each{|x| FactoryGirl.create(:content, user_id: "1")}
+      (1..3).to_a.each{|x| create(:user)}
+      (1..19).to_a.each{|x| create(:content, user_id: "1")}
       get path, auth_params(auth_user)
       # test for the 200 status-code
       expect(response).to be_success
@@ -92,7 +92,7 @@ describe "API " do
      
      it 'cannot post content with empty user email' do
      user.email =""
-     content = FactoryGirl.build(:content, user_id: nil)
+     content = build(:content, user_id: nil)
       post path, auth_params(user).merge(content.as_json(root: true, only: [:content_category_id, :text]))
       # test for the 200 status-code
       expect(response).not_to be_success
@@ -100,7 +100,7 @@ describe "API " do
      end
      
      it 'cannot post content without user auth token' do
-     content = FactoryGirl.build(:content, user_id: nil)
+     content = build(:content, user_id: nil)
       post path, user.as_json(root: true, only: [:email]).merge(content.as_json(root: true, only: [:content_category_id, :text]))
       # test for the 200 status-code
       expect(response).not_to be_success
@@ -109,7 +109,7 @@ describe "API " do
      
      it 'cannot post content with empty auth token' do
      user.authentication_token =""
-     content = FactoryGirl.build(:content, user_id: nil)
+     content = build(:content, user_id: nil)
       post path, auth_params(user).merge(content.as_json(root: true, only: [:content_category_id, :text]))
       # test for the 200 status-code
       expect(response).not_to be_success

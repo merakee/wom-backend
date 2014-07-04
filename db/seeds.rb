@@ -25,19 +25,19 @@ if Rails.env == 'development'
   
   # Users
   100.times do
-    FactoryGirl.create :user
+    create :user
   end
 
 
 # Content
   1000.times do
-    FactoryGirl.create :content
+    create :content
   end
   
   # response
   1000.times do 
     loop do
-      response = FactoryGirl.build :user_response
+      response = build :user_response
       break response.save if response.valid? 
     end
   end

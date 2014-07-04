@@ -4,10 +4,10 @@ describe "API " do
   
   describe "User Response " do
     let(:path) {"/api/v0/user_responses"}
-    let(:user_content){FactoryGirl.create(:user)}
-    let(:user){FactoryGirl.create(:user)}
-    let(:content){FactoryGirl.create(:content, user_id: user_content.id)}
-    let(:user_response){FactoryGirl.build(:user_response, content_id: content.id)}
+    let(:user_content){create(:user)}
+    let(:user){create(:user)}
+    let(:content){create(:content, user_id: user_content.id)}
+    let(:user_response){build(:user_response, content_id: content.id)}
     
    it 'can post user_response' do
      post path, auth_params(user).merge(user_response.as_json(root: true, only: [:content_id, :response]))

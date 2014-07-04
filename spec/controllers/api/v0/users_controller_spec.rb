@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-describe API::V0::UsersController do
-  login_user
+describe API::V0::UsersController , :exclude => true do
+  #login_user
   
-  let(:user) {FactoryGirl.create(:user)}
+  let(:user) {create(:user)}
   
   it "sign_up should be sucessful" do
     #@request.env["devise.mapping"] = Devise.mappings[:user]
-    #user = FactoryGirl.create(:user)
+    #user = create(:user)
     #user.confirm! # or set a confirmed_at inside the factory. Only necessary if you are using the "confirmable" module
     sign_in user
     json = JSON.parse(response.body)
