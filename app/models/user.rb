@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   validates :user_type, presence: true
   validates :password_confirmation, presence: true
   validates_format_of :email,:with => Devise.email_regexp
-  #validates_confirmation_of :password
+  validates_confirmation_of :password
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -24,8 +24,7 @@ class User < ActiveRecord::Base
   end
 
   def reset_authentication_token!
-    self.authentication_token = nil 
-    save
+    self.update_attribute(:authentication_token, generate_authentication_token)
   end
 
   private

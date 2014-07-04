@@ -15,11 +15,11 @@ describe "API " do
       # test for the 200 status-code
       expect(response).to be_success
       # check that the attributes are the same.
-      expect(json['id']).to eq(auth_user.id)
-      expect(json['email']).to eq(auth_user.email)
-      expect(json['userid']).to eq(auth_user.userid)
-      expect(json['authentication_token']).to eq(auth_user.authentication_token)
-      expect(json['user_type_id']).to eq(auth_user.user_type_id)
+      expect(json['user']['id']).to eq(auth_user.id)
+      expect(json['user']['email']).to eq(auth_user.email)
+      expect(json['user']['userid']).to eq(auth_user.userid)
+      expect(json['user']['authentication_token']).to eq(auth_user.authentication_token)
+      expect(json['user']['user_type_id']).to eq(auth_user.user_type_id)
     end
 
     it 'cannot get if email is missing' do
@@ -58,11 +58,17 @@ describe "API " do
       expect(response).to have_http_status(:unauthorized)
     end
 
-    it 'cannot get another user info' do
+    it 'only gets requesting user info irrespective of the path' do
       get path + "/#{auth_user.id}+#{rand(100)+1}", auth_params(auth_user)
       # test for the 200 status-code
-      expect(response).not_to be_success
-      expect(response).to have_http_status(:unauthorized)
+      expect(response).to be_success
+      expect(response).to have_http_status(:ok)
+      # check that the attributes are the same.
+      expect(json['user']['id']).to eq(auth_user.id)
+      expect(json['user']['email']).to eq(auth_user.email)
+      expect(json['user']['userid']).to eq(auth_user.userid)
+      expect(json['user']['authentication_token']).to eq(auth_user.authentication_token)
+      expect(json['user']['user_type_id']).to eq(auth_user.user_type_id)
     end
   end
 end

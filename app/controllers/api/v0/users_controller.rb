@@ -13,11 +13,7 @@ class API::V0::UsersController < API::V0::APIController
   end
   
  def show
-    if params[:id] != @current_user.id.to_s
-      render :json=> {:success=>false, :message=>"Unauthorized Access"}, :status=>401
-    else
-      render :json => User.find(params[:id])
-    end
+    render :json => @current_user.as_json(root: true), :status=>200
   end
 
   def edit

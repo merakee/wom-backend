@@ -17,10 +17,10 @@ describe User do
   # Basic validations
     it { expect(user).to validate_presence_of(:email)}
     it { expect(user).to validate_presence_of(:password)}
-    it { expect(user).to validate_presence_of(:password_confirmation)}
+    #it { expect(user).to validate_presence_of(:password_confirmation)}
     it { expect(user).to validate_presence_of(:user_type)}
     it { expect(user).to validate_uniqueness_of(:email) }
-    it { expect(user).to validate_confirmation_of(:password) }  # Ensure two values match
+    #it { expect(user).to validate_confirmation_of(:password) }  # Ensure two values match
     
     # Format validations
     it { expect(user).to allow_value("dhh@nonopinionated.com").for(:email) }

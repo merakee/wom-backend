@@ -6,11 +6,13 @@ describe "API Session " do
 #expect_any_instance_of(API::V0::UsersController).to receive(:authenticate_user!).and_return(true)
 #end
 let(:user){create(:user)}
-
+let(:path_sign_in) {"api/v0/sign_in"}
+let(:path_sign_out) {"api/v0/sign_out"}
+        
   describe "Sign in" do
     let(:path) {"api/v0/sign_in"}
     it "should get token" do
-      post path, {user: {email: user.email, password:"password"} }.as_json
+      post path_sign_in, {user: {email: user.email, password:"password"} }.as_json
       # test for  status-code
       expect(response).to be_success
       # check that the attributes are the same.
@@ -21,7 +23,7 @@ let(:user){create(:user)}
     end
 
     it "should fail without email" do
-      post path, {user: { password:"password"} }.as_json
+      post path_sign_in, {user: { password:"password"} }.as_json
       # test for status-code
       expect(response).not_to be_success
       expect(response).to have_http_status(:unprocessable_entity)
@@ -29,7 +31,7 @@ let(:user){create(:user)}
     end
 
     it "should fail with empty email" do
-      post path, {user: {email: "", password:"password"} }.as_json
+      post path_sign_in, {user: {email: "", password:"password"} }.as_json
       # test for status-code
       expect(response).not_to be_success
       expect(response).to have_http_status(:unprocessable_entity)
@@ -38,7 +40,7 @@ let(:user){create(:user)}
 
     it "should fail with wrong email" do
       user.email +='1'
-      post path, {user: {email: user.email, password:"password"} }.as_json
+      post path_sign_in, {user: {email: user.email, password:"password"} }.as_json
       # test for status-code
       expect(response).not_to be_success
       expect(response).to have_http_status(:unauthorized)
@@ -46,7 +48,7 @@ let(:user){create(:user)}
     end
 
     it "should fail without password" do
-      post path, {user: {email: user.email} }.as_json
+      post path_sign_in, {user: {email: user.email} }.as_json
       # test for status-code
       expect(response).not_to be_success
       expect(response).to have_http_status(:unauthorized)
@@ -54,7 +56,7 @@ let(:user){create(:user)}
     end
 
     it "should fail with empty password" do
-      post path, {user: {email: user.email, password:""} }.as_json
+      post path_sign_in, {user: {email: user.email, password:""} }.as_json
       # test for status-code
       expect(response).not_to be_success
       expect(response).to have_http_status(:unauthorized)
@@ -62,7 +64,7 @@ let(:user){create(:user)}
     end
 
     it "should fail with wrong password" do
-      post path, {user: {email: user.email, password:"Password"} }.as_json
+      post path_sign_in, {user: {email: user.email, password:"Password"} }.as_json
       # test for status-code
       expect(response).not_to be_success
       expect(response).to have_http_status(:unauthorized)
@@ -70,7 +72,7 @@ let(:user){create(:user)}
     end
 
     it "should fail with empty email and password" do
-      post path, {user: {email: "", password:""} }.as_json
+      post path_sign_in, {user: {email: "", password:""} }.as_json
       # test for status-code
       expect(response).not_to be_success
       expect(response).to have_http_status(:unprocessable_entity)
@@ -82,7 +84,7 @@ let(:user){create(:user)}
     let(:path) {"api/v0/sign_out"}
     
     it "should fail without email" do
-      delete path, user.as_json(root: true, only: [:authentication_token])
+      delete path_sign_out, user.as_json(root: true, only: [:authentication_token])
       # test for status-code
       expect(response).not_to be_success
       expect(response).to have_http_status(:unprocessable_entity)
@@ -91,7 +93,7 @@ let(:user){create(:user)}
 
     it "should fail with empty email" do
       user.email =""
-      delete path, user.as_json(root: true, only: [:email,:authentication_token])
+      delete path_sign_out, user.as_json(root: true, only: [:email,:authentication_token])
       # test for status-code
       expect(response).not_to be_success
       expect(response).to have_http_status(:unprocessable_entity)
@@ -100,7 +102,7 @@ let(:user){create(:user)}
 
     it "should fail with wrong email" do
       user.email +="1"
-      delete path, user.as_json(root: true, only: [:email,:authentication_token])
+      delete path_sign_out, user.as_json(root: true, only: [:email,:authentication_token])
       # test for status-code
       expect(response).not_to be_success
       expect(response).to have_http_status(:bad_request)
@@ -108,7 +110,7 @@ let(:user){create(:user)}
     end
 
     it "should fail without token" do
-      delete path, user.as_json(root: true, only: [:email])
+      delete path_sign_out, user.as_json(root: true, only: [:email])
       # test for status-code
       expect(response).not_to be_success
       expect(response).to have_http_status(:bad_request)
@@ -118,7 +120,7 @@ let(:user){create(:user)}
     it "should fail with empty token" do
       user.authentication_token=""
       # test for status-code
-      delete path, user.as_json(root: true, only: [:email,:authentication_token])
+      delete path_sign_out, user.as_json(root: true, only: [:email,:authentication_token])
       # test for status-code
       expect(response).not_to be_success
       expect(response).to have_http_status(:bad_request)
@@ -127,7 +129,7 @@ let(:user){create(:user)}
 
     it "should fail with wrong token" do
       user.authentication_token +="a"
-      delete path, user.as_json(root: true, only: [:email,:authentication_token])
+      delete path_sign_out, user.as_json(root: true, only: [:email,:authentication_token])
       # test for status-code
       expect(response).not_to be_success
       expect(response).to have_http_status(:bad_request)
@@ -137,7 +139,7 @@ let(:user){create(:user)}
     it "should fail with empty email and token" do
       user.authentication_token=""
       user.email=""
-      delete path, user.as_json(root: true, only: [:email,:authentication_token])
+      delete path_sign_out, user.as_json(root: true, only: [:email,:authentication_token])
       # test for status-code
       expect(response).not_to be_success
       expect(response).to have_http_status(:unprocessable_entity)
@@ -145,7 +147,7 @@ let(:user){create(:user)}
     end
 
     it "should be sucessful" do
-      delete path, user.as_json(root: true, only: [:email,:authentication_token])
+      delete path_sign_out, user.as_json(root: true, only: [:email,:authentication_token])
       # test for  status-code
       expect(response).to be_success
       # check that the attributes are the same.
@@ -153,12 +155,24 @@ let(:user){create(:user)}
       expect(json['message']).to eq("Authetication token deleted")
     end
 
-    xit "should be sucessful and change token" do
-      
+    it "should be sucessful and change token" do
+      delete path_sign_out, user.as_json(root: true, only: [:email,:authentication_token])
+      post path_sign_in, {user: {email: user.email, password:"password"} }.as_json
+       # test for  status-code
+      expect(response).to be_success
+      # check that the attributes are the same.
+      expect(response).to have_http_status(:ok)
+      expect(json["user"]["id"]).to eq(user.id)
+      expect(json["user"]["email"]).to eq(user.email)
+      expect(json["user"]["authentication_token"]).not_to eq(user.authentication_token)    
     end
     
-    xit "cannot log in with old token" do
-
+    it "cannot log in with old token" do
+      delete path_sign_out, user.as_json(root: true, only: [:email,:authentication_token])
+      delete path_sign_out, user.as_json(root: true, only: [:email,:authentication_token])
+      # test for status-code
+      expect(response).not_to be_success
+      expect(response).to have_http_status(:bad_request)    
     end
 
   end
