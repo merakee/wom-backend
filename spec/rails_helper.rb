@@ -55,11 +55,10 @@ RSpec.configure do |config|
   #config.include Devise::TestHelpers, :type => :controller
   #config.include DeviseSupport, :type => :request
 
-  # Authetication
-  config.include Requests::AuthHelpers, :type => :request
-  # Json
+  # Json and Response
   config.include Requests::JsonHelpers, :type => :request
-
+  config.include Requests::ResponseHelpers, :type => :request
+  
   # declare an exclusion filter
   config.filter_run_excluding :exclude => true
 

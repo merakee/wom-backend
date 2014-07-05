@@ -28,7 +28,8 @@ Rails.application.routes.draw do
       end
 
       # RESOURCES ---------------
-      resources :users, only: [:show]
+      #resources :users, only: [:show]
+      get 'profile', to: 'users#show'
       resources :contents, only: [:index,:create]
       resources :user_responses, only: [:create]
 

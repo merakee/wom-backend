@@ -10,7 +10,7 @@
 
 # parmanent seeds
 # user_type
-%w[Anonymous Email Facebook Twitter GooglePlus Others].each do |type|
+%w[Anonymous Wom Facebook Twitter GooglePlus Others].each do |type|
 UserType.create :user_type => type
 end
 
@@ -25,19 +25,19 @@ if Rails.env == 'development'
   
   # Users
   100.times do
-    create :user
+    FactoryGirl.create :user
   end
 
 
 # Content
   1000.times do
-    create :content
+        FactoryGirl.create :content
   end
   
   # response
   1000.times do 
     loop do
-      response = build :user_response
+      response =     FactoryGirl.build :user_response
       break response.save if response.valid? 
     end
   end

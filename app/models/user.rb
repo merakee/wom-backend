@@ -19,14 +19,23 @@ class User < ActiveRecord::Base
   #attr_accessible :name, :email, :authentication_token
 
   before_save :ensure_authentication_token!
+  
+  def set_anonymous_user
+    self.authentication_token = generate_authentication_token
+    self.email = "#{self.authentication_token}@email.com"
+  end
   def ensure_authentication_token!
     self.authentication_token ||= generate_authentication_token
   end
 
   def reset_authentication_token!
-    self.update_attribute(:authentication_token, generate_authentication_token)
+    # exclude anonymous users 
+    self.update_attribute(:authentication_token, generate_authentication_token) if self.user_type_id != 1
   end
 
+  def is_anonymous?
+    self.user_type_id == 1 
+  end
   private
 
   def generate_authentication_token

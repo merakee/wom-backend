@@ -1,12 +1,28 @@
 module Requests
 
-  module AuthHelpers
-    def new_user
-      build(:user)
+ module ResponseHelpers
+    def expect_response_to_have(response,success=false, status=nil, msg=nil)
+      if success==true
+        expect(response).to be_success
+      else
+        expect(response).not_to be_success
+      end
+      if status
+        expect(response).to have_http_status(status)
+      end
+      if msg
+        expect(json['message']).to eq(msg)
+      end
     end
-
-    def authenticated_user
-      create(:user)
+    
+    def get_user_anonymous
+      signup = "api/v0/sign_up"
+      user_anon = build :user, :anonymous
+      post signup, user_anon.as_json(root: true)
+      user_anon.id = json['user']['id']
+      user_anon.email = json['user']['email']
+      user_anon.authentication_token=json['user']['authentication_token']
+      user_anon
     end
   end
 
@@ -23,7 +39,7 @@ module Requests
     end
 
     def json
-      @json ||= JSON.parse(response.body)
+      JSON.parse(response.body)
     end
   end
 end

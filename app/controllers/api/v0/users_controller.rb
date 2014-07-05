@@ -13,6 +13,7 @@ class API::V0::UsersController < API::V0::APIController
   end
   
  def show
+    return if invalid_action_for_anonymous_user?(@current_user)  
     render :json => @current_user.as_json(root: true), :status=>200
   end
 

@@ -59,18 +59,17 @@ describe "Routes for" do
 
   describe "User Paths: " do
     specify "show" do
-      expect(:get =>  "api/v0/users/10").to route_to(
+      expect(:get =>  "api/v0/profile").to route_to(
       :controller => "api/v0/users",
       :action => "show",
-      :format =>:json,
-      :id => "10")
+      :format =>:json)
     end
 
-    it "show without id" do
-      expect(:get =>  "api/v0/users/").not_to be_routable
+    it "show via delete" do
+      expect(:delete =>  "api/v0/profile").not_to be_routable
     end
     it "show via post" do
-      expect(:post =>  "api/v0/users/12").not_to be_routable
+      expect(:post =>  "api/v0/profile").not_to be_routable
     end
 
   end

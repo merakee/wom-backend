@@ -4,7 +4,12 @@ class ApplicationController < ActionController::API
   include ActionController::MimeResponds
   include ActionController::StrongParameters
 
+  # helpers 
+  include ApplicationHelper::APIHelper
+  
   # Json response
   respond_to :json
+
+
 
 end
