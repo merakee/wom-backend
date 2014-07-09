@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 shared_examples "user with access to content" do
-  it 'gets content' do
+  it 'can get content' do
     get path, auth_params(user)
     expect_response_to_have(response,sucess=true,status=:ok)
   end
@@ -30,16 +30,16 @@ shared_examples "user with access to content" do
     expect_response_to_have(response,sucess=false,status=:unauthorized)
   end
 
-  it 'gets content list' do
-  (1..3).to_a.each{|x| create(:user)}
+  it 'can get content list' do
+    (1..3).to_a.each{|x| create(:user)}
     (1..10).to_a.each{|x| create(:content, user_id: "1")}
     get path, auth_params(user)
     expect_response_to_have(response,sucess=true,status=:ok)
     expect(json.count).to eq(10)
   end
 
-  it 'gets content list' do
-  (1..3).to_a.each{|x| create(:user)}
+  it 'can get content list' do
+    (1..3).to_a.each{|x| create(:user)}
     (1..19).to_a.each{|x| create(:content, user_id: "1")}
     get path, auth_params(user)
     expect_response_to_have(response,sucess=true,status=:ok)
@@ -132,11 +132,11 @@ describe "API " do
   let(:path) {"/api/v0/contents"}
   let(:content){build(:content, user_id: nil)}
 
-  describe "Content for normal user" do
+  describe "Content: normal user" do
     let(:user) {create :user}
     it_behaves_like  "user with access to content"
   end
-  describe "Content for anonymous user" do
+  describe "Content: anonymous user" do
     let(:user) {get_user_anonymous}
     it_behaves_like  "user with access to content"
   end

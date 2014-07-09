@@ -10,10 +10,11 @@ class API::V0::SessionsController < Devise::SessionsController
   def create
     user = User.find_for_database_authentication(:email => params[:user][:email])
     return invalid_login_attempt("invalid_email") unless user
+    # anonymous user cannot sign in
+    return if invalid_action_for_anonymous_user?(user)
 
     if user.valid_password?(params[:user][:password])
       user.ensure_authentication_token!
-      #render :json=> {:success=>true, :authentication_token=>user.authentication_token, :email=>user.email}
       render :json=> {:success=>true, user:{id: user.id,
         authentication_token: user.authentication_token, email:user.email}} ,
         :status => :ok #200

@@ -16,14 +16,12 @@ class API::V0::RegistrationsController < Devise::RegistrationsController
       wom_user_sign_up
     # other
     else
-      puts "I am here..."
     render :json=> {:success=>false, :message=>"Unkown user type"}, :status=> :unprocessable_entity
     end
   end
 
   private
   def anonymous_user_sign_up
-          puts "I am here...11"
     params[:user][:password] = "passowrd"
     params[:user][:password_confirmation] =params[:user][:password]
     user = User.new(user_params)
