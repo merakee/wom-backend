@@ -2,7 +2,7 @@ class API::V0::UsersController < API::V0::APIController
   before_filter  :authenticate_user_from_token!
   def show
     return if invalid_action_for_anonymous_user?(@current_user)
-    render :json => @current_user.as_json(root: true), :status=>200
+    render :json => @current_user.as_json(root: true), :status=> :ok #200
   end
 
 # def update

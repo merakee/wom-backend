@@ -2,7 +2,7 @@ class API::V0::ContentsController < API::V0::APIController
   before_filter  :authenticate_user_from_token!
   def index
     # show list of content for user with :id
-    render :json => Content.limit(20)
+    render :json => Content.limit(20), :status=> :ok
   end
 
   def create
@@ -10,7 +10,7 @@ class API::V0::ContentsController < API::V0::APIController
     content = Content.new(content_params)
     content.user_id = @current_user.id
     if content.save
-      render :json => content.as_json(root: true, only: [:id, :user_id, :content_category_id, :text, :photo_token]), :status=>201
+      render :json => content.as_json(root: true, only: [:id, :user_id, :content_category_id, :text, :photo_token]), :status=> :created
     return
     else
       warden.custom_failure!

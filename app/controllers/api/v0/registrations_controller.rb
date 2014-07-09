@@ -4,8 +4,6 @@ class API::V0::RegistrationsController < Devise::RegistrationsController
   respond_to :json
   
   def create
-          puts user_type_params
-                puts user_type_params.class 
     case  user_type_params
 
     # anonymous
@@ -38,11 +36,11 @@ class API::V0::RegistrationsController < Devise::RegistrationsController
     
     if user.save
       user.ensure_authentication_token!
-      render :json => user.as_json(root: true, only: [:id,:user_type_id,:email,:authentication_token]), :status=>201
+      render :json => {:success => true, :user => user.as_json(only: [:id,:user_type_id,:email,:authentication_token])}, :status=> :created
     return
     else
       warden.custom_failure!
-      render :json => user.errors, :status=> :unprocessable_entity
+      render :json => {:success => false, :message => (user.errors.as_json)}, :status=> :unprocessable_entity
     end
   end
 

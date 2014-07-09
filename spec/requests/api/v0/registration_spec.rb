@@ -31,7 +31,7 @@ describe "API Registration" do
   describe "Sign up" do
    
    it "should create user and get token" do
-      should_register_user_and_return_token(path, user)
+    should_register_user_and_return_token(path, user)
     end
 
     it "should fail without email" do
