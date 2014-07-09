@@ -86,7 +86,7 @@ describe "API Registration" do
     end
 
     xit "should accept numbers and string for user_type_id" do
-
+      #
     end
       
   end
