@@ -29,7 +29,7 @@ describe "API Registration" do
   let(:user_anon){build :user, :anonymous}
 
   describe "Sign up" do
-    
+   
    it "should create user and get token" do
       should_register_user_and_return_token(path, user)
     end
@@ -83,6 +83,10 @@ describe "API Registration" do
       user[:user].delete(:email)
       user[:user].delete(:password)
       should_fail_with_unprocessable_entity(path, user)
+    end
+
+    xit "should accept numbers and string for user_type_id" do
+
     end
       
   end
