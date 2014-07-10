@@ -7,6 +7,19 @@ class API::V0::SessionsController < Devise::SessionsController
   before_filter :ensure_params_exist
   respond_to :json
   #force_ssl
+  
+  api :POST,  '/sign_in', "User Sign In"
+  #api_versions
+  api_version "0.0"
+  formats ['json']
+  param_group :user_sign_in, API::V0::APIController
+  #param
+  description "Sign in users"
+  error :code => 401, :desc => "Unauthorized"
+  error :code => 422, :desc => "Unprocessable Entity"
+  example "{'success':true, 'user': {'email':wom_user@example.com, 'authentication_token':fsdhkt54hfaefrkb435r4} "
+  see :link => "sessions#destroy", :desc => "User Sign Out"
+  #meta
   def create
     user = User.find_for_database_authentication(:email => params[:user][:email])
     return invalid_login_attempt("invalid_email") unless user
@@ -23,6 +36,19 @@ class API::V0::SessionsController < Devise::SessionsController
     invalid_login_attempt("invalid_password")
   end
 
+  api :DELETE,  '/sign_out', "User Sign Out"
+  #api_versions
+  api_version "0.0"
+  formats ['json']
+  param_group :user_auth, API::V0::APIController
+  #param
+  description "Sign out users"
+  error :code => 401, :desc => "Unauthorized"
+  error :code => 422, :desc => "Unprocessable Entity"
+  example "{'success':true, 'message':Authetication token deleted} "
+  see :link => "sessions#create", :desc => "User Sign In"
+  #meta
+  
   def destroy
     user = User.find_for_database_authentication(:email => params[:user][:email],:authentication_token => params[:user][:authentication_token])
     if user && user.authentication_token
@@ -31,7 +57,7 @@ class API::V0::SessionsController < Devise::SessionsController
       user.reset_authentication_token!
       render :json=> {:success=>true, :message=> "Authetication token deleted"}, :status => :ok #200
     else
-      render :json=> {:success=>false, :message=> "Unauthorized user"}, :status =>   :bad_request # 400
+      render :json=> {:success=>false, :message=> "Unauthorized user"}, :status =>   :unauthorized # 401
     end
   end
 

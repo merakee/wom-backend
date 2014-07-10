@@ -3,6 +3,18 @@ class API::V0::RegistrationsController < Devise::RegistrationsController
   before_filter :update_sanitized_params, if: :devise_controller?
   respond_to :json
   
+  api :POST,  '/sign_up', "New User Sign Up"
+  #api_versions
+  api_version "0.0"
+  formats ['json']
+  param_group :user_sign_up, API::V0::APIController
+  #param
+  description "Signs up new user including anonymous users"
+  error :code => 422, :desc => "Unprocessable Entity"
+  example "{'success':true, 'user':{'id':2758, 'user_type_id':2, 'email':wom_user@example.com, 'authentication_token':fsdhkt54hfaefrkb435r4}}"
+  
+  #see
+  #meta
   def create
     case  user_type_params
 

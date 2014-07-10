@@ -1,8 +1,22 @@
 class API::V0::UsersController < API::V0::APIController
   before_filter  :authenticate_user_from_token!
+
+
+  api :GET,  '/profile', "Show user profile info"
+  #api_versions
+  api_version "0.0"
+  formats ['json']
+  param_group :user_auth, API::V0::APIController
+  #param
+  description "Shows profile information for the autheticated user"
+  error :code => 401, :desc => "Unauthorized"
+  example "{'user':{'id':123,'user_type_id':2,'email':wom_user@example.com}}"
+  #see
+  #meta
+ 
   def show
     return if invalid_action_for_anonymous_user?(@current_user)
-    render :json => @current_user.as_json(root: true), :status=> :ok #200
+    render :json => {:success => true, :user =>(@current_user.as_json(:only =>[:id, :user_type_id, :email]))}, :status=> :ok #200
   end
 
 # def update
