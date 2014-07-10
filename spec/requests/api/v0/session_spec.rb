@@ -15,7 +15,6 @@ let(:path_sign_out) {"api/v0/sign_out"}
      it "should get token" do
       post path_sign_in, {user: {email: user.email, password:"password"} }.as_json
       expect_response_to_have(response,sucess=true,status=:ok)
-      expect(json["user"]["id"]).to eq(user.id)
       expect(json["user"]["email"]).to eq(user.email)
       expect(json["user"]["authentication_token"]).to eq(user.authentication_token)
     end
@@ -74,24 +73,24 @@ let(:path_sign_out) {"api/v0/sign_out"}
     it "should fail with wrong email" do
       user.email +="1"
       delete path_sign_out, user.as_json(root: true, only: [:email,:authentication_token])
-      expect_response_to_have(response,sucess=false,status=:bad_request,msg="Not valid user or token")
+      expect_response_to_have(response,sucess=false,status=:bad_request,msg="Unauthorized user")
     end
 
     it "should fail without token" do
       delete path_sign_out, user.as_json(root: true, only: [:email])
-      expect_response_to_have(response,sucess=false,status=:bad_request,msg="Not valid user or token")
+      expect_response_to_have(response,sucess=false,status=:bad_request,msg="Unauthorized user")
     end
 
     it "should fail with empty token" do
       user.authentication_token=""
       delete path_sign_out, user.as_json(root: true, only: [:email,:authentication_token])
-      expect_response_to_have(response,sucess=false,status=:bad_request,msg="Not valid user or token")
+      expect_response_to_have(response,sucess=false,status=:bad_request,msg="Unauthorized user")
     end
 
     it "should fail with wrong token" do
       user.authentication_token +="a"
       delete path_sign_out, user.as_json(root: true, only: [:email,:authentication_token])
-      expect_response_to_have(response,sucess=false,status=:bad_request,msg="Not valid user or token")
+      expect_response_to_have(response,sucess=false,status=:bad_request,msg="Unauthorized user")
     end
 
     it "should fail with empty email and token" do
@@ -110,7 +109,6 @@ let(:path_sign_out) {"api/v0/sign_out"}
       delete path_sign_out, user.as_json(root: true, only: [:email,:authentication_token])
       post path_sign_in, {user: {email: user.email, password:"password"} }.as_json
       expect_response_to_have(response,sucess=true,status=:ok)
-      expect(json["user"]["id"]).to eq(user.id)
       expect(json["user"]["email"]).to eq(user.email)
       expect(json["user"]["authentication_token"]).not_to eq(user.authentication_token)    
     end
@@ -118,7 +116,7 @@ let(:path_sign_out) {"api/v0/sign_out"}
     it "cannot log in with old token" do
       delete path_sign_out, user.as_json(root: true, only: [:email,:authentication_token])
       delete path_sign_out, user.as_json(root: true, only: [:email,:authentication_token])
-      expect_response_to_have(response,sucess=false,status=:bad_request,msg="Not valid user or token")  
+      expect_response_to_have(response,sucess=false,status=:bad_request,msg="Unauthorized user")  
     end
     
      it "should fail for anonymous user" do

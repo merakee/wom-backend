@@ -7,14 +7,14 @@ class API::V0::RegistrationsController < Devise::RegistrationsController
     case  user_type_params
 
     # anonymous
-    when "1", 1
+    when APIConstants::API_USER_TYPE::ANONYMOUS, APIConstants::API_USER_TYPE::ANONYMOUS.to_s
       anonymous_user_sign_up
     # regular
-    when "2",2
+    when APIConstants::API_USER_TYPE::WOM, APIConstants::API_USER_TYPE::WOM.to_s
       wom_user_sign_up
     # other
     else
-    render :json=> {:success=>false, :message=>"Unkown user type"}, :status=> :unprocessable_entity
+    render :json=> {:success=>false, :message=>"Unknown user type"}, :status=> :unprocessable_entity
     end
   end
 

@@ -15,9 +15,9 @@ class API::V0::SessionsController < Devise::SessionsController
 
     if user.valid_password?(params[:user][:password])
       user.ensure_authentication_token!
-      render :json=> {:success=>true, user:{id: user.id,
-        authentication_token: user.authentication_token, email:user.email}} ,
-        :status => :ok #200
+      render :json=> {:success=>true, user:{email:user.email, 
+        authentication_token: user.authentication_token}}, :status => :ok #200
+
     return
     end
     invalid_login_attempt("invalid_password")
@@ -31,7 +31,7 @@ class API::V0::SessionsController < Devise::SessionsController
       user.reset_authentication_token!
       render :json=> {:success=>true, :message=> "Authetication token deleted"}, :status => :ok #200
     else
-      render :json=> {:success=>false, :message=> "Not valid user or token"}, :status =>   :bad_request # 400
+      render :json=> {:success=>false, :message=> "Unauthorized user"}, :status =>   :bad_request # 400
     end
   end
 
