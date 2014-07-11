@@ -11,16 +11,16 @@ class API::V0::APIController < ApplicationController
   end
   def_param_group :user_sign_up do
     param :user, Hash, :desc => "User Sign Up" , :required => true do
-      param :user_type_id, Integer, :desc => "User Type Id", :required => true
-      param :email, String, :desc => "Email for signing up", :required => true, :meta => "Excpet for Anonymous User"
-      param :password, String, :desc => "Password", :required => true, :meta => "Excpet for Anonymous User"
-      param :password_confirmation, String, :desc => "Password Comfirmation. Must match password", :required => true, :meta => "Excpet for Anonymous User"
+      param :user_type_id, Integer, :desc => "User Type Id", :required => true, :meta => "Must be between 1 and 5"
+      param :email, String, :desc => "User Email", :required => true, :meta => "Must be a valid email. May be Nil for Anonymous User"
+      param :password, String, :desc => "Password", :required => true, :meta => "Must be at least 8 charecters. Case Sensitive. May be Nil for Anonymous User"
+      param :password_confirmation, String, :desc => "Password Comfirmation. Must match password", :required => true, :meta => "May be Nil for Anonymous User"
     end
   end
 
   def_param_group :user_sign_in do
     param :user, Hash, :desc => "User Sign In" , :required => true do
-      param :email, String, :desc => "Email for signing in", :required => true
+      param :email, String, :desc => "User Email", :required => true
       param :password, String, :desc => "Password", :required => true
     end
   end

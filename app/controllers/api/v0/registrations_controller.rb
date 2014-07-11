@@ -9,8 +9,8 @@ class API::V0::RegistrationsController < Devise::RegistrationsController
   formats ['json']
   param_group :user_sign_up, API::V0::APIController
   #param
-  description "Signs up new user including anonymous users"
-  error :code => 422, :desc => "Unprocessable Entity"
+  description "Sign up new user including anonymous users"
+  error :code => 422, :desc => "Unprocessable Entity", :meta => "Missing required params"
   example "{'success':true, 'user':{'id':2758, 'user_type_id':2, 'email':wom_user@example.com, 'authentication_token':fsdhkt54hfaefrkb435r4}}"
   
   #see

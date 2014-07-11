@@ -11,9 +11,9 @@ class API::V0::UserResponsesController < API::V0::APIController
     param :content_id, Integer, :desc => "Content Id", :required => true
     param :response,:bool, :desc => "Response Y/N", :allow_nil => true,:required => true, :meta => "Spread => true, Kill => false, No Response => Nil"
   end
-  description "Post content from authorized user"
-  error :code => 401, :desc => "Unauthorized"
-  error :code => 422, :desc => "Unprocessable Entity"
+  description "Post response from authorized user"
+  error :code => 401, :desc => "Unauthorized", :meta => "Invalid user email and authetication token"
+  error :code => 422, :desc => "Unprocessable Entity", :meta => "Missing required params"
   example "{'success':true, 'response':{'id':2758, 'user_id':3465495, 'content_id':65405423, 'response':true}}"
   
   

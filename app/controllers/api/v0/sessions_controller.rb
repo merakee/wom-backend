@@ -14,9 +14,9 @@ class API::V0::SessionsController < Devise::SessionsController
   formats ['json']
   param_group :user_sign_in, API::V0::APIController
   #param
-  description "Sign in users"
-  error :code => 401, :desc => "Unauthorized"
-  error :code => 422, :desc => "Unprocessable Entity"
+  description "Sign in user"
+  error :code => 401, :desc => "Unauthorized", :meta => "Invalid user email and authetication token"
+  error :code => 422, :desc => "Unprocessable Entity", :meta => "Missing required params"
   example "{'success':true, 'user': {'email':wom_user@example.com, 'authentication_token':fsdhkt54hfaefrkb435r4} "
   see :link => "sessions#destroy", :desc => "User Sign Out"
   #meta
@@ -42,9 +42,9 @@ class API::V0::SessionsController < Devise::SessionsController
   formats ['json']
   param_group :user_auth, API::V0::APIController
   #param
-  description "Sign out users"
-  error :code => 401, :desc => "Unauthorized"
-  error :code => 422, :desc => "Unprocessable Entity"
+  description "Sign out user"
+  error :code => 401, :desc => "Unauthorized", :meta => "Invalid user email and authetication token"
+  error :code => 422, :desc => "Unprocessable Entity", :meta => "Missing required params"
   example "{'success':true, 'message':Authetication token deleted} "
   see :link => "sessions#create", :desc => "User Sign In"
   #meta

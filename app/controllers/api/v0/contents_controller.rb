@@ -1,16 +1,16 @@
 class API::V0::ContentsController < API::V0::APIController
   before_filter  :authenticate_user_from_token!
   
-  api :GET,  '/contents', "Show user profile info"
+  api :GET,  '/contents', "Get Content"
   #api_versions
   api_version "0.0"
   formats ['json']
   param_group :user_auth, API::V0::APIController
   #param
-  description "Retunrs contents for authorized user"
-  error :code => 401, :desc => "Unauthorized"
+  description "Returns contents for authorized user"
+  error :code => 401, :desc => "Unauthorized", :meta => "Invalid user email and authetication token"
   example "{'success':true,'contents':{'id':3627, 'content_category_id':3, 'text':This is a rumor, 'photo_token':df343hfdfkt}}"
-  meta "The number of contents sent each request is set in APIConstants::CONTENT::RESPONSE_SIZE (#{APIConstants::CONTENT::RESPONSE_SIZE})"
+  meta "The number of contents sent per request is set in APIConstants::CONTENT::RESPONSE_SIZE (#{APIConstants::CONTENT::RESPONSE_SIZE})"
   
   def index
     # show list of content for user with :id
@@ -29,7 +29,7 @@ class API::V0::ContentsController < API::V0::APIController
     end
   #param
   description "Post content from authorized user"
-  error :code => 401, :desc => "Unauthorized"
+  error :code => 401, :desc => "Unauthorized", :meta => "Invalid user email and authetication token"
   error :code => 422, :desc => "Unprocessable Entity"
   example "{'success':true,'content':{'user_id':7627, 'content_category_id':3, 'text':This is a rumor, 'photo_token':df343hfdfkt}}"
   

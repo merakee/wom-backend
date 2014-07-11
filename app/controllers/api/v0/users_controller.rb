@@ -8,8 +8,9 @@ class API::V0::UsersController < API::V0::APIController
   formats ['json']
   param_group :user_auth, API::V0::APIController
   #param
-  description "Shows profile information for the autheticated user"
-  error :code => 401, :desc => "Unauthorized"
+  description "Show profile information for the autheticated user"
+  error :code => 401, :desc => "Unauthorized", :meta => "Invalid user email and authetication token"
+  error :code => 422, :desc => "Unprocessable Entity", :meta => "Missing required params"
   example "{'user':{'id':123,'user_type_id':2,'email':wom_user@example.com}}"
   #see
   #meta
