@@ -10,7 +10,7 @@ class API::V0::SessionsController < Devise::SessionsController
   
   api :POST,  '/sign_in', "User Sign In"
   #api_versions
-  api_version "0.0"
+  #api_version "0.0"
   formats ['json']
   param_group :user_sign_in, API::V0::APIController
   #param
@@ -38,7 +38,7 @@ class API::V0::SessionsController < Devise::SessionsController
 
   api :DELETE,  '/sign_out', "User Sign Out"
   #api_versions
-  api_version "0.0"
+  #api_version "0.0"
   formats ['json']
   param_group :user_auth, API::V0::APIController
   #param

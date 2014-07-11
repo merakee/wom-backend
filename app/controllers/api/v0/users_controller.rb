@@ -4,7 +4,7 @@ class API::V0::UsersController < API::V0::APIController
 
   api :GET,  '/profile', "Show user profile info"
   #api_versions
-  api_version "0.0"
+  #api_version "0.0"
   formats ['json']
   param_group :user_auth, API::V0::APIController
   #param

@@ -3,7 +3,7 @@ class API::V0::ContentsController < API::V0::APIController
   
   api :GET,  '/contents', "Get Content"
   #api_versions
-  api_version "0.0"
+  #api_version "0.0"
   formats ['json']
   param_group :user_auth, API::V0::APIController
   #param
@@ -20,7 +20,7 @@ class API::V0::ContentsController < API::V0::APIController
 
   api :POST,  '/contents', "Post Content"
   #api_versions
-  api_version "0.0"
+  #api_version "0.0"
   formats ['json']
   param_group :user_auth, API::V0::APIController
   param :content, Hash, :desc => "Content" , :required => true do

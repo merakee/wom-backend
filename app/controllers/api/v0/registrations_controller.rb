@@ -5,7 +5,7 @@ class API::V0::RegistrationsController < Devise::RegistrationsController
   
   api :POST,  '/sign_up', "New User Sign Up"
   #api_versions
-  api_version "0.0"
+  #api_version "0.0"
   formats ['json']
   param_group :user_sign_up, API::V0::APIController
   #param
