@@ -19,8 +19,7 @@ gem 'devise'
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'
 
-# server thin
-gem 'thin'
+
 
 # Use unicorn as the app server
 # gem 'unicorn'
@@ -33,6 +32,8 @@ gem 'thin'
 
 # Testing
 group :development, :test do
+  # server thin
+  gem 'thin'
   gem 'factory_girl_rails'
   gem 'faker'
   gem 'rails-erd'

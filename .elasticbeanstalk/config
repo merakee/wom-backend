@@ -1,0 +1,30 @@
+[global]
+ApplicationName=wom-backend
+AwsCredentialFile=/Users/bijit/.elasticbeanstalk/aws_credential_file
+DevToolsEndpoint=git.elasticbeanstalk.us-west-2.amazonaws.com
+EnvironmentName=wom-backend-env
+EnvironmentTier=WebServer::Standard::1.0
+EnvironmentType=LoadBalanced
+InstanceProfileName=aws-elasticbeanstalk-ec2-role
+OptionSettingFile=/Users/bijit/DesignAndDevelopment/WebApp/RoRProjects/wom-backend/.elasticbeanstalk/optionsettings.wom-backend-env
+RdsDeletionPolicy=Snapshot
+RdsEnabled=Yes
+RdsSourceSnapshotName=
+Region=us-west-2
+ServiceEndpoint=https://elasticbeanstalk.us-west-2.amazonaws.com
+SolutionStack=64bit Amazon Linux 2014.03 v1.0.4 running Ruby 2.0 (Passenger Standalone)
+
+[branches]
+master=wom-backend-master-env
+
+[branch:master]
+ApplicationVersionName=Sample Application
+EnvironmentName=wom-backend-master-env
+EnvironmentTier=WebServer::Standard::1.0
+EnvironmentType=LoadBalanced
+InstanceProfileName=aws-elasticbeanstalk-ec2-role
+OptionSettingFile=/Users/bijit/DesignAndDevelopment/WebApp/RoRProjects/wom-backend/.elasticbeanstalk/optionsettings.wom-backend-master-env
+RdsDeletionPolicy=Snapshot
+RdsEnabled=Yes
+RdsSourceSnapshotName=
+
