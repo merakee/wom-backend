@@ -31,15 +31,18 @@ gem 'thin'
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
 
-# documentation
-gem 'apipie-rails'
-
+  # documentation
+  gem 'apipie-rails'
+  
 # Testing
 group :development, :test do
   gem 'factory_girl_rails'
   gem 'faker'
 
   gem 'rails-erd'
+  
+
+
 end
 
 group :test do

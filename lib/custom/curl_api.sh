@@ -23,6 +23,7 @@ elif [ "$1" == "sign_up" ]  ; then
  req='POST'
  data='{"user":{"user_type_id":"2","email":"'$2'","password":"'$3'","password_confirmation":"'$4'"}}'
  url="http://localhost:3000/api/v0/sign_up"
+ url="http://wom-backend-apipie-env-p3hfvesnmb.elasticbeanstalk.com/api/v0/sign_up"
 else 
 # get users
  req='GET'
@@ -41,7 +42,7 @@ if [ "$req" == "GET" ]
 		curl -H "Accept: application/json" -H "Content-type: application/json" $url"?"$data
 	fi 
 else #if [ "$1" != "sign_up" ] ; then 
-	curl  -H "Accept: application/json" -H "Content-type: application/json" -X $req -d $data  $url
+	curl  -i -H  "Accept: application/json" -H "Content-type: application/json" -X $req -d $data  $url
 	#echo -H "Accept: application/json" -H "Content-type: application/json" -X $req -d $data  $url
 	#curl -H $header	-X $req -d $data $url 
 	#curl -H "Content-Type: application/json" -X $req -d $data $url
