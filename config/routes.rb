@@ -36,6 +36,8 @@ Rails.application.routes.draw do
     end
   end
 
+  # catch all routes
+  get "*all" , :to => 'application#routing_error'
 end
 
 =begin
