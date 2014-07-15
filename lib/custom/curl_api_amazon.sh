@@ -1,6 +1,6 @@
  #!/bin/bash   
 
-host="http://wom-backend-master-env-aqha24usrc.elasticbeanstalk.com/"
+host="http://wom-backend-master-env-j6e54favqn.elasticbeanstalk.com/"
 echo "		Running API tests...."
 
 if [ "$1" == "sign_in" ];	then 
