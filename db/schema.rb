@@ -24,10 +24,10 @@ ActiveRecord::Schema.define(version: 20140627215259) do
     t.integer  "content_category_id"
     t.text     "text"
     t.string   "photo_token"
+    t.integer  "total_spread"
     t.integer  "spread_count"
-    t.integer  "spread_response"
-    t.integer  "kill_response"
-    t.integer  "no_response"
+    t.integer  "kill_count"
+    t.integer  "no_response_count"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -12,11 +12,11 @@ class UserResponse < ActiveRecord::Base
   def update_content_stat
     if (content = Content.where(:id => self.content_id).first)
       if self.response.nil?
-        content.increment!(:no_response)
+        content.increment!(:no_response_count)
       elsif self.response
-        content.increment!(:spread_response)
+        content.increment!(:spread_count)
       else
-        content.increment!(:kill_response)
+        content.increment!(:kill_count)
       end
     end
   end

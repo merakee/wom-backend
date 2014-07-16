@@ -55,7 +55,7 @@ shared_examples "user with access to content" do
     expect_response_to_have(response,sucess=true,status=:created)
     # check that the attributes are the same.
     expect(json['content']).to include('user_id','content_category_id','text','photo_token')
-    expect(json['content']).not_to include('kill_response','no_response','spread_response','spread_count')
+    expect(json['content']).not_to include('kill_count','no_response_count','spread_count','total_spread')
     expect(json['content']['user_id']).to eq(user.id)
     expect(json['content']['content_category_id']).to eq(content.content_category_id)
     expect(json['content']['text']).to eq(content.text)

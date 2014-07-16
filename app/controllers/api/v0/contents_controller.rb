@@ -3,7 +3,7 @@ class API::V0::ContentsController < API::V0::APIController
   def index
     # show list of content for user with :id
     contents = Content.limit(APIConstants::CONTENT::RESPONSE_SIZE)
-    render :json => {:success => true,:contents => (contents.as_json(only: [:id, :content_category_id, :text, :photo_token]))}, :status=> :ok
+    render :json => {:success => true,:contents => (contents.as_json(only: [:id, :user_id, :content_category_id, :text, :photo_token, :total_spread, :spread_count, :kill_count, :created_at]))}, :status=> :ok
   end
 
   def create
@@ -11,7 +11,7 @@ class API::V0::ContentsController < API::V0::APIController
     content = Content.new(content_params)
     content.user_id = @current_user.id
     if content.save
-      render :json => {:success => true,:content => (content.as_json(only: [:user_id, :content_category_id, :text, :photo_token]))}, :status=> :created
+      render :json => {:success => true,:content => (content.as_json(only: [:id, :user_id, :content_category_id, :text, :photo_token]))}, :status=> :created
     return
     else
       warden.custom_failure!

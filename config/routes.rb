@@ -37,7 +37,7 @@ Rails.application.routes.draw do
   end
 
   # catch all routes
-  get "*all" , :to => 'application#routing_error'
+  match "*all" , :to => 'application#routing_error', :via => :all, :defaults => {:format => :json} 
 end
 
 =begin

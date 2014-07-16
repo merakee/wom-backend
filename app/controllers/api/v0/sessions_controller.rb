@@ -15,7 +15,7 @@ class API::V0::SessionsController < Devise::SessionsController
 
     if user.valid_password?(params[:user][:password])
       user.ensure_authentication_token!
-      render :json=> {:success=>true, user:{user_type_id:user.user_type_id, email:user.email, 
+      render :json=> {:success=>true, user:{id:user.id,user_type_id:user.user_type_id, email:user.email, 
         authentication_token: user.authentication_token}}, :status => :ok #200
 
     return

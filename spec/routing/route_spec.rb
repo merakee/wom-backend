@@ -26,7 +26,11 @@ describe "Routes for" do
     end
 
     it "sign up via get" do
-      expect(:get =>  "api/v0/sign_up").not_to be_routable
+      expect(:get =>  "api/v0/sign_up").to route_to(
+      :controller => "application",
+      :action => "routing_error",
+      :format =>:json,
+      :all => "api/v0/sign_up")
     end
 
   end
@@ -39,7 +43,11 @@ describe "Routes for" do
       :format =>:json)
     end
     specify "sign in via get" do
-      expect(:get =>  "api/v0/sign_in").not_to be_routable
+      expect(:get =>  "api/v0/sign_in").to route_to(
+      :controller => "application",
+      :action => "routing_error",
+      :format =>:json,
+      :all => "api/v0/sign_in")
     end
 
     specify "sign out" do
@@ -49,10 +57,18 @@ describe "Routes for" do
       :format =>:json)
     end
     specify "sign out via get" do
-      expect(:get =>  "api/v0/sign_out").not_to be_routable
+      expect(:get =>  "api/v0/sign_out").to route_to(
+      :controller => "application",
+      :action => "routing_error",
+      :format =>:json,
+      :all => "api/v0/sign_out")
     end
     specify "sign out via post" do
-      expect(:post =>  "api/v0/sign_out").not_to be_routable
+      expect(:post =>  "api/v0/sign_out").to route_to(
+      :controller => "application",
+      :action => "routing_error",
+      :format =>:json,
+      :all => "api/v0/sign_out")
     end
     
   end
@@ -66,10 +82,18 @@ describe "Routes for" do
     end
 
     it "show via delete" do
-      expect(:delete =>  "api/v0/profile").not_to be_routable
+      expect(:delete =>  "api/v0/profile").to route_to(
+      :controller => "application",
+      :action => "routing_error",
+      :format =>:json,
+      :all => "api/v0/profile")
     end
     it "show via post" do
-      expect(:post =>  "api/v0/profile").not_to be_routable
+      expect(:post =>  "api/v0/profile").to route_to(
+      :controller => "application",
+      :action => "routing_error",
+      :format =>:json,
+      :all => "api/v0/profile")
     end
 
   end
@@ -100,9 +124,88 @@ describe "Routes for" do
     end
 
     it "create via get" do
-      expect(:get => "api/v0/user_responses").not_to be_routable
+      expect(:get => "api/v0/user_responses").to route_to(
+      :controller => "application",
+      :action => "routing_error",
+      :format =>:json,
+      :all => "api/v0/user_responses")
     end
 
   end
 
+  describe "Random Paths: " do
+   it "via get" do
+      expect(:get => "some/random/path/to/nowhere").to route_to(
+      :controller => "application",
+      :action => "routing_error",
+      :format =>:json,
+      :all => "some/random/path/to/nowhere")
+    end
+    it "via get through api" do
+      expect(:get => "api/v0/some/random/path/to/nowhere").to route_to(
+      :controller => "application",
+      :action => "routing_error",
+      :format =>:json,
+      :all => "api/v0/some/random/path/to/nowhere")
+    end
+       it "via put" do
+      expect(:put => "some/random/path/to/nowhere").to route_to(
+      :controller => "application",
+      :action => "routing_error",
+      :format =>:json,
+      :all => "some/random/path/to/nowhere")
+    end
+    it "via put through api" do
+      expect(:put => "api/v0/some/random/path/to/nowhere").to route_to(
+      :controller => "application",
+      :action => "routing_error",
+      :format =>:json,
+      :all => "api/v0/some/random/path/to/nowhere")
+    end
+    
+       it "via delete" do
+      expect(:delete => "some/random/path/to/nowhere").to route_to(
+      :controller => "application",
+      :action => "routing_error",
+      :format =>:json,
+      :all => "some/random/path/to/nowhere")
+    end
+    it "via delete through api" do
+      expect(:delete => "api/v0/some/random/path/to/nowhere").to route_to(
+      :controller => "application",
+      :action => "routing_error",
+      :format =>:json,
+      :all => "api/v0/some/random/path/to/nowhere")
+    end
+    
+       it "via update" do
+      expect(:update => "some/random/path/to/nowhere").to route_to(
+      :controller => "application",
+      :action => "routing_error",
+      :format =>:json,
+      :all => "some/random/path/to/nowhere")
+    end
+    it "via update through api" do
+      expect(:update => "api/v0/some/random/path/to/nowhere").to route_to(
+      :controller => "application",
+      :action => "routing_error",
+      :format =>:json,
+      :all => "api/v0/some/random/path/to/nowhere")
+    end
+    
+       it "via patch" do
+      expect(:patch => "some/random/path/to/nowhere").to route_to(
+      :controller => "application",
+      :action => "routing_error",
+      :format =>:json,
+      :all => "some/random/path/to/nowhere")
+    end
+    it "via patch through api" do
+      expect(:patch => "api/v0/some/random/path/to/nowhere").to route_to(
+      :controller => "application",
+      :action => "routing_error",
+      :format =>:json,
+      :all => "api/v0/some/random/path/to/nowhere")
+    end
+  end
 end

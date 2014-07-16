@@ -74,10 +74,10 @@ describe Content do
     it { expect(content).to have_db_column(:photo_token).of_type(:string)}
     it { expect(content).to have_db_column(:content_category_id).of_type(:integer)}
     it { expect(content).to have_db_column(:user_id).of_type(:integer)}
+    it { expect(content).to have_db_column(:total_spread).of_type(:integer)}
+    it { expect(content).to have_db_column(:kill_count).of_type(:integer)}
     it { expect(content).to have_db_column(:spread_count).of_type(:integer)}
-    it { expect(content).to have_db_column(:kill_response).of_type(:integer)}
-    it { expect(content).to have_db_column(:spread_response).of_type(:integer)}
-    it { expect(content).to have_db_column(:no_response).of_type(:integer)}
+    it { expect(content).to have_db_column(:no_response_count).of_type(:integer)}
 
   # http://rubydoc.info/github/thoughtbot/shoulda-matchers/master/Shoulda/Matchers/ActiveRecord:have_db_index
   #it { expect(content).to have_db_index(:email).unique(:true)}
