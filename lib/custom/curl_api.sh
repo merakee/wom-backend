@@ -24,10 +24,10 @@ elif [ "$1" == "sign_up" ]  ; then
 #curl -i  -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"user":{"user_type_id":"2","email":"user100@example.com","password":"password","password_confirmation":"password"}}'  $url
  
 else 
-# get users
+# get contents
  req='GET'
  data='{"user":{"email":"'$1'","authentication_token":"'$2'"}}'
- url=$host'api/v0/profile'
+ url=$host'api/v0/contents'
 fi 
 
 

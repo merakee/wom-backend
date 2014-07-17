@@ -22,12 +22,12 @@ ActiveRecord::Schema.define(version: 20140627215259) do
   create_table "contents", force: true do |t|
     t.integer  "user_id"
     t.integer  "content_category_id"
-    t.text     "text"
-    t.string   "photo_token"
-    t.integer  "total_spread"
-    t.integer  "spread_count"
-    t.integer  "kill_count"
-    t.integer  "no_response_count"
+    t.text     "text",                default: "", null: false
+    t.string   "photo_token",         default: "", null: false
+    t.integer  "total_spread",        default: 0,  null: false
+    t.integer  "spread_count",        default: 0,  null: false
+    t.integer  "kill_count",          default: 0,  null: false
+    t.integer  "no_response_count",   default: 0,  null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
