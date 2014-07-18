@@ -2,7 +2,8 @@ class API::V0::ContentsController < API::V0::APIController
   before_filter  :authenticate_user_from_token!
   def index
     # show list of content for user with :id
-    contents = Content.limit(APIConstants::CONTENT::RESPONSE_SIZE)
+    offset = [rand(Content.count)-APIConstants::CONTENT::RESPONSE_SIZE, 0].min
+    contents = Content.limit(APIConstants::CONTENT::RESPONSE_SIZE).offset(offset)
     render :json => {:success => true,:contents => (contents.as_json(only: [:id, :user_id, :content_category_id, :text, :photo_token, :total_spread, :spread_count, :kill_count, :created_at]))}, :status=> :ok
   end
 

@@ -38,9 +38,9 @@ shared_examples "user with access to content" do
 
   it 'can get content list' do
     (1..3).to_a.each{|x| create(:user)}
-    (1..10).to_a.each{|x| create(:content, user_id: "1")}
+    (1..11).to_a.each{|x| create(:content, user_id: "1")}
     able_to_get_content(path,user,msg=nil)
-    expect(json["contents"].count).to eq(10)
+    expect(json["contents"].count).to eq(11)
   end
 
   it 'can get content list' do
@@ -59,7 +59,7 @@ shared_examples "user with access to content" do
     expect(json['content']['user_id']).to eq(user.id)
     expect(json['content']['content_category_id']).to eq(content.content_category_id)
     expect(json['content']['text']).to eq(content.text)
-    expect(json['content']['photo_token']).to be nil
+    expect(json['content']['photo_token']).not_to be nil
   end
 
   it 'cannot post content without user email' do
