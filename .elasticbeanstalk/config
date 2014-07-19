@@ -2,11 +2,11 @@
 ApplicationName=wom-backend
 AwsCredentialFile=/Users/bijit/.elasticbeanstalk/aws_credential_file
 DevToolsEndpoint=git.elasticbeanstalk.us-west-2.amazonaws.com
-EnvironmentName=wom-backend-env
+EnvironmentName=wom-backend-master-env
 EnvironmentTier=WebServer::Standard::1.0
 EnvironmentType=LoadBalanced
 InstanceProfileName=aws-elasticbeanstalk-ec2-role
-OptionSettingFile=/Users/bijit/DesignAndDevelopment/WebApp/RoRProjects/wom-backend/.elasticbeanstalk/optionsettings.wom-backend-env
+OptionSettingFile=/Users/bijit/DesignAndDevelopment/WebApp/RoRProjects/wom-backend/.elasticbeanstalk/optionsettings.wom-backend-master-env
 RdsDeletionPolicy=Snapshot
 RdsEnabled=Yes
 RdsSourceSnapshotName=

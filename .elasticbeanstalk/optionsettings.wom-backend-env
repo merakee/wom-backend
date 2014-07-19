@@ -26,7 +26,7 @@ Application Healthcheck URL=
 
 [aws:elasticbeanstalk:application:environment]
 BUNDLE_WITHOUT=test:development
-RAILS_SKIP_ASSET_COMPILATION=false
+RAILS_SKIP_ASSET_COMPILATION=true
 RAILS_SKIP_MIGRATIONS=false
 
 
