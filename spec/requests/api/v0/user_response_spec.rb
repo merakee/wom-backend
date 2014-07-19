@@ -10,14 +10,18 @@ describe "API " do
     let(:user_response){build(:user_response, content_id: content.id)}
     
    it 'can post user_response' do
-     post path, auth_params(user).merge(user_response.as_json(root: true, only: [:content_id, :response]))
-      expect_response_to_have(response,sucess=true,status=:created)
-      # check that the attributes are the same.
-      expect(json['user_response']).to include('id','user_id','user_id','response')
-      expect(json['user_response']['id']).not_to be nil
-      expect(json['user_response']['user_id']).to eq(user.id)
-      expect(json['user_response']['content_id']).to eq(user_response.content_id)
-      expect(json['user_response']['response']).to eq(user_response.response)
+     for ind in 1..100 do 
+       content = create(:content, user_id: user_content.id)
+       user_response= build(:user_response, content_id: content.id)
+       post path, auth_params(user).merge(user_response.as_json(root: true, only: [:content_id, :response]))
+        expect_response_to_have(response,sucess=true,status=:created)
+        # check that the attributes are the same.
+        expect(json['user_response']).to include('id','user_id','user_id','response')
+        expect(json['user_response']['id']).not_to be nil
+        expect(json['user_response']['user_id']).to eq(user.id)
+        expect(json['user_response']['content_id']).to eq(user_response.content_id)
+        expect(json['user_response']['response']).to eq(user_response.response)
+      end
      end
     
     it 'cannot post user_response without user email' do

@@ -37,15 +37,15 @@ shared_examples "user with access to content" do
   end
 
   it 'can get content list' do
-    (1..3).to_a.each{|x| create(:user)}
-    (1..11).to_a.each{|x| create(:content, user_id: "1")}
+    user=  create(:user)
+    (1..11).to_a.each{|x| create(:content, user_id: user.id)}
     able_to_get_content(path,user,msg=nil)
     expect(json["contents"].count).to eq(11)
   end
 
   it 'can get content list' do
-    (1..3).to_a.each{|x| create(:user)}
-    (1..19).to_a.each{|x| create(:content, user_id: "1")}
+    user=  create(:user)
+    (1..19).to_a.each{|x| create(:content, user_id: user.id)}
     able_to_get_content(path,user,msg=nil)
     expect(json["contents"].count).to eq(19)
   end
