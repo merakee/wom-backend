@@ -24,8 +24,9 @@ describe UserResponse do
     # Format validations
     it { expect(user_response).to allow_value(true).for(:response) }
     it { expect(user_response).to allow_value(false).for(:response) }
-    it { expect(user_response).to allow_value(nil).for(:response) }
-    it { expect(user_response).to allow_value("").for(:response) }
+    it { expect(user_response).not_to allow_value(nil).for(:response) }
+    it { expect(user_response).to validate_uniqueness_of(:response).scoped_to([:user_id, :content_id]).with_message("Cannot have more than one response per user per content")}
+
 
   #it { expect(user_response).to_not allow_value("1er").for(:response) }
 
@@ -75,7 +76,7 @@ describe UserResponse do
     it { expect(user_response).to have_db_column(:content_id).of_type(:integer)}
     it { expect(user_response).to have_db_column(:user_id).of_type(:integer)}
     it { expect(user_response).to have_db_column(:response).of_type(:boolean)}
-
+    
   # http://rubydoc.info/github/thoughtbot/shoulda-matchers/master/Shoulda/Matchers/ActiveRecord:have_db_index
   #it { expect(user_response).to have_db_index(:email).unique(:true)}
   #it { expect(user_response).to have_db_index(:user_responseid).unique(:true)}

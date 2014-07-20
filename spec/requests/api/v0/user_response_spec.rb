@@ -81,16 +81,22 @@ describe "API " do
      end
           
           
-     xit 'cannot post user_response without reponse' do
+     it 'cannot post user_response without reponse' do
       post path, auth_params(user).merge(user_response.as_json(root: true, only: [:content_id]))
       expect_response_to_have(response,sucess=false,status=:unprocessable_entity)
      end
      
-     xit 'cannot post user_response with empty reponse' do
+     it 'cannot post user_response with empty reponse' do
       user_response.response = ""
       post path, auth_params(user).merge(user_response.as_json(root: true, only: [:content_id, :response]))
       expect_response_to_have(response,sucess=false,status=:unprocessable_entity)
      end
      
+     it 'cannot post the same user_response' do
+      post path, auth_params(user).merge(user_response.as_json(root: true))
+      post path, auth_params(user).merge(user_response.as_json(root: true))
+      expect_response_to_have(response,sucess=false,status=:unprocessable_entity)
+     end
+          
   end
 end

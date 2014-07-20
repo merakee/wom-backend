@@ -21,6 +21,7 @@ describe Content do
     it { expect(content).to validate_presence_of(:user)}
     it { expect(content).to validate_presence_of(:content_category)}
     it { expect(content).to validate_presence_of(:text)}
+    it { expect(content).to validate_uniqueness_of(:text).scoped_to(:user_id).with_message("User already has this content for the same category")}
 
     # Format validations
     it { expect(content).to allow_value("this").for(:text) }
