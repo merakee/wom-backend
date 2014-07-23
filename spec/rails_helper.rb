@@ -64,4 +64,16 @@ RSpec.configure do |config|
 
   # FactoryGirl
   config.include FactoryGirl::Syntax::Methods
+  
+  # uploader : carrier wave and fog
+   config.include FogHelpers, :type => :uploader 
+   
+  # clean up uploader cache_dir directory - set up in the initilizer/carrierwave.rb
+  config.after(:each) do
+    if Rails.env.test? || Rails.env.cucumber?
+      #FileUtils.rm_rf(CarrierWave::Uploader::Base.root)
+      FileUtils.rm_rf(Dir["#{Rails.root}/spec/testfiles/uploads"])
+    end 
+  end
+
 end

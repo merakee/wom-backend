@@ -29,7 +29,7 @@ def base_url
   aws_path = 'http://wom-backend-master-env-ujwc9jrchq.elasticbeanstalk.com/'
   local_path = 'http://localhost:3000/'
   api_path = 'api/v0/'
-  base_url = aws_path + api_path
+  base_url = local_path + api_path
 end
 
 def api_path(path)
@@ -94,6 +94,14 @@ def api_call(verb='post',path='',data={})
   rest_call(verb,api_path(path),data)
 end
 
+# content creation
+
+def get_content(category = 1, text="This Is Fun", photo_token = nil)
+  filename = "bg#{rand(4)+1}.jpg"
+  text = text + " with number #{rand(100000)+1}"
+ {:content_category_id => category, :text => text, :photo_token => File.open("./../../spec/fixtures/content_photos/#{filename}")}
+end
+
 # User Session: sign_up
 #api_call('post','sign_up',{:user => {:user_type_id => 2, :email => 'me@me.com', :password => 'password',:password_confirmation => 'password'}})
 #@user = @response['user'] if @success
@@ -104,18 +112,20 @@ api_call('post','sign_in',{:user => {:email => 'me@me.com', :password => 'passwo
 @user = @response['user'] if @success
 rest_call_error("Sign in failed: ")
 
+puts @user 
 # get content
-api_call('get','contents', :params => {:user => {:email => @user['email'], :authentication_token => @user['authentication_token']}}) if @user
-rest_call_error("Get Content Failed: ")
+# api_call('get','contents', :params => {:user => {:email => @user['email'], :authentication_token => @user['authentication_token']}}) if @user
+# rest_call_error("Get Content Failed: ")
+# 
+# @response['contents'].each {|content|
+  # puts content['id'].to_s + ': '+ content['text']
+# }
 
-@response['contents'].each {|content|
-  puts content['id'].to_s + ': '+ content['text']
-}
 
 # post contents
-#content = ''
-#puts content.as_josn
-#api_call('post','contents', {:user => {:email => @user['email'], :authentication_token => @user['authentication_token']}}) if @user
+content = get_content
+puts content
+api_call('post','contents', {:user => {:email => @user['email'], :authentication_token => @user['authentication_token']}, :content => content }) if @user
 
 # # get content from feedzille
 # def feedzilla_path(path)

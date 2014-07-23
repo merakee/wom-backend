@@ -2,16 +2,21 @@ source 'https://rubygems.org'
 
 gem 'rails', '4.1.1'
 
+# api gem
 gem 'rails-api'
 
-gem 'spring', :group => :development  # preloader to seep up development process
-
-gem 'sqlite3', :group => [:development, :test]
-gem 'pg', :group => :production
+# database
+#gem 'sqlite3', :group => [:development, :test]
+gem 'pg' #, :group => :production
 
 # authetication
 gem 'warden'
 gem 'devise'
+
+# uploading and processing photos
+gem 'fog', require: "fog/aws/storage" # require to Optimized Loading of Fog. must be before carrierwave gem
+gem 'carrierwave'
+gem 'mini_magick'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
@@ -31,6 +36,8 @@ gem 'devise'
 # gem 'ruby-debug19', :require => 'ruby-debug'
 
 # Testing
+gem 'spring', :group => :development  # preloader to seep up development process
+
 group :development, :test do
   # server thin
   gem 'thin'
@@ -44,4 +51,5 @@ group :test do
   gem 'shoulda-matchers'
   # DB diagram
   gem 'database_cleaner'
+  #gem 'fakefs' 
 end

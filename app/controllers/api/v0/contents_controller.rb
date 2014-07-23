@@ -23,7 +23,7 @@ class API::V0::ContentsController < API::V0::APIController
   private
 
   def content_params
-    params.require(:content).permit(:content_category_id,:text)
+    params.require(:content).permit(:content_category_id,:text,:photo_token)
   end
 
 end
