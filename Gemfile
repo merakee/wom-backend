@@ -6,8 +6,8 @@ gem 'rails-api'
 
 gem 'spring', :group => :development  # preloader to seep up development process
 
-gem 'sqlite3', :group => [:development, :test]
-gem 'pg', :group => :production
+#gem 'sqlite3', :group => [:development, :test]
+gem 'pg' #, :group => :production
 
 # authetication
 gem 'warden'
