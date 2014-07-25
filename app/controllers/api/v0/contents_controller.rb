@@ -8,33 +8,46 @@ class API::V0::ContentsController < API::V0::APIController
   end
 
   def create
-    
     # add new content
-    #check if file is within picture_path
-    puts content_params
-    @content = Content.new(content_params)
-    puts "....................."
-    puts @content.photo_token.inspect
-    puts "....................."
-    #@content[:photo_token] = content_params[:photo_token]  
-    @content.user_id = @current_user.id
-    if @content.save
-      puts @content.to_json
-      puts @content.photo_token
-      render :json => {:success => true,:content => (@content.as_json(only: [:id, :user_id, :content_category_id, :text, :photo_token]))}, :status=> :created
-    return
+    content = Content.new(content_params)
+    content.user_id = @current_user.id
+    if content.save
+      render :json => {:success => true,:content => (content.as_json(only: [:id, :user_id, :content_category_id, :text, :photo_token]))}, :status=> :created
     else
       warden.custom_failure!
-      render :json => {:success => false, :message => (@content.errors.as_json)}, :status=> :unprocessable_entity
+      render :json => {:success => false, :message => (content.errors.as_json)}, :status=> :unprocessable_entity
     end
+
+  ensure
+    clean_tempfile
   end
 
   private
 
   def content_params
-    params.require(:content).permit!#(:content_category_id,:text, :photo_token)
-    #json_params = ActionController::Parameters.new( JSON.parse(request.body.read) )
-    #json_params.require(:content).permit(:content_category_id,:text,:photo_token)
+    process_photo_token_params(params[:content][:photo_token])
+    params.require(:content).permit(:content_category_id,:text, :photo_token)
+  end
+
+  def process_photo_token_params(photo_token)
+    if photo_token && photo_token[:file]
+      @tempfile = Tempfile.new('content_photo')
+      @tempfile.binmode
+      @tempfile.write Base64.decode64(photo_token[:file])
+      @tempfile.rewind
+
+      params[:content][:photo_token] = ActionDispatch::Http::UploadedFile.new(
+      :tempfile => @tempfile,
+      :content_type => photo_token[:content_type],
+      :filename => photo_token[:filename])
+    end
+
+  end
+
+  def clean_tempfile
+    # clean up tempfile user for params processing
+    # close! closes and deletes (unlicks) the file
+    @tempfile.close!  if @tempfile
   end
 
 end

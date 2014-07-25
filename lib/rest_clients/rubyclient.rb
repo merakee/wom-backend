@@ -6,6 +6,7 @@
 
 require 'rest_client'
 require 'json'
+require 'base64'
 
 # faker set up
 #require 'faker'
@@ -119,8 +120,7 @@ def get_content(category = 1, text="This Is Fun", photo_token = nil)
   text = text + " with number #{rand(100000)+1}"
  {:content_category_id => category, :text => text, :photo_token => #File.new("./../../spec/fixtures/content_photos/#{filename}", 'rb')
   {
-   file: File.new("./../../spec/fixtures/content_photos/#{filename}", 'rb'),
-   original_filename: "ofile.jpg",
+   file: Base64.encode64(File.new("./../../spec/fixtures/content_photos/#{filename}", 'rb').read),
    filename:"file.jpg",
    content_type: "image/jpeg"}
    }
@@ -128,8 +128,9 @@ end
 
 # post contents
 content = get_content
-puts content
 api_call('post','contents', {:user => {:email => @user['email'], :authentication_token => @user['authentication_token']}, :content => content, :multipart => true }) if @user
+
+puts @response
 
 # # get content from feedzille
 # def feedzilla_path(path)
