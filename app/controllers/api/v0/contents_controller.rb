@@ -8,22 +8,33 @@ class API::V0::ContentsController < API::V0::APIController
   end
 
   def create
+    
     # add new content
-    content = Content.new(content_params)
-    content.user_id = @current_user.id
-    if content.save
-      render :json => {:success => true,:content => (content.as_json(only: [:id, :user_id, :content_category_id, :text, :photo_token]))}, :status=> :created
+    #check if file is within picture_path
+    puts content_params
+    @content = Content.new(content_params)
+    puts "....................."
+    puts @content.photo_token.inspect
+    puts "....................."
+    #@content[:photo_token] = content_params[:photo_token]  
+    @content.user_id = @current_user.id
+    if @content.save
+      puts @content.to_json
+      puts @content.photo_token
+      render :json => {:success => true,:content => (@content.as_json(only: [:id, :user_id, :content_category_id, :text, :photo_token]))}, :status=> :created
     return
     else
       warden.custom_failure!
-      render :json => {:success => false, :message => (content.errors.as_json)}, :status=> :unprocessable_entity
+      render :json => {:success => false, :message => (@content.errors.as_json)}, :status=> :unprocessable_entity
     end
   end
 
   private
 
   def content_params
-    params.require(:content).permit(:content_category_id,:text,:photo_token)
+    params.require(:content).permit!#(:content_category_id,:text, :photo_token)
+    #json_params = ActionController::Parameters.new( JSON.parse(request.body.read) )
+    #json_params.require(:content).permit(:content_category_id,:text,:photo_token)
   end
 
 end

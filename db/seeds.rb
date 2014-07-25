@@ -31,7 +31,7 @@ if Rails.env == 'development'
 
 # Content
   1000.times do
-        FactoryGirl.create :content
+        FactoryGirl.create :content, photo_token: nil 
   end
   
   # response

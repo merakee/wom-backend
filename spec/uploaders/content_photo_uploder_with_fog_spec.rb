@@ -11,14 +11,14 @@ describe ContentPhotoUploader do
   end
 
   let(:user){create(:user)}
-  let(:content){build(:content, user: user)}
+  let(:content){create(:content, user: user)}
   
   
   describe "upload sucess " do
 
     
     it "file should be there" do 
-      puts content.photo_token
+      #puts content.photo_token
       #puts content.photo_token.current_path 
       #puts content.photo_token.file.url
       expect(content.photo_token).not_to be_nil 

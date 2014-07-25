@@ -93,19 +93,10 @@ end
 def api_call(verb='post',path='',data={})
   rest_call(verb,api_path(path),data)
 end
-
-# content creation
-
-def get_content(category = 1, text="This Is Fun", photo_token = nil)
-  filename = "bg#{rand(4)+1}.jpg"
-  text = text + " with number #{rand(100000)+1}"
- {:content_category_id => category, :text => text, :photo_token => File.open("./../../spec/fixtures/content_photos/#{filename}")}
-end
-
 # User Session: sign_up
-#api_call('post','sign_up',{:user => {:user_type_id => 2, :email => 'me@me.com', :password => 'password',:password_confirmation => 'password'}})
-#@user = @response['user'] if @success
-#puts @response# if !@success
+api_call('post','sign_up',{:user => {:user_type_id => 2, :email => 'me@me.com', :password => 'password',:password_confirmation => 'password'}})
+@user = @response['user'] if @success
+puts @response# if !@success
 
 # User Session: sign_in
 api_call('post','sign_in',{:user => {:email => 'me@me.com', :password => 'password'}})
@@ -122,10 +113,23 @@ puts @user
 # }
 
 
+# content creation
+def get_content(category = 1, text="This Is Fun", photo_token = nil)
+  filename = "bg#{rand(4)+1}.jpg"
+  text = text + " with number #{rand(100000)+1}"
+ {:content_category_id => category, :text => text, :photo_token => #File.new("./../../spec/fixtures/content_photos/#{filename}", 'rb')
+  {
+   file: File.new("./../../spec/fixtures/content_photos/#{filename}", 'rb'),
+   original_filename: "ofile.jpg",
+   filename:"file.jpg",
+   content_type: "image/jpeg"}
+   }
+end
+
 # post contents
 content = get_content
 puts content
-api_call('post','contents', {:user => {:email => @user['email'], :authentication_token => @user['authentication_token']}, :content => content }) if @user
+api_call('post','contents', {:user => {:email => @user['email'], :authentication_token => @user['authentication_token']}, :content => content, :multipart => true }) if @user
 
 # # get content from feedzille
 # def feedzilla_path(path)
