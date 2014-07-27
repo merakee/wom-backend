@@ -10,5 +10,14 @@ class Content < ActiveRecord::Base
     
     # carried wave - uploader 
     mount_uploader :photo_token, ContentPhotoUploader
+   
+   # add user response table 
+   after_save :add_user_response
+
+  private
+  def add_user_response
+    UserResponse.new(:user_id => self.user_id, :content_id => self.id, response: true).save
+  end
+  
     
 end

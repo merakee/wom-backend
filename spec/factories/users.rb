@@ -4,6 +4,8 @@ FactoryGirl.define do
   factory :user do
     sequence(:userid,100) {|n| "user#{n}" }
     email {"#{userid}@example.com"}
+    #userid Faker::Name.name.split.join
+    #email Faker::Internet.email
     password 'password'
     password_confirmation {password}
     user_type_id 2

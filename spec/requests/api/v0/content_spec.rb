@@ -36,19 +36,19 @@ shared_examples "user with access to content" do
     not_able_to_get_content(path,user)
   end
 
-  it 'can get content list' do
-    user=  create(:user)
-    (1..11).to_a.each{|x| create(:content, user_id: user.id)}
-    able_to_get_content(path,user)
-    expect(json["contents"].count).to eq(11)
-  end
-
-  it 'can get content list' do
-    user=  create(:user)
-    (1..19).to_a.each{|x| create(:content, user_id: user.id)}
-    able_to_get_content(path,user)
-    expect(json["contents"].count).to eq(19)
-  end
+  # it 'can get content list' do
+    # user=  create(:user)
+    # (1..11).to_a.each{|x| create(:content, user_id: user.id)}
+    # able_to_get_content(path,user)
+    # expect(json["contents"].count).to eq(11)
+  # end
+# 
+  # it 'can get content list' do
+    # user=  create(:user)
+    # (1..19).to_a.each{|x| create(:content, user_id: user.id)}
+    # able_to_get_content(path,user)
+    # expect(json["contents"].count).to eq(19)
+  # end
 
   it 'can post content', :focus => true do
     post path, auth_params(user).merge(content.as_json(root: true, only: [:content_category_id, :text]))
@@ -171,16 +171,18 @@ shared_examples "user with access to content" do
   end
 end
 
-describe "API " do
+describe "API " do  
   let(:path) {"/api/v0/contents"}
-  let(:content){build(:content, user_id: nil)}
 
-  describe "Content: normal " do
+
+  describe "Content: normal " do  
     let(:user) {create :user}
+    let(:content){build(:content, user: nil)}
     it_behaves_like  "user with access to content"
   end
+  
   describe "Content: anonymous user" do
-    let(:user) {get_user_anonymous}
+    #let(:user) {get_user_anonymous}
     #it_behaves_like  "user with access to content"
   end
 

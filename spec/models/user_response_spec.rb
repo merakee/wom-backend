@@ -2,12 +2,12 @@ require 'rails_helper'
 
 describe UserResponse do
   let(:user){create(:user)}
-  let(:content) {create(:content, user_id: user.id)}
+  let(:content) {build(:content, user: user)}
 
   it "has a valid factory" do
   # Using the shortened version of FactoryGirl syntax.
   # Add:  "config.include FactoryGirl::Syntax::Methods" (no quotes) to your spec_helper.rb
-    expect(build(:user_response, user_id: user.id, content_id: content.id)).to be_valid
+    expect(build(:user_response, user: user, content: content)).to be_valid
   end
 
   # Lazily loaded to ensure it's only used when it's needed

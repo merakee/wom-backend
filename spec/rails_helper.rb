@@ -45,12 +45,16 @@ RSpec.configure do |config|
   # database cleaner
   config.before(:suite) do
     DatabaseCleaner.strategy = :truncation, { :except =>  %w[user_types content_categories] }
-  #DatabaseCleaner.clean_with(:truncation)
+    #DatabaseCleaner.clean_with(:truncation)
   end
   config.after(:each) do
-  #DatabaseCleaner.clean
+    DatabaseCleaner.clean
   end
 
+  # config.after(:all) do
+    # DatabaseCleaner.clean
+  # end
+  
   # devise
   #config.include Devise::TestHelpers, :type => :controller
   #config.include DeviseSupport, :type => :request

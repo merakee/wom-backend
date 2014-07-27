@@ -7,7 +7,8 @@ class UserResponse < ActiveRecord::Base
   validates :response, uniqueness: { scope: [:user_id, :content_id],
     message: "Cannot have more than one response per user per content" }
 
-  before_save :update_content_stat
+ # update content stats
+  after_save :update_content_stat
 
   private
   def update_content_stat
