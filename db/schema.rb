@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140627215259) do
+ActiveRecord::Schema.define(version: 20140728201157) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,8 @@ ActiveRecord::Schema.define(version: 20140627215259) do
     t.datetime "updated_at"
   end
 
+  add_index "contents", ["user_id"], name: "index_contents_on_user_id", using: :btree
+
   create_table "user_responses", force: true do |t|
     t.integer  "user_id"
     t.integer  "content_id"
@@ -42,6 +44,9 @@ ActiveRecord::Schema.define(version: 20140627215259) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "user_responses", ["content_id"], name: "index_user_responses_on_content_id", using: :btree
+  add_index "user_responses", ["user_id"], name: "index_user_responses_on_user_id", using: :btree
 
   create_table "user_types", force: true do |t|
     t.string   "user_type"
@@ -70,6 +75,10 @@ ActiveRecord::Schema.define(version: 20140627215259) do
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", unique: true, using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
-  add_index "users", ["userid"], name: "index_users_on_userid", unique: true, using: :btree
+
+  add_foreign_key "contents", "users", name: "contents_user_id_fk", dependent: :delete
+
+  add_foreign_key "user_responses", "contents", name: "user_responses_content_id_fk", dependent: :delete
+  add_foreign_key "user_responses", "users", name: "user_responses_user_id_fk", dependent: :delete
 
 end

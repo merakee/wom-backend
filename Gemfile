@@ -18,6 +18,8 @@ gem 'fog', require: "fog/aws/storage" # require to Optimized Loading of Fog. mus
 gem 'carrierwave'
 gem 'mini_magick'
 
+# foreign key support
+gem 'foreigner'
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 
@@ -35,15 +37,14 @@ gem 'mini_magick'
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
 
-# Testing
-gem 'spring', :group => :development  # preloader to seep up development process
-
+# Development
 group :development, :test do
   # server thin
   gem 'thin'
   gem 'factory_girl_rails'
   gem 'faker'
   gem 'rails-erd'
+  gem 'spring' # preloader to seep up development process
 end
 
 group :test do
@@ -51,5 +52,4 @@ group :test do
   gem 'shoulda-matchers'
   # DB diagram
   gem 'database_cleaner'
-  #gem 'fakefs' 
 end

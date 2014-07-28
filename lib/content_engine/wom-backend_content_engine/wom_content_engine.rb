@@ -19,7 +19,9 @@ require 'json'
 # all sources of content 
 require '../BuzzFeed/BuzzFeed_RSS.rb'
 
-@is_local = true 
+@is_local = ARGV[0]=="-l"
+
+puts "Adding content to #{@is_local?"local":"AWS"} server......"
 # faker set up
 #require 'faker'
 #require '18n'
