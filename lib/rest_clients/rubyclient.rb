@@ -126,8 +126,13 @@ def get_content(category = 1, text="This Is Fun", photo_token = nil)
    }
 end
 
+def get_content_text_only(category = 1, text="This Is Fun", photo_token = nil)
+  text = text + " with number #{rand(100000)+1}"
+ {:content_category_id => category, :text => text, :photo_token => photo_token}
+end
+
 # post contents
-content = get_content
+content = get_content_text_only
 api_call('post','contents', {:user => {:email => @user['email'], :authentication_token => @user['authentication_token']}, :content => content, :multipart => true }) if @user
 
 puts @response

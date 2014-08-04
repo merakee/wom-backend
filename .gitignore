@@ -55,5 +55,6 @@ public/uploads
 public/uploads/*
 public/uploads/**/*
 
-
+# jmeter files
+*.jtl
 

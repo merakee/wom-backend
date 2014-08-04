@@ -58,6 +58,10 @@ end
 
 # rest calls
 def rest_call(verb='post',path='',data={})
+  @response = nil
+  @error = nil
+  @success = false
+  
   begin
     response = RestClient.post path, data.to_json,  :content_type => :json, :accept => :json     if verb=='post'
     response = RestClient.get  path, data.to_json, :content_type => :json, :accept => :json     if verb=='get'
