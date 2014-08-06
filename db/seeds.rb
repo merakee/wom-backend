@@ -23,24 +23,24 @@ end
 # seeds for only Dev 
 if Rails.env == 'development'
   
-  # Users
-  100.times do
-    FactoryGirl.create :user
-  end
-
-
-# Content
-  1000.times do
-        FactoryGirl.create :content
+  # # Users
+  # 100.times do
+    # FactoryGirl.create :user
+  # end
+# 
+# 
+# # Content: it will create users
+  10.times do
+        FactoryGirl.create :content, photo_token: nil 
   end
   
-  # response
-  1000.times do 
-    loop do
-      response =     FactoryGirl.build :user_response
-      break response.save if response.valid? 
-    end
-  end
+  # # response it will create user and content 
+  # 10.times do 
+    # loop do
+      # response =     FactoryGirl.build :user_response
+      # break response.save if response.valid? 
+    # end
+  # end
   
 end
 

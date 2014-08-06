@@ -45,12 +45,16 @@ RSpec.configure do |config|
   # database cleaner
   config.before(:suite) do
     DatabaseCleaner.strategy = :truncation, { :except =>  %w[user_types content_categories] }
-  #DatabaseCleaner.clean_with(:truncation)
+    #DatabaseCleaner.clean_with(:truncation)
   end
   config.after(:each) do
-  #DatabaseCleaner.clean
+    DatabaseCleaner.clean
   end
 
+  # config.after(:all) do
+    # DatabaseCleaner.clean
+  # end
+  
   # devise
   #config.include Devise::TestHelpers, :type => :controller
   #config.include DeviseSupport, :type => :request
@@ -64,4 +68,16 @@ RSpec.configure do |config|
 
   # FactoryGirl
   config.include FactoryGirl::Syntax::Methods
+  
+  # uploader : carrier wave and fog
+   config.include FogHelpers, :type => :uploader 
+   
+  # clean up uploader cache_dir directory - set up in the initilizer/carrierwave.rb
+  config.after(:each) do
+    if Rails.env.test? || Rails.env.cucumber?
+      #FileUtils.rm_rf(CarrierWave::Uploader::Base.root)
+      FileUtils.rm_rf(Dir["#{Rails.root}/spec/testfiles/uploads"])
+    end 
+  end
+
 end

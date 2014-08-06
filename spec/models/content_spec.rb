@@ -2,18 +2,18 @@ require 'rails_helper'
 
 describe Content do
 
-  let(:user){create(:user)}
+  let(:user){build(:user)}
 
   it "has a valid factory" do
   # Using the shortened version of FactoryGirl syntax.
   # Add:  "config.include FactoryGirl::Syntax::Methods" (no quotes) to your spec_helper.rb
 
-    expect(build(:content, user_id: user.id)).to be_valid
+    expect(build(:content, user: user)).to be_valid
   end
 
   # Lazily loaded to ensure it's only used when it's needed
   # RSpec tip: Try to avoid @instance_variables if possible. They're slow.
-  let(:content) {build(:content, user_id: user.id)}
+  let(:content) {build(:content, user: user)}
 
   describe "ActiveModel validations" do
 
@@ -21,7 +21,7 @@ describe Content do
     it { expect(content).to validate_presence_of(:user)}
     it { expect(content).to validate_presence_of(:content_category)}
     it { expect(content).to validate_presence_of(:text)}
-    it { expect(content).to validate_uniqueness_of(:text).scoped_to(:user_id).with_message("User already has this content for the same category")}
+    it { expect(content).to validate_uniqueness_of(:text).scoped_to([:user_id, :content_category_id]).with_message("User already has this content for the same category")}
 
     # Format validations
     it { expect(content).to allow_value("this").for(:text) }

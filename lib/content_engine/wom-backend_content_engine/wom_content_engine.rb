@@ -19,7 +19,9 @@ require 'json'
 # all sources of content 
 require '../BuzzFeed/BuzzFeed_RSS.rb'
 
-@is_local = true 
+@is_local = ARGV[0]=="-l"
+
+puts "Adding content to #{@is_local?"local":"AWS"} server......"
 # faker set up
 #require 'faker'
 #require '18n'
@@ -56,6 +58,10 @@ end
 
 # rest calls
 def rest_call(verb='post',path='',data={})
+  @response = nil
+  @error = nil
+  @success = false
+  
   begin
     response = RestClient.post path, data.to_json,  :content_type => :json, :accept => :json     if verb=='post'
     response = RestClient.get  path, data.to_json, :content_type => :json, :accept => :json     if verb=='get'
