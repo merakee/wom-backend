@@ -30,10 +30,12 @@ else
 end
 
 # fog set up
-Fog.credentials_path = Rails.root.join('config/fog_credentials.yml')
+#Fog.credentials_path = Rails.root.join('config/fog_credentials.yml')
 fog_dir = Rails.env == 'production' ? 'wombackend-freelogue' : 'wombackend-dev-freelogue'
 CarrierWave.configure do |config|
-  config.fog_credentials = {:provider => 'AWS'}
+  config.fog_credentials = {:provider => 'AWS',
+    :aws_access_key_id => ENV['AWS_ACCESS_KEY_ID'],
+    :aws_secret_access_key => ENV['AWS_SECRET_KEY']}
   config.fog_directory  = fog_dir
   config.fog_public     = false                                   # optional, defaults to true
   config.fog_attributes = {'Cache-Control'=>'max-age=315576000'}  # optional, defaults to {}

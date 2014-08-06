@@ -41,7 +41,7 @@ puts "Adding content to #{@is_local?"local":"AWS"} server......"
 # paths
 
 def base_url
-  aws_path = 'http://wom-backend-master-env-ujwc9jrchq.elasticbeanstalk.com/'
+  aws_path = 'http://wom-backend-master-env-hv2gxttyvi.elasticbeanstalk.com/'
   local_path = 'http://localhost:3000/'
   api_path = 'api/v0/'
   @is_local?(local_path + api_path): (aws_path + api_path)
