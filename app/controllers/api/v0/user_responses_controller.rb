@@ -5,7 +5,7 @@ class API::V0::UserResponsesController < API::V0::APIController
     uresponse = UserResponse.new(response_params)
     uresponse.user_id = @current_user.id
     if uresponse.save
-      render :json => uresponse.as_json(root: true, only: [:id, :user_id, :content_id, :response]), :status=> :created #201
+      render :json => {:success => true, :response => uresponse.as_json(only: [:id, :user_id, :content_id, :response])}, :status=> :created #201
     return
     else
       warden.custom_failure!
