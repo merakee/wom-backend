@@ -56,7 +56,7 @@ class UserManager
     rand_pick(@@alpha_limit[0] * 1000, @@alpha_limit[1] * 1000)/1000.0
   end
 
-  def get_params
+  def gen_params
     nlikes= rand_pick(@@num_likes_range[0], @@num_likes_range[1])
     nhates= rand_pick(@@num_hates_range[0], @@num_hates_range[1])
     params = []
@@ -76,11 +76,11 @@ class UserManager
   end
 
   def get_content_id_array(index,total_count)
-    ([1,index-@@block_size].max..[110000,index+@@block_size].min).to_a.shuffle[0,total_count-1]
+    ([@@content_index_limits[0]-999,index-@@block_size].max..[@@content_index_limits[1]+1000,index+@@block_size].min).to_a.shuffle[0,total_count-1]
   end
 
   def get_random_content_id_array(total_count)
-    (1..total_count).to_a.map{rand_pick(1,110000)}
+    (1..total_count).to_a.map{rand_pick(1,@@content_index_limits[1]+1000)}
   end
 
   def get_total_responses
@@ -90,6 +90,19 @@ class UserManager
   def gen_response(alpha)
     alpha = alpha>0?alpha:1+alpha
     rand(10000)< (alpha*10000)
+  end
+
+  def get_response_for_user(content_id,params)
+    alpha_values=[]
+    params.each{|param|
+      alpha_values << param[1] if ([@@content_index_limits[0]-999,param[0]-@@block_size].max..[@@content_index_limits[1]+1000,param[0]+@@block_size].min).include? content_id
+    }
+    if alpha_values.count == 0
+    alpha = 0.5
+    else
+      alpha = alpha_values.map{|val| val>0?val:1+val}.inject(0.0){|sum,val| sum+val}/alpha_values.count
+    end 
+    gen_response(alpha)
   end
 
   # open db file
@@ -166,7 +179,7 @@ SQL
       # open db
       set_up_db
       (1.. @@total_users).each{|userid|
-        prams = get_params
+        prams = gen_params
         prams.each{|param|
           add_to_user_table(userid, param[0], param[1])
         }

@@ -41,7 +41,7 @@ class ApiManager
   def initialize(local_flag=false, varbose_flag = true)
     @is_local = local_flag
     @verbose = varbose_flag
-    puts "Adding content to #{@is_local?"local":"AWS"} server......"
+    puts "Api Manager: Connection to #{@is_local?"local":"AWS"} server with #{@verbose?"verbose":"silent"} mode......"
   end
 
   def base_url
@@ -96,17 +96,18 @@ class ApiManager
   # User Session: sign_up user
   class User
     attr_reader :email, :password, :password_confirmation, :user_type_id
-    attr_accessor :authentication_token
+    attr_accessor :authentication_token, :user_id
     def initialize (email = "admin@system.com", password = "adminpassword")
       @email = email
       @password = password
       @password_confirmation = @password
       @user_type_id = 2
       @authentication_token = nil
+      @user_id = nil
     end
 
     def to_json
-      {:user_type_id => @user_type_id, :email => @email, :password => @password, :password_confirmation => @password_confirmation,:authentication_token => @authentication_token}
+      {:user_id => @user_id, :user_type_id => @user_type_id, :email => @email, :password => @password, :password_confirmation => @password_confirmation,:authentication_token => @authentication_token}
     end
 
     def sign_up
@@ -128,7 +129,10 @@ class ApiManager
 
   def sign_up_user(user = admin_user)
     api_call('post','sign_up',{:user => user.sign_up})
-    user.authentication_token = @@response['user']['authentication_token'] if @@success
+    if @@success
+      user.authentication_token = @@response['user']['authentication_token']
+      user.user_id = @@response['user']['id']
+    end
     if @@error && @@error.http_code==422
       sign_in_user(user)
     else
@@ -139,7 +143,10 @@ class ApiManager
   def sign_in_user(user = admin_user)
     # User Session: sign_in
     api_call('post','sign_in',{:user => user.sign_in})
-    user.authentication_token = @@response['user']['authentication_token'] if @@success
+    if @@success
+      user.authentication_token = @@response['user']['authentication_token']
+      user.user_id = @@response['user']['id']
+    end
     rest_call_error("Sign in failed: ")
   end
 
@@ -169,9 +176,13 @@ class ApiManager
     if (@@error)
       if (@@error.http_code==422)
         puts "*** Post failed failed: 422 Unprocessable Entity"
+      return -1
       else
         rest_call_error("Post response failed: ")
+      return 0
       end
+    else
+    return 1
     end
 
   end

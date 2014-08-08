@@ -22,7 +22,12 @@ am = ApiManager.new(ARGV[0]=="-l",ARGV[1]!="-s")
 # user manager
 um = UserManager.new
 
-(1..um.total_users).each{|user_id|
+# start user id
+print "Enter starting user id: "
+suser = Integer($stdin.gets.chomp) 
+puts "stating with user #{suser}................"
+
+(suser..um.total_users).each{|user_id|
 # get user
   user = ApiManager::User.new(um.email(user_id),um.password)
   # sign up/sign_in user
