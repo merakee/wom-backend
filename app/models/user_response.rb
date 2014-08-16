@@ -4,7 +4,7 @@ class UserResponse < ActiveRecord::Base
   validates :user, :content,  presence: true
   validates :response, inclusion: { in: [true, false] }
   #validates :response, allow_nil: true 
-  validates :response, uniqueness: { scope: [:user_id, :content_id],
+  validates :user_id, uniqueness: { scope: [:content_id],
     message: "Cannot have more than one response per user per content" }
 
  # update content stats
