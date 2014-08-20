@@ -45,7 +45,8 @@ class ApiManager
   end
 
   def base_url
-    aws_path = 'http://wom-backend-master-env-hv2gxttyvi.elasticbeanstalk.com/'
+    #aws_path = 'http://wom-backend-master-env-hv2gxttyvi.elasticbeanstalk.com/'
+    aws_path = 'http://wom.freelogue.net/'
     local_path = 'http://localhost:3000/'
     api_path = 'api/v0/'
     @is_local?(local_path + api_path): (aws_path + api_path)
@@ -72,8 +73,8 @@ class ApiManager
       @@success = @@response['success'] if @@response['success'].nil?
 
     rescue => error
-    @@error = error
-    @@success = false
+      @@error = error
+      @@success = false
     end
   end
 
@@ -176,13 +177,13 @@ class ApiManager
     if (@@error)
       if (@@error.http_code==422)
         puts "*** Post failed failed: 422 Unprocessable Entity"
-      return -1
+        return -1
       else
         rest_call_error("Post response failed: ")
-      return 0
+        return 0
       end
     else
-    return 1
+      return 1
     end
 
   end

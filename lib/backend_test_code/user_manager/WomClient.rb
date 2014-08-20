@@ -1,6 +1,6 @@
+#!/usr/bin/ruby
 require 'socket'
 require 'thwait'
-
 
 
 #
@@ -11,17 +11,17 @@ def test
   u = WomClient.new :u
 
   tt =  Thread.new do
-      print "t:::", t.recommendContent(1, 20); puts
-      print "t:::", t.recommendContent(1, 20); puts
-      print "t:::", t.recommendContent(1, 20); puts
-      print "t:::", t.recommendContent(17, 20); puts
+      print "t:::", t.recommendContentExternal(5, 20); puts
+      print "t:::", t.recommendContentExternal(5, 20); puts
+      print "t:::", t.recommendContentExternal(5, 20); puts
+      print "t:::", t.recommendContentExternal(15, 20); puts
   end
 
   uu = Thread.new do
-      print "u:::", u.recommendContent(1, 20); puts
-      print "u:::", u.recommendContent(1, 20); puts
-      print "u:::", u.recommendContent(1, 20); puts
-      print "u:::", u.recommendContent(48, 20); puts
+      print "u:::", u.recommendContentExternal(5, 20); puts
+      print "u:::", u.recommendContentExternal(5, 20); puts
+      print "u:::", u.recommendContentExternal(5, 20); puts
+      print "u:::", u.recommendContentExternal(15, 20); puts
   end
 
   # Wait for both threads to finish
@@ -36,8 +36,8 @@ end
 #
 class WomClient
   # Global variables
-  ServerExternal = "54.191.74.19"
-  ServerInternal = "172.31.2.210"
+  ServerExternal = "54.69.23.25"
+  ServerInternal = "172.31.34.32"
   Port = 2014
 
   def initialize *args
@@ -48,13 +48,13 @@ class WomClient
 
   def _openSocket(server, port)
     begin
-      #puts ("#{@id}:: Connecting to WoM backend...")
+      puts ("#{@id}:: Connecting to WoM backend...")
       @sock = TCPSocket.open(server, port)
     rescue
       # Do nothign if socket connection attempt fails.
       @sock = nil
     end
-    #puts "#{@id}:: sock=#{@sock}"
+    puts "#{@id}:: sock=#{@sock}"
   end
 
   #
@@ -89,16 +89,16 @@ class WomClient
 
     begin
       # Send request
-      #puts "#{@id}:: Sending #{uid} #{count}..."
+      puts "#{@id}:: Sending #{uid} #{count}..."
       @sock.print("#{uid} #{count}\n")
       # Receive response
-      #puts "#{@id}:: Receiving..."
+      puts "#{@id}:: Receiving..."
       str = @sock.gets
       # Parse/deserialize the response into a ruby object
       ret = eval(str)
     rescue
       # Do nothing on error or exception.  We'll just return the default content.
-      #puts "#{@id}:: Closing socket..."
+      puts "#{@id}:: Closing socket..."
       @sock.close
     end
 

@@ -1,6 +1,7 @@
 class API::V0::SessionsController < Devise::SessionsController
   #before_filter :authenticate_api_v0_user!#, :except => [:create]
   #skip_before_filter :verify_authenticity_token
+  skip_before_filter :verify_signed_out_user
   # helpers
   include ApplicationHelper::APIHelper
 

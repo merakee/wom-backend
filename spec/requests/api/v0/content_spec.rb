@@ -50,7 +50,7 @@ shared_examples "user with access to content" do
     # expect(json["contents"].count).to eq(19)
   # end
 
-  it 'can post content', :focus => true do
+  it 'can post content' do
     post path, auth_params(user).merge(content.as_json(root: true, only: [:content_category_id, :text]))
     expect_response_to_have(response,sucess=true,status=:created)
     # check that the attributes are the same.
@@ -142,7 +142,7 @@ shared_examples "user with access to content" do
     expect_response_to_have(response,sucess=true,status=:created)
   end
   
-    it 'can post content with photo',  :focus => true do
+    it 'can post content with photo' do
       contentwp = {content: {content_category_id: content.content_category_id,
         text: content.text,
         photo_token: {

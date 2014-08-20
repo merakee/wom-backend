@@ -10,7 +10,6 @@ let(:path_sign_in) {"api/v0/sign_in"}
 let(:path_sign_out) {"api/v0/sign_out"}
         
   describe "Sign in" do
-    let(:path) {"api/v0/sign_in"}
     
      it "should get token" do
       post path_sign_in, {user: {email: user.email, password:"password"} }.as_json
@@ -57,11 +56,11 @@ let(:path_sign_out) {"api/v0/sign_out"}
     end
   end
 
-  describe "Sign out" do
-    let(:path) {"api/v0/sign_out"}
+  describe "Sign out"  do
     
     it "should fail without email" do
       delete path_sign_out, user.as_json(root: true, only: [:authentication_token])
+      puts response 
       expect_response_to_have(response,sucess=false,status=:unprocessable_entity,msg="Missing login email parameter")
     end
 

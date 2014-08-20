@@ -12,8 +12,8 @@ module APIConstants
   # CONTENT RELARED
   module CONTENT
     RESPONSE_SIZE =20
-    MIN_TEXT_LENGTH =2
-    MAX_TEXT_LENGTH =530
+    MIN_TEXT_LENGTH =1
+    MAX_TEXT_LENGTH =200
   end
   
   

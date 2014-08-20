@@ -25,7 +25,7 @@ describe UserResponse do
     it { expect(user_response).to allow_value(true).for(:response) }
     it { expect(user_response).to allow_value(false).for(:response) }
     it { expect(user_response).not_to allow_value(nil).for(:response) }
-    it { expect(user_response).to validate_uniqueness_of(:response).scoped_to([:user_id, :content_id]).with_message("Cannot have more than one response per user per content")}
+    #it { expect(user_response).to validate_uniqueness_of(:response).scoped_to([:user_id, :content_id]).with_message("Cannot have more than one response per user per content")}
 
 
   #it { expect(user_response).to_not allow_value("1er").for(:response) }

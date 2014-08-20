@@ -143,12 +143,17 @@ class SessionSimulator
     (1..@@session_size).each{|scount|
       test_user = select_user(@@testuser_array)
       #puts test_user.description
+      sleep(5)
       cid_list = get_recommendations(test_user)
-      #puts cid_list
       cid_list.each{|cid|
         response = get_response(cid,test_user)
         rcode = post_response(test_user,cid,response)
         update_stats(test_user,response,rcode)
+        if rcode==-1
+         puts cid_list.inspect 
+         puts "user_id: #{test_user.api_user.user_id} content_id: #{cid}" 
+      	 exit 
+        end
         break if check_user_time_out(test_user)
       }
       print_status(scount)
