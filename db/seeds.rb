@@ -10,15 +10,15 @@
 
 # parmanent seeds
 # user_type
-%w[Anonymous Wom Facebook Twitter GooglePlus Others].each do |type|
-UserType.create :user_type => type
-end
+# %w[Anonymous Wom Facebook Twitter GooglePlus Others].each do |type|
+# UserType.create :user_type => type
+# end
 
 # content category
 
-%w[News Secret Rumor LocalInfo Other].each do |type|
-ContentCategory.create :category => type
-end
+# %w[News Secret Rumor LocalInfo Other].each do |type|
+# ContentCategory.create :category => type
+# end
 
 # seeds for only Dev 
 if Rails.env == 'development'
@@ -30,7 +30,7 @@ if Rails.env == 'development'
 # 
 # 
 # # Content: it will create users
-  10.times do
+  100.times do
         FactoryGirl.create :content, photo_token: nil 
   end
   
