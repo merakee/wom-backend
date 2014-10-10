@@ -20,7 +20,7 @@ master=wom-backend-master-env
 workingcode=wom-backend-master-env
 
 [branch:master]
-ApplicationVersionName=Sample Application
+ApplicationVersionName=Development Version - Master 
 EnvironmentName=wom-backend-master-env
 EnvironmentTier=WebServer::Standard::1.0
 EnvironmentType=LoadBalanced
@@ -31,7 +31,7 @@ RdsEnabled=Yes
 RdsSourceSnapshotName=
 
 [branch:workingcode]
-ApplicationVersionName=Sample Application
+ApplicationVersionName=Development Version - Working Code
 EnvironmentName=wom-backend-master-env
 EnvironmentTier=WebServer::Standard::1.0
 EnvironmentType=LoadBalanced
