@@ -24,9 +24,9 @@ end
 if Rails.env == 'development'
   
   # # Users
-  # 100.times do
-    # FactoryGirl.create :user
-  # end
+  100.times do
+    FactoryGirl.create :user
+  end
 # 
 # 
 # # Content: it will create users
@@ -35,12 +35,12 @@ if Rails.env == 'development'
   end
   
   # # response it will create user and content 
-  # 10.times do 
-    # loop do
-      # response =     FactoryGirl.build :user_response
-      # break response.save if response.valid? 
-    # end
-  # end
+  10.times do 
+    loop do
+      response =     FactoryGirl.build :user_response
+      break response.save if response.valid? 
+    end
+  end
   
 end
 

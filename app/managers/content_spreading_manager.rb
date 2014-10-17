@@ -1,0 +1,4 @@
+class ContentSpreadingManager
+  
+  
+end

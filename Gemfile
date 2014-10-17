@@ -13,6 +13,16 @@ gem 'pg' #, :group => :production
 gem 'warden'
 gem 'devise'
 
+# data store
+gem 'redis'
+
+# Background and scheduled jobs
+gem 'whenever', :require => false
+gem 'sidekiq'
+# If sidekig monitoring is needed
+gem 'sinatra',  :require => nil
+
+
 # uploading and processing photos
 gem 'fog', require: "fog/aws/storage" # require to Optimized Loading of Fog. must be before carrierwave gem
 gem 'carrierwave'

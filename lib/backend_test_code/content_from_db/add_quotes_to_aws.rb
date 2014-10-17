@@ -22,7 +22,7 @@ require 'sqlite3'
 #====================================
 # get dir name
 if(ARGV.length==0)
-  puts "\n **Error ***: There is no text file specified. Please specify a file. \n\n"
+  puts "\n **Error ***: There is no db file specified. Please specify a file. \n\n"
   Process.exit
 end
 if (ARGV[0]=="twitter")
@@ -67,9 +67,9 @@ max_rowid = @db.get_first_value("SELECT MAX(rowid) FROM " + table_name).to_i
 # get quote and check
   text = @db.get_first_value("SELECT #{col_name} FROM #{table_name} WHERE rowid = #{ind}")
   #puts "#{ind}: #{text}" 
-  uengine.post_content(uengine.create_content(text)) if text.length < 300
+  uengine.post_content(uengine.create_content(text)) if text.length < 200
   #puts quote if quote.length < 300
-  puts "processed #{ind} quotes..." if ind%10000==0
+  puts "processed #{ind} quotes...[#{Time.now}]" if ind%10000==0
 }
 
 # close db
