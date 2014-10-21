@@ -19,6 +19,11 @@ class ApplicationController < ActionController::API
     raise ActionController::RoutingError.new(params[:path])
   end
 
+  # application wide variables
+  def content_selection_manager
+    @content_selection_manager || ContentSelectionManager.new
+  end
+
   private
 
   def render_error(status, exception)

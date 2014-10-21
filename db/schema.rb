@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140918001723) do
+ActiveRecord::Schema.define(version: 20141021045631) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,16 +25,19 @@ ActiveRecord::Schema.define(version: 20140918001723) do
   create_table "contents", force: true do |t|
     t.integer  "user_id"
     t.integer  "content_category_id"
-    t.text     "text",                default: "", null: false
-    t.string   "photo_token",         default: "", null: false
-    t.integer  "total_spread",        default: 0,  null: false
-    t.integer  "spread_count",        default: 0,  null: false
-    t.integer  "kill_count",          default: 0,  null: false
-    t.integer  "no_response_count",   default: 0,  null: false
+    t.text     "text",                default: "",  null: false
+    t.string   "photo_token",         default: "",  null: false
+    t.integer  "total_spread",        default: 0,   null: false
+    t.integer  "spread_count",        default: 0,   null: false
+    t.integer  "kill_count",          default: 0,   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.float    "freshness_factor",    default: 1.0, null: false
+    t.float    "spread_efficiency",   default: 1.0, null: false
+    t.float    "spread_index",        default: 1.0, null: false
   end
 
+  add_index "contents", ["spread_index"], name: "index_contents_on_spread_index", using: :btree
   add_index "contents", ["user_id"], name: "index_contents_on_user_id", using: :btree
 
   create_table "user_responses", force: true do |t|

@@ -37,11 +37,11 @@ Rails.application.routes.draw do
   end
   
   # for sidekiq monitoring 
-  require 'sidekiq/web'
-  map '/sidekiq' do
-    use Rack::Auth::Basic, "Protected Area" do |username, password|
-    username == 'wom-admin' && password == 'freelogue2014'
-  end
+  # require 'sidekiq/web'
+  # map '/sidekiq' do
+    # use Rack::Auth::Basic, "Protected Area" do |username, password|
+    # username == 'wom-admin' && password == 'freelogue2014'
+  # end
 
 
 

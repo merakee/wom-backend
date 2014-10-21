@@ -24,13 +24,13 @@ end
 if Rails.env == 'development'
   
   # # Users
-  100.times do
+  10.times do
     FactoryGirl.create :user
   end
 # 
 # 
 # # Content: it will create users
-  10.times do
+  50.times do
         FactoryGirl.create :content, photo_token: nil 
   end
   
