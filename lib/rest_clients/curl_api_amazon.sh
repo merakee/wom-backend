@@ -1,7 +1,7 @@
  #!/bin/bash   
 
-#host="http://wom-backend-master-env-hv2gxttyvi.elasticbeanstalk.com/"
-host = 'http://wom.freelogue.net/'
+#$host="http://wom-backend-master-env-hv2gxttyvi.elasticbeanstalk.com/"
+host="http://wom.freelogue.net/"
 echo "		Running API tests...."
 
 if [ "$1" == "sign_in" ];	then 
@@ -23,12 +23,13 @@ elif [ "$1" == "sign_up" ]  ; then
  #echo $data
  url=$host"api/v0/sign_up"
 #curl -i  -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"user":{"user_type_id":"2","email":"user100@example.com","password":"password","password_confirmation":"password"}}'  $url
- 
+
 else 
-# get users
+# get contents
+  echo "getting contents"
  req='GET'
  data='{"user":{"email":"'$1'","authentication_token":"'$2'"}}'
- url=$host'api/v0/profile'
+ url=$host'api/v0/contents'
 fi 
 
 
@@ -51,4 +52,4 @@ fi
 
 echo ""
 echo "		Done Running API tests"
-echo ""
+echo ""echo ""

@@ -16,18 +16,58 @@ class ContentStatManager
 
   end
 
-  def self.update_with_count(content_id,spread_count,kill_count)
-
-  end
-
-  def self.update_all
-    puts "Updating all content stats...#{Time.now}"
-  end
-
   def self.update_stat(content)
     stat = get_stat(content.spread_count, content.kill_count)
     content.update(freshness_factor: stat[:freshness_factor], spread_efficiency:stat[:spread_efficiency], spread_index: stat[:spread_index])
   end
+  
+  def self.update_all_stat
+    Content.find_each do |content|
+      update_count_and_stat(content)
+    end
+  end
+
+ def self.update_count_and_stat(content)
+    count = get_count_for_content(content.id)
+    update_stat_for_count(content,count[:spread_count],content[:kill_count])
+  end
+
+  def self.update_stat_for_count(content,spread_count,kill_count)
+    stat = get_stat(spread_count, kill_count)
+    content.update(spread_count: spread_count , kill_count: kill_count,total_spread: spread_count+kill_count, freshness_factor: stat[:freshness_factor], spread_efficiency:stat[:spread_efficiency], spread_index: stat[:spread_index])
+  end
+
+  def self.get_count_for_content(content_id)
+    spread_count = UserResponse.where(content_id: content_id, response: true).count
+    kill_count = UserResponse.where(content_id: content_id, response: false).count
+    {spread_count: spread_count,kill_count: kill_count}
+  end
+    
+  def self.check_all_stat
+          total_errors=0;
+    Content.find_each do |content|
+      total_errors += check_count_and_stat(content)
+    end
+    puts "Total mismatch: #{total_errors}"
+  end
+  
+  def self.check_count_and_stat(content)
+   count = get_count_for_content(content.id)    
+   stat = get_stat(count[:spread_count],content[:kill_count])
+   if(content.spread_count!=count[:spread_count]||
+     content.kill_count!=count[:kill_count]||
+     content.total_spread!=count[:spread_count]+count[:kill_count]||
+     content.spread_efficiency!=stat[:spread_efficiency]||
+     content.freshness_factor!=stat[:freshness_factor]||
+     content.spread_index!=stat[:spread_index])
+     #puts "Mismatch found: #{content.id}...updating information"
+     content.update(spread_count: count[:spread_count] , kill_count: count[:kill_count],total_spread: count[:spread_count]+count[:kill_count], freshness_factor: stat[:freshness_factor], spread_efficiency:stat[:spread_efficiency], spread_index: stat[:spread_index])
+     return 1
+   end
+   return 0 
+  end
+
+
 
  # stat calculation methods
   def self.get_stat(spread_count,kill_count)
@@ -57,10 +97,11 @@ class ContentStatManager
   end
 
   def self.get_spread_index(freshness_factor,spread_efficiency,total_count)
+    [freshness_factor,spread_efficiency].max 
     #return 1.0 if total_count <= APIConstants::CONTENT_SELECTION::SPREAD_EFFICIENCY_THRESHOLD
-    weighting_fac = cal_weighting_fac(total_count)
-    combination_fac = -20*(weighting_fac*(freshness_factor-0.5) + (1-weighting_fac)*(spread_efficiency -0.5))
-    1/(1+2**(combination_fac))
+    # weighting_fac = cal_weighting_fac(total_count)
+    # combination_fac = -20*(weighting_fac*(freshness_factor-0.5) + (1-weighting_fac)*(spread_efficiency -0.5))
+    # 1/(1+2**(combination_fac))
   end
 
   def self.cal_weighting_fac(total_count)

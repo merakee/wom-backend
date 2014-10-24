@@ -5,21 +5,27 @@
 #   gem 'sqlite3'
 #
 default: &default
-  adapter: sqlite3
-  pool: 5
-  timeout: 5000
-
-# development:
-#   <<: *default
-#   database: db/development.sqlite3
-
-development:
   adapter: postgresql
   encoding: unicode
-  database: wom-backend-dev
   pool: 5
   username: bijit
   password: 
+    
+aws: &aws
+  adapter: postgresql
+  encoding: unicode
+  database: Rails.application.secrets.database
+  username: Rails.application.secrets.username
+  password: Rails.application.secrets.password
+  host: Rails.application.secrets.host
+  port: Rails.application.secrets.port
+  
+development:
+  <<: *default
+  database: wom-backend-dev
+  
+# development:
+  # <<: *aws
 
 
 # Warning: The database defined as "test" will be erased and
@@ -30,12 +36,9 @@ development:
 #   database: db/test.sqlite3
 
 test:
-  adapter: postgresql
-  encoding: unicode
+  <<: *default
   database: wom-backend-test
-  pool: 5
-  username: bijit
-  password: 
+
 
 production:
   adapter: postgresql
