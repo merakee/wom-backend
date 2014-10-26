@@ -1,26 +1,26 @@
-#!/usr/bin/ruby
-require 'socket'
-require 'thwait'
-
-
-#
-# Test function
-#
-def test
-  t = WomClient.new
-
-  tt =  Thread.new do
-      print "\n17 ", t.recommendContent(17, 5);
-      print "\n17 ", t.recommendContent(17);
-      print "\n25 ", t.recommendContent(17, 5);
-      print "\n25 ", t.recommendContent(17);
-      t._close
-  end
-
-  # Wait for thread to finish
-  tt.join
-
-end
+# #!/usr/bin/ruby
+# require 'socket'
+# require 'thwait'
+# 
+# 
+# #
+# # Test function
+# #
+# def test
+  # t = WomClient.new
+# 
+  # tt =  Thread.new do
+      # print "\n17 ", t.recommendContent(17, 5);
+      # print "\n17 ", t.recommendContent(17);
+      # print "\n25 ", t.recommendContent(17, 5);
+      # print "\n25 ", t.recommendContent(17);
+      # t._close
+  # end
+# 
+  # # Wait for thread to finish
+  # tt.join
+# 
+# end
 
 
 

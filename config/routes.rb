@@ -31,6 +31,8 @@ Rails.application.routes.draw do
       #resources :users, only: [:show]
       get 'profile', to: 'users#show'
       resources :contents, only: [:index,:create]
+      # use post t get content : added duplicate path for getting content 
+      post 'get_contents' => 'contents#index'
       resources :user_responses, only: [:create]
 
     end

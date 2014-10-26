@@ -14,16 +14,21 @@
 # 
 #
 # all sources of content 
-require './BuzzFeed/BuzzFeed_RSS.rb'
 require './api_manager.rb'
 
 # set server location 
 uengine = ApiManager.new(ARGV[0]=="-l")
 
+# get user 
+email = "test_user1@test.com"
+password = "testpassword"
+user = ApiManager::User.new(email,password)
+puts user.to_json
+
 # sign up/sign_in user
-uengine.sign_up_user 
+uengine.sign_up_user(user)
 
 # get contents
-contents = uengine.get_content
+contents = uengine.get_content(user)
 
-puts contents
+puts contents #.map{|content| content['id']}

@@ -6,67 +6,72 @@ class ContentSelectionManager
   end
 
   # selection manager
-  def get_contents_for_user(user_id)
+
+  def get_contents_for_user(user_id,count=APIConstants::CONTENT_SELECTION::CONTENT_COUNT_PER_REQUEST)
     # select list of content for user with :id
-    select_contents_for_user(user_id)
+    select_contents_for_user(user_id,count)
   end
 
   # method to select content by combining all sources
-  def select_contents_for_user(user_id)
+
+  def select_contents_for_user(user_id,count)
     # get black list
+    # redis list: last send list
     blacklist = get_blacklist_for_user(user_id)
-    
+    # responded list
+    blacklist +=get_responded_list(user_id)
+
     # spreading manager
-    contents_spread = get_content_from_spreading_manager_for_user(user_id,blacklist)
+    content_ids_spread = get_content_from_spreading_manager_for_user(user_id,count,blacklist)
     # recommendation manager
-    contents_recom = get_content_from_recommendation_manager_for_user(user_id,blacklist)
-    
+    content_ids_recom = get_content_from_recommendation_manager_for_user(user_id,count,blacklist)
+
     # sort and select
-    contents = sort_and_select(contents_spread,contents_recom)
-    
+    content_ids = sort_and_select(content_ids_spread,content_ids_recom,count)
+
     # check to see empty array and may add random content
-    # random source 
+    # random source
     # if contents.blank?
-      # contents = get_random_contents(user_id,blacklist)
+    # content_ids_random = get_random_contents_for_user(user_id,count,blacklist)
     # end
 
-
     # update black list
-    update_blacklist_for_user(user_id,contents.map{|content| content.id}) unless contents.blank? 
-    
+    update_blacklist_for_user(user_id,content_ids) unless content_ids.blank?
+
     # return
-    contents 
+    Content.find(content_ids)
   end
 
-def sort_and_select(spread_list,recom_list)
-  spread_list
-end
-  # method for selecting random content
-  def get_random_contents(user_id,blacklist)
-    offset = [rand(Content.count)-APIConstants::CONTENT_SELECTION::CONTENT_COUNT_PER_REQUEST, 0].max
-    #Content.limit(APIConstants::CONTENT_SELECTION::CONTENT_COUNT_PER_REQUEST).offset(offset)
-    if blacklist.blank?
-      Content.find_by_sql(["SELECT * FROM contents  LIMIT :limit OFFSET :offset ",\
-        {limit: APIConstants::CONTENT_SELECTION::CONTENT_COUNT_PER_REQUEST, \
-        offset: offset}])
-      else
-       Content.find_by_sql(["SELECT * FROM contents WHERE id NOT IN (:blacklist)  LIMIT :limit OFFSET :offset ",\
-        {limit: APIConstants::CONTENT_SELECTION::CONTENT_COUNT_PER_REQUEST, \
-        offset: offset,\
-        blacklist: blacklist}])
+  def sort_and_select(spread_ids_list,recom_ids_list,count)
+    # return the ids from spread list if recom is empty 
+    return spread_ids_list.map{|x| x[0]} if recom_ids_list.blank?
+    
+    # spread and recommendation is treated equally
+    recom_ids_list = recom_ids_list.map{|x| [x[0], x[1]*APIConstants::CONTENT_SELECTION::RECOMMENDER_RELATIVE_WEIGHT]}
+    # merge and sort
+    merged_and_sorted_list = (spread_ids_list + recom_ids_list).sort{|x,y| y[1] <=> x[1]}
+    # pick only ids, delete duplication and truncate
+    merged_and_sorted_list.map{|x| x[0]}.uniq[0...count]
+  end
 
-      end
+  # method for selecting random content
+  def get_random_contents_for_user(user_id,count,blacklist)
+    ContentRandomSelectionManager.get_random_contents(user_id,count,blacklist)
   end
 
   # methods for content spreading manager
-  def get_content_from_spreading_manager_for_user(user_id,blacklist)
-    ContentSpreadingManager.get_spreadlist_for_user(user_id,APIConstants::CONTENT_SELECTION::CONTENT_COUNT_PER_REQUEST,get_blacklist_for_user(user_id))
+  def get_content_from_spreading_manager_for_user(user_id,count,blacklist)
+    ContentSpreadingManager.get_spreadlist_for_user(user_id,count,blacklist)
   end
+
   # methods for content recommendation manager
-  def get_content_from_recommendation_manager_for_user(user_id,blacklist)
-    [] #ContentSpreadingManager.get_spreadlist_for_user(user_id,APIConstants::CONTENT_SELECTION::CONTENT_COUNT_PER_REQUEST,get_blacklist_for_user(user_id))
+
+  def get_content_from_recommendation_manager_for_user(user_id,count,blacklist)
+    ContentRecommendationManager.get_recomlist_for_user(user_id,count,blacklist)
   end
+
   # methods for black list
+
   def update_blacklist_for_user(user_id,list)
     return if list.blank?
     # get tag
@@ -77,6 +82,10 @@ end
     @redis.ltrim(key,0,APIConstants::CONTENT_SELECTION::BLACKLIST_SIZE)
     # set ttl
     @redis.expire(key,APIConstants::CONTENT_SELECTION::BLACKLIST_EXPIRY_TIME)
+  end
+
+  def get_responded_list(user_id)
+    UserResponse.where(user_id: user_id).pluck(:content_id)
   end
 
   def get_blacklist_for_user(user_id)

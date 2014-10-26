@@ -104,7 +104,9 @@ class SessionSimulator
   end
 
   def get_recommendations(test_user)
-    @@recomd_mamager.recommendContentExternal(test_user.api_user.user_id)
+    #@@recomd_mamager.recommendContentExternal(test_user.api_user.user_id)
+    recom = @@recomd_mamager.recommendContent(test_user.api_user.user_id)
+    recom.map{|rec| rec[1]}
   end
 
   def select_user(user_array)
@@ -143,7 +145,7 @@ class SessionSimulator
     (1..@@session_size).each{|scount|
       test_user = select_user(@@testuser_array)
       #puts test_user.description
-      sleep(5)
+      #sleep(1)
       cid_list = get_recommendations(test_user)
       cid_list.each{|cid|
         response = get_response(cid,test_user)

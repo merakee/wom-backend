@@ -113,6 +113,14 @@ describe "Routes for" do
       :format =>:json)
     end
 
+    specify "index" do
+      expect(:post =>  "api/v0/get_contents").to route_to(
+      :controller => "api/v0/contents",
+      :action => "index",
+      :format =>:json)
+    end
+
+
   end
 
   describe "User Response Paths: " do

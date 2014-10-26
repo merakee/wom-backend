@@ -65,8 +65,9 @@ class ApiManager
 
     begin
       response = RestClient.post path, data.to_json,  :content_type => :json, :accept => :json     if verb=='post'
-      response = RestClient.get  path, data.to_json, :content_type => :json, :accept => :json     if verb=='get'
+      #response = RestClient.get  path, data.to_json, :content_type => :json, :accept => :json     if verb=='get'
       #response = RestClient.get  path,  data   if verb=='get'
+      response = RestClient.get  path  if verb=='get'
       response = RestClient.delete  path, data.to_json,  :content_type => :json, :accept => :json     if verb=='delete'
       
       @@response = JSON::parse(response)
@@ -161,13 +162,17 @@ class ApiManager
   end
 
   def get_content(user = admin_user)
-    puts "getting content..."
-    api_call('get','contents',{:user => user.auth})
-    # if (@@error && @@error.http_code==422)
-      # puts "*** Get content failed: 422 Unprocessable Entity"
-    # else
-      # rest_call_error("Get content failed: ")
-    # end
+    api_call('post','get_contents',{:user => user.auth})
+    if (@@error && @@error.http_code==422)
+      puts "*** Get content failed: 422 Unprocessable Entity"
+    else
+      rest_call_error("Get content failed: ")
+    end
+    if @@success 
+      @@response['contents'] 
+    else
+      []
+    end
   end 
   
   def post_content(content = nil, user = admin_user)

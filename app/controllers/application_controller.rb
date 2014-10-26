@@ -21,9 +21,13 @@ class ApplicationController < ActionController::API
 
   # application wide variables
   def content_selection_manager
-    @content_selection_manager || ContentSelectionManager.new
+    @content_selection_manager ||= ContentSelectionManager.new
   end
 
+  def recommendation_engine
+    @recommendation_engine ||= WomClient.new 
+  end 
+  
   private
 
   def render_error(status, exception)

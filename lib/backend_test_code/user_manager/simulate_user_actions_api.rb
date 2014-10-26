@@ -107,7 +107,7 @@ class SessionSimulator
     # @@recomd_mamager.recommendContentExternal(test_user.api_user.user_id)
   # end
   def get_content_id_array(test_user)
-    @@api_manager.get_content(test_user.api_user).map{|content| content.id}
+    @@api_manager.get_content(test_user.api_user).map{|content| content['id']}
   end
 
   def select_user(user_array)
@@ -165,4 +165,4 @@ class SessionSimulator
   end
 end
 
-SessionSimulator.new(false,false).run_session
+SessionSimulator.new(ARGV[0]=="-l",false).run_session 

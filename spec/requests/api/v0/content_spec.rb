@@ -11,6 +11,18 @@ def not_able_to_get_content(path,user,msg=nil)
     expect_response_to_have(response,sucess=false,status=:unauthorized,msg)
 end
 
+def able_to_get_content_via_post(path,user,msg=nil)
+    post path, auth_params(user)
+    expect_response_to_have(response,sucess=true,status=:ok,msg)
+    expect(json["contents"]).not_to be_nil
+end
+
+def not_able_to_get_content_via_post(path,user,msg=nil)
+    post path, auth_params(user)
+    expect_response_to_have(response,sucess=false,status=:unauthorized,msg)
+end
+
+
 shared_examples "user with access to content" do
   it 'can get content' do
     able_to_get_content(path,user)
@@ -36,6 +48,10 @@ shared_examples "user with access to content" do
     not_able_to_get_content(path,user)
   end
 
+  it 'can get content via post' do
+    able_to_get_content_via_post(post_path,user)
+  end
+  
   # it 'can get content list' do
     # user=  create(:user)
     # (1..11).to_a.each{|x| create(:content, user_id: user.id)}
@@ -116,7 +132,7 @@ shared_examples "user with access to content" do
   end
 
   it 'cannot post content with short text' do
-    content.text= "1"
+    content.text= ""
     post path, auth_params(user).merge(content.as_json(root: true, only: [:content_category_id, :text]))
     expect_response_to_have(response,sucess=false,status=:unprocessable_entity)
   end
@@ -173,7 +189,7 @@ end
 
 describe "API " do  
   let(:path) {"/api/v0/contents"}
-
+  let(:post_path){"/api/v0/get_contents"}
 
   describe "Content: normal " do  
     let(:user) {create :user}
