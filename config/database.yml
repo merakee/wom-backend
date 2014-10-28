@@ -14,18 +14,19 @@ default: &default
 aws: &aws
   adapter: postgresql
   encoding: unicode
-  database: Rails.application.secrets.database
-  username: Rails.application.secrets.username
-  password: Rails.application.secrets.password
-  host: Rails.application.secrets.host
-  port: Rails.application.secrets.port
-  
-development:
-  <<: *default
-  database: wom-backend-dev
+  database: <%= Rails.application.secrets.database %>
+  username: <%= Rails.application.secrets.username %>
+  password: <%= Rails.application.secrets.password %>
+  host: <%= Rails.application.secrets.host %>
+  port: <%=  Rails.application.secrets.port %>
   
 # development:
-  # <<: *aws
+  # <<: *default
+  # database: wom-backend-dev
+  
+
+development:
+  <<: *aws
 
 
 # Warning: The database defined as "test" will be erased and

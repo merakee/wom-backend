@@ -28,7 +28,7 @@ require 'base64'
 
 def base_url
   #aws_path = 'http://wom-backend-master-env-hv2gxttyvi.elasticbeanstalk.com/'
-  aws_path = 'http://wom.freelogue.net/'
+  #aws_path = 'http://wom.freelogue.net/'
   local_path = 'http://localhost:3000/'
   api_path = 'api/v0/'
   base_url = local_path + api_path

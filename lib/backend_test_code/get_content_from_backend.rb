@@ -27,6 +27,7 @@ puts user.to_json
 
 # sign up/sign_in user
 uengine.sign_up_user(user)
+puts user.to_json
 
 # get contents
 contents = uengine.get_content(user)

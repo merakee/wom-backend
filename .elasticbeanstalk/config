@@ -18,6 +18,7 @@ SolutionStack=64bit Amazon Linux 2014.03 v1.0.4 running Ruby 2.0 (Passenger Stan
 [branches]
 master=wom-backend-master-env
 workingcode=wom-backend-master-env
+production=wom-backend-produc-env
 
 [branch:master]
 ApplicationVersionName=Development Version - Master 
@@ -40,4 +41,16 @@ OptionSettingFile=/Users/bijit/DesignAndDevelopment/WebApp/RoRProjects/wom-backe
 RdsDeletionPolicy=Snapshot
 RdsEnabled=Yes
 RdsSourceSnapshotName=
+
+[branch:production]
+ApplicationVersionName=Production Version - AWS 
+EnvironmentName=wom-backend-produc-env
+EnvironmentTier=WebServer::Standard::1.0
+EnvironmentType=LoadBalanced
+InstanceProfileName=aws-elasticbeanstalk-ec2-role
+OptionSettingFile=/Users/bijit/DesignAndDevelopment/WebApp/RoRProjects/wom-backend/.elasticbeanstalk/optionsettings.wom-backend-produc-env
+RdsDeletionPolicy=Snapshot
+RdsEnabled=Yes
+RdsSourceSnapshotName=
+
 

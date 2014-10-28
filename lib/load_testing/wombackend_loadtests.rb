@@ -2,16 +2,22 @@
 # Using Ruby - Jmeter
 #
 
-require 'rubygems'
+ require 'rubygems'
 require 'ruby-jmeter'
 
-@is_local = ARGV[0]=="-l"
 def base_url
   #aws_path = 'http://wom-backend-master-env-hv2gxttyvi.elasticbeanstalk.com/'
-  aws_path = 'http://wom.freelogue.net/'
-  local_path = 'http://localhost:3000/'
+  path_aws_p = 'http://wom.freelogue.net/'
+  path_aws_d = 'http://wom_dev.freelogue.net/'
+  path_local = 'http://localhost:3000/'
   api_path = 'api/v0/'
-  @is_local?(local_path + api_path): (aws_path + api_path)
+  if ARGV[0] == "-l"
+  path_local + api_path
+  elsif ARGV[0] == "-p"
+  path_aws_p + api_path
+  else
+  path_aws_d + api_path
+  end
 end
 
 def api_path(path)

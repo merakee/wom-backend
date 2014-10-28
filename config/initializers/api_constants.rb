@@ -15,6 +15,11 @@ module APIConstants
     MAX_TEXT_LENGTH =200
   end
 
+  # SYSTEM WIDE RELATED
+    module SYSTEM_CONSTANTS    
+      REDIS_KEY_PREFIX = 'wom:'
+    end
+
   # CONTENT SELECTION
   module CONTENT_SELECTION
     CONTENT_COUNT_PER_REQUEST = 20 
@@ -27,10 +32,13 @@ module APIConstants
 
     # recommender
     RECOMMENDER_SPREAD_VAL = 5.0
-    RECOMMENDER_KILL_VAL = 1.0   
+    RECOMMENDER_KILL_VAL = -1.0   
     RECOMMENDER_NORMALIZE_SCALE = 1.0/(RECOMMENDER_SPREAD_VAL - RECOMMENDER_KILL_VAL)    
-    RECOMMENDER_TIME_OUT = 0.5 # in sec 
+    RECOMMENDER_TIME_OUT = 3.0 # in sec 
     RECOMMENDER_RELATIVE_WEIGHT = 1.0 # 1.0 is equal importance to spreadind, > 1.0 is higher, and < 1.0 is lower 
+    RECOMMENDER_RECOMMENDATION_SIZE  = 200
+    RECOMMENDER_RECOMMENDATION_EXPIRY_TIME  = 600
+    
     
     # black list
     BLACKLIST_SIZE = 200

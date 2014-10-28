@@ -38,18 +38,34 @@ class ApiManager
   @@error = nil
   @@success = false
   @@admin_user = nil
-  def initialize(local_flag=false, varbose_flag = true)
-    @is_local = local_flag
+  def initialize(server_flag="-d", varbose_flag = true)
     @verbose = varbose_flag
-    puts "Api Manager: Connection to #{@is_local?"local":"AWS"} server with #{@verbose?"verbose":"silent"} mode......"
+    if(server_flag =="-l")
+      @server = "local"
+      puts "Api Manager: Connection to local server with #{@verbose?"verbose":"silent"} mode......"
+    elsif (server_flag =="-p")
+      @server = "production"
+      puts "Api Manager: Connection to AWS - Production server with #{@verbose?"verbose":"silent"} mode......"
+    else
+      @server = "development"
+      puts "Api Manager: Connection to AWS Development server with #{@verbose?"verbose":"silent"} mode......"
+    end
   end
 
   def base_url
     #aws_path = 'http://wom-backend-master-env-hv2gxttyvi.elasticbeanstalk.com/'
-    aws_path = 'http://wom.freelogue.net/'
-    local_path = 'http://localhost:3000/'
+    path_aws_p = 'http://wom.freelogue.net/'
+    path_aws_d = 'http://wom_dev.freelogue.net/'
+    path_local = 'http://localhost:3000/'
     api_path = 'api/v0/'
-    @is_local?(local_path + api_path): (aws_path + api_path)
+    if @server == "local"
+    path_local + api_path
+    elsif @server == "production"
+    path_aws_p + api_path
+    else
+    path_aws_d + api_path
+    end
+
   end
 
   def api_path(path)
@@ -69,14 +85,14 @@ class ApiManager
       #response = RestClient.get  path,  data   if verb=='get'
       response = RestClient.get  path  if verb=='get'
       response = RestClient.delete  path, data.to_json,  :content_type => :json, :accept => :json     if verb=='delete'
-      
+
       @@response = JSON::parse(response)
       @@success = true
       @@success = @@response['success'] if @@response['success'].nil?
 
     rescue => error
-      @@error = error
-      @@success = false
+    @@error = error
+    @@success = false
     end
   end
 
@@ -168,13 +184,13 @@ class ApiManager
     else
       rest_call_error("Get content failed: ")
     end
-    if @@success 
-      @@response['contents'] 
+    if @@success
+      @@response['contents']
     else
-      []
+    []
     end
-  end 
-  
+  end
+
   def post_content(content = nil, user = admin_user)
     # post contents
     puts "---------- posting: #{content}" if @verbose
@@ -193,13 +209,13 @@ class ApiManager
     if (@@error)
       if (@@error.http_code==422)
         puts "*** Post failed failed: 422 Unprocessable Entity"
-        return -1
+      return -1
       else
         rest_call_error("Post response failed: ")
-        return 0
+      return 0
       end
     else
-      return 1
+    return 1
     end
 
   end

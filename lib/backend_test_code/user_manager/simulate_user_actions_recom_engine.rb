@@ -31,8 +31,8 @@ class SessionSimulator
   @@total_likes = 0
   @@total_hates = 0
   
-  def initialize(local= false, verbose= true)
-    @@api_manager = ApiManager.new(local,verbose)
+  def initialize(server_flag="-d", verbose= true)
+    @@api_manager = ApiManager.new(server_flag,verbose)
   end
   
   class << self

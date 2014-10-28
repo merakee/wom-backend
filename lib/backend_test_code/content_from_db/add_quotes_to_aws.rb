@@ -51,7 +51,7 @@ if !(File.exist?(dbfile_path))
 end
 
 # set server location
-uengine = ApiManager.new(ARGV.last=="-l", false)
+uengine = ApiManager.new(ARGV.last, false)
 @start_index = ARGV[3]? ARGV[3].to_i : 1
 puts "starting at index #{@start_index}...."
 # sign up/sign_in user

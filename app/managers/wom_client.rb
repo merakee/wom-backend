@@ -1,34 +1,8 @@
-# #!/usr/bin/ruby
-# require 'socket'
-# require 'thwait'
-# 
-# 
-# #
-# # Test function
-# #
-# def test
-  # t = WomClient.new
-# 
-  # tt =  Thread.new do
-      # print "\n17 ", t.recommendContent(17, 5);
-      # print "\n17 ", t.recommendContent(17);
-      # print "\n25 ", t.recommendContent(17, 5);
-      # print "\n25 ", t.recommendContent(17);
-      # t._close
-  # end
-# 
-  # # Wait for thread to finish
-  # tt.join
-# 
-# end
-
-
-
 #
 # Client to access the WoM backend server.  The WoM backend will try to connect to a frontend server but leaves a port open for direct testing.
 #
 class WomClient
-  DEFAULT_SERVER = "recommendsvd.freelogue.net"
+  DEFAULT_SERVER = ENV["RECOM_ENGINE_SERVER"] || "recommendsvd.freelogue.net"
   DEFAULT_PORT   = 2014
 
   def initialize (_server=nil, _port=nil)
@@ -73,7 +47,7 @@ class WomClient
   # Perform the actual query to the remote WoM backend.
   #
   def _recommendContent (server, port, uid, count)
-    ret = [1,2,3,4,5,6,7,8,9,10] # TODO: Temporary default content array
+    ret = [] # Empty content returned if an exception occurs.
 
     # normalize args
     uid, count = _normalizeUidCount(uid, count)
