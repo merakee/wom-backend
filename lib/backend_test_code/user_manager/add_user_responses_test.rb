@@ -17,7 +17,7 @@ require './../api_manager.rb'
 require './user_manager.rb'
 
 # set server location
-am = ApiManager.new(ARGV[0]=="-l",ARGV[1]!="-s")
+am = ApiManager.new(ARGV[0],ARGV[1]!="-s")
 
 # user manager
 um = UserManager.new

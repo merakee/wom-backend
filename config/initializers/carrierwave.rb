@@ -31,7 +31,7 @@ end
 
 # fog set up
 #Fog.credentials_path = Rails.root.join('config/fog_credentials.yml')
-fog_dir = Rails.env == 'production' ? 'wombackend-freelogue' : 'wombackend-dev-freelogue'
+fog_dir = Rails.env == 'production' ? (ENV['S3_BUCKET_NAME'] || 'wombackend-freelogue' ): 'wombackend-dev-freelogue'
 CarrierWave.configure do |config|
   config.fog_credentials = {:provider => 'AWS',
     :aws_access_key_id => ENV['AWS_ACCESS_KEY_ID'],

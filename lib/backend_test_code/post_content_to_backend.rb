@@ -16,6 +16,16 @@
 # all sources of content
 require './api_manager.rb'
 require 'benchmark'
+require 'base64'
+
+# set variables
+if ARGV[1] 
+  text = ARGV[1] 
+else
+  puts "There is no text"
+  exit
+end
+image  = ARGV[2].strip if ARGV[2]
 
 # set server location
 uengine = ApiManager.new(ARGV[0])
@@ -32,7 +42,11 @@ puts user.to_json
 
 # get contents
 Benchmark.bm(7) do |x|
-  x.report("for:")   { contents = uengine.get_content(user)
-    puts contents #.map{|content| content['id']}
+  x.report("for:")   { 
+    content = uengine.create_content_with_image(text,image)
+    puts content[:text]
+    puts content[:photo_token][:filename]     if content[:photo_token]
+   # puts content[:photo_token][:file]     if content[:photo_token]
+    uengine.post_content(content,user)
   }
 end
