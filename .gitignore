@@ -58,3 +58,5 @@ public/uploads/**/*
 # jmeter files
 *.jtl
 
+# all production zip files
+production_zip_files/

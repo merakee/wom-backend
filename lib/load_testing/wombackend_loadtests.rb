@@ -8,7 +8,7 @@ require 'ruby-jmeter'
 def base_url
   #aws_path = 'http://wom-backend-master-env-hv2gxttyvi.elasticbeanstalk.com/'
   path_aws_p = 'http://wom.freelogue.net/'
-  path_aws_d = 'http://wom_dev.freelogue.net/'
+  path_aws_d = 'http://wom-dev.freelogue.net/'
   path_local = 'http://localhost:3000/'
   api_path = 'api/v0/'
   if ARGV[0] == "-l"

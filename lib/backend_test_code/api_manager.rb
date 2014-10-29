@@ -55,7 +55,7 @@ class ApiManager
   def base_url
     #aws_path = 'http://wom-backend-master-env-hv2gxttyvi.elasticbeanstalk.com/'
     path_aws_p = 'http://wom.freelogue.net/'
-    path_aws_d = 'http://wom_dev.freelogue.net/'
+    path_aws_d = 'http://wom-dev.freelogue.net/'
     path_local = 'http://localhost:3000/'
     api_path = 'api/v0/'
     if @server == "local"
@@ -168,7 +168,17 @@ class ApiManager
     end
     rest_call_error("Sign in failed: ")
   end
-
+  
+  def create_content_with_image(text=nil, imageFile="",category = 1)
+    return create_content(text, category) if imageFile.nil? || imageFile.empty? 
+     {:content_category_id => category, :text => text, :photo_token =>   
+       {
+          file: Base64.encode64(File.new(imageFile, 'rb').read),
+          filename:"file.jpg", content_type: "image/jpeg"
+         }
+       }
+  end
+  
   def create_content(text=nil, category = 1)
     {:content_category_id => category, :text => text}
   end

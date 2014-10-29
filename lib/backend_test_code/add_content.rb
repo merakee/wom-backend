@@ -18,7 +18,7 @@ require './BuzzFeed/BuzzFeed_RSS.rb'
 require './api_manager.rb'
 
 # set server location 
-uengine = ApiManager.new(ARGV[0]=="-l")
+uengine = ApiManager.new(ARGV[0])
 
 # sign up/sign_in user
 uengine.sign_up_user 

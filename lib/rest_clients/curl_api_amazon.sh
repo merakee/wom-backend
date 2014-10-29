@@ -1,7 +1,7 @@
  #!/bin/bash   
 
 #$host="http://wom-backend-master-env-hv2gxttyvi.elasticbeanstalk.com/"
-host="http://wom.freelogue.net/"
+host="http://wom-dev.freelogue.net/"
 echo "		Running API tests...."
 
 if [ "$1" == "sign_in" ];	then 

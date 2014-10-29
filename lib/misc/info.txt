@@ -1,0 +1,4 @@
+# create zip files for production
+
+git archive --format=zip HEAD > production_zip_files/wom-backend-production-03Nov2014.zip
+

@@ -21,7 +21,7 @@ require './WomClient.rb'
 # set managers
 user_manager = UserManager.new
 recom_mamager = WomClient.new
-api_manager = ApiManager.new(ARGV[0]=='-l')
+api_manager = ApiManager.new(ARGV[0])
 # get user
 user_id = 436
 test_user = ApiManager::User.new(user_manager.email(user_id),user_manager.password)

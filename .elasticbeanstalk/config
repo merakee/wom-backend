@@ -1,7 +1,7 @@
 [global]
 ApplicationName=wom-backend
 ApplicationVersionName=git-541e35fab1e1d18222484ede7d39c918a2c88293-1407350982634
-AwsCredentialFile=/Users/bijit/.elasticbeanstalk/aws_credential_file
+AwsCredentialFile=/Users/bijit/.elasticbeanstalk/aws_credential_file_master
 DevToolsEndpoint=git.elasticbeanstalk.us-west-2.amazonaws.com
 EnvironmentName=wom-backend-master-env
 EnvironmentTier=WebServer::Standard::1.0
@@ -43,7 +43,9 @@ RdsEnabled=Yes
 RdsSourceSnapshotName=
 
 [branch:production]
-ApplicationVersionName=Production Version - AWS 
+AwsCredentialFile=/Users/bijit/.elasticbeanstalk/aws_credential_file_production
+ApplicationName=wom-backend-production-v1
+ApplicationVersionName=WoM Production Version - AWS 
 EnvironmentName=wom-backend-produc-env
 EnvironmentTier=WebServer::Standard::1.0
 EnvironmentType=LoadBalanced
