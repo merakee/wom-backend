@@ -43,7 +43,9 @@ RdsEnabled=Yes
 RdsSourceSnapshotName=
 
 [branch:production]
-ApplicationVersionName=Production Version - AWS 
+AwsCredentialFile=/Users/bijit/.elasticbeanstalk/aws_credential_file_production
+ApplicationName=wom-backend-production-v1
+ApplicationVersionName=WoM Production Version - AWS 
 EnvironmentName=wom-backend-produc-env
 EnvironmentTier=WebServer::Standard::1.0
 EnvironmentType=LoadBalanced
