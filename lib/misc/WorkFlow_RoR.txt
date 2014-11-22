@@ -1,0 +1,13 @@
+#--------------------------------------------
+# Documentation
+#--------------------------------------------
+Database Diagram: erdall (alias)
+
+
+
+#--------------------------------------------
+# Trouble Shooting
+#--------------------------------------------
+RSpec:
+P. Individual tests runs fine but have erros when run togather
+S. Make sure no two files share the same method name or shared example name or describe or it block name. This can happen from cut and paste code. 

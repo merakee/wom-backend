@@ -11,10 +11,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141021045631) do
+ActiveRecord::Schema.define(version: 20141126184117) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "comment_responses", force: true do |t|
+    t.integer  "user_id",    limit: 8
+    t.integer  "comment_id", limit: 8
+    t.boolean  "response",             default: false, null: false
+    t.datetime "created_at"
+  end
+
+  add_index "comment_responses", ["comment_id"], name: "index_comment_responses_on_comment_id", using: :btree
+  add_index "comment_responses", ["user_id"], name: "index_comment_responses_on_user_id", using: :btree
+
+  create_table "comments", force: true do |t|
+    t.integer  "user_id",        limit: 8
+    t.integer  "content_id",     limit: 8
+    t.text     "text",                     default: "", null: false
+    t.integer  "like_count",               default: 0,  null: false
+    t.integer  "new_like_count",           default: 0,  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "comments", ["content_id"], name: "index_comments_on_content_id", using: :btree
+  add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
   create_table "content_categories", force: true do |t|
     t.string   "category"
@@ -22,26 +45,35 @@ ActiveRecord::Schema.define(version: 20141021045631) do
     t.datetime "updated_at"
   end
 
+  create_table "content_flags", force: true do |t|
+    t.integer  "user_id",    limit: 8
+    t.integer  "content_id", limit: 8
+    t.datetime "created_at"
+  end
+
   create_table "contents", force: true do |t|
-    t.integer  "user_id"
+    t.integer  "user_id",             limit: 8
     t.integer  "content_category_id"
-    t.text     "text",                default: "",  null: false
-    t.string   "photo_token",         default: "",  null: false
-    t.integer  "total_spread",        default: 0,   null: false
-    t.integer  "spread_count",        default: 0,   null: false
-    t.integer  "kill_count",          default: 0,   null: false
+    t.text     "text",                          default: "",  null: false
+    t.string   "photo_token",                   default: "",  null: false
+    t.integer  "total_spread",                  default: 0,   null: false
+    t.integer  "spread_count",                  default: 0,   null: false
+    t.integer  "kill_count",                    default: 0,   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.float    "freshness_factor",    default: 1.0, null: false
-    t.float    "spread_efficiency",   default: 1.0, null: false
-    t.float    "spread_index",        default: 1.0, null: false
+    t.float    "freshness_factor",              default: 1.0, null: false
+    t.float    "spread_efficiency",             default: 1.0, null: false
+    t.float    "spread_index",                  default: 1.0, null: false
+    t.integer  "comment_count",                 default: 0,   null: false
+    t.integer  "flag_count",                    default: 0,   null: false
+    t.integer  "new_comment_count",             default: 0,   null: false
   end
 
   add_index "contents", ["spread_index"], name: "index_contents_on_spread_index", using: :btree
   add_index "contents", ["user_id"], name: "index_contents_on_user_id", using: :btree
 
   create_table "user_responses", force: true do |t|
-    t.integer  "user_id"
+    t.integer  "user_id",    limit: 8
     t.integer  "content_id", limit: 8
     t.boolean  "response",             null: false
     t.datetime "created_at"
@@ -78,6 +110,12 @@ ActiveRecord::Schema.define(version: 20141021045631) do
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", unique: true, using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+
+  add_foreign_key "comment_responses", "comments", name: "comment_responses_comment_id_fk", dependent: :delete
+  add_foreign_key "comment_responses", "users", name: "comment_responses_user_id_fk", dependent: :delete
+
+  add_foreign_key "comments", "contents", name: "comments_content_id_fk", dependent: :delete
+  add_foreign_key "comments", "users", name: "comments_user_id_fk", dependent: :delete
 
   add_foreign_key "contents", "users", name: "contents_user_id_fk", dependent: :delete
 

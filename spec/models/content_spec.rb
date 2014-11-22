@@ -25,7 +25,7 @@ describe Content do
 
     # Format validations
     it { expect(content).to allow_value("this").for(:text) }
-    it { expect(content).to_not allow_value("1").for(:text) }
+    it { expect(content).to_not allow_value("").for(:text) }
 
   #it { expect(content).to allow_value(6).for(:content_type_id) }
   #it { expect(content).to_not allow_value(7).for(:content_type_id) }
@@ -78,7 +78,10 @@ describe Content do
     it { expect(content).to have_db_column(:total_spread).of_type(:integer)}
     it { expect(content).to have_db_column(:kill_count).of_type(:integer)}
     it { expect(content).to have_db_column(:spread_count).of_type(:integer)}
-    it { expect(content).to have_db_column(:no_response_count).of_type(:integer)}
+    #it { expect(content).to have_db_column(:no_response_count).of_type(:integer)}
+    it { expect(content).to have_db_column(:comment_count).of_type(:integer)}
+    it { expect(content).to have_db_column(:new_comment_count).of_type(:integer)}
+    it { expect(content).to have_db_column(:flag_count).of_type(:integer)}
 
   # http://rubydoc.info/github/thoughtbot/shoulda-matchers/master/Shoulda/Matchers/ActiveRecord:have_db_index
   #it { expect(content).to have_db_index(:email).unique(:true)}

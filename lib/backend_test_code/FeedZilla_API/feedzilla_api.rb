@@ -22,7 +22,6 @@ require 'mechanize'
 @agent = Mechanize.new
 @base_url = "http://api.feedzilla.com/v1"
 @quote_count=0
-@log_file 
 
 # Create author list methods
 #======================================

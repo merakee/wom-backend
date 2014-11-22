@@ -44,5 +44,19 @@ module APIConstants
     BLACKLIST_SIZE = 200
     BLACKLIST_EXPIRY_TIME = 600
   end
+  
+   # CONTENT SELECTION
+  module COMMENT
+    MIN_TEXT_LENGTH =1
+    MAX_TEXT_LENGTH =200
+    COMMENT_COUNT_PER_REQUEST = 20 
+    COMMENT_MODE_POPULAR = "popular"
+    COMMENT_MODE_RECENT = "recent"
+  end
+  
+  module HISTORY
+    ITEM_COUNT_PER_REQUEST = 20 
+  end
+  
 
 end

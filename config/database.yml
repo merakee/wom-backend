@@ -20,13 +20,13 @@ aws: &aws
   host: <%= Rails.application.secrets.host %>
   port: <%=  Rails.application.secrets.port %>
   
-# development:
-  # <<: *default
-  # database: wom-backend-dev
+development:
+  <<: *default
+  database: wom-backend-dev
   
 
-development:
-  <<: *aws
+# development:
+  # <<: *aws
 
 
 # Warning: The database defined as "test" will be erased and

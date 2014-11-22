@@ -3,7 +3,7 @@ require 'rails_helper'
 describe "API " do
   
   describe "User Response " do
-    let(:path) {"/api/v0/user_responses"}
+    let(:path) {"/api/v0/contents/response"}
     let(:user_content){create(:user)}
     let(:user){create(:user)}
     let(:content){create(:content, user_id: user_content.id)}
@@ -16,7 +16,7 @@ describe "API " do
        post path, auth_params(user).merge(user_response.as_json(root: true, only: [:content_id, :response]))
         expect_response_to_have(response,sucess=true,status=:created)
         # check that the attributes are the same.
-        expect(json['response']).to include('id','user_id','user_id','response')
+        expect(json['response']).to include('id','user_id','content_id','response')
         expect(json['response']['id']).not_to be nil
         expect(json['response']['user_id']).to eq(user.id)
         expect(json['response']['content_id']).to eq(user_response.content_id)
@@ -74,7 +74,7 @@ describe "API " do
       expect_response_to_have(response,sucess=false,status=:unprocessable_entity)
      end
 
-     it 'cannot post user_response withoutcontent_id' do
+     it 'cannot post user_response without content_id' do
       user_response.content_id = ""
       post path, auth_params(user).merge(user_response.as_json(root: true, only: [ :response]))
       expect_response_to_have(response,sucess=false,status=:unprocessable_entity)

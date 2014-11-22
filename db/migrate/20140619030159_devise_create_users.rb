@@ -39,6 +39,8 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.timestamps
     end
 
+    change_column :users, :id, :integer, :limit => 8
+    
     add_index :users, :email,                unique: true
     add_index :users, :reset_password_token, unique: true
     add_index  :users, :authentication_token, :unique => true

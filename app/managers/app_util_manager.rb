@@ -29,5 +29,5 @@ class AppUtilManager
   def self.gen_recommendation_val
     (rand(100)-25.0)/10.0
   end
-  
+
 end

@@ -6,8 +6,8 @@ describe "API Session " do
 #expect_any_instance_of(API::V0::UsersController).to receive(:authenticate_user!).and_return(true)
 #end
 let(:user){create(:user)}
-let(:path_sign_in) {"api/v0/sign_in"}
-let(:path_sign_out) {"api/v0/sign_out"}
+let(:path_sign_in) {"api/v0/signin"}
+let(:path_sign_out) {"api/v0/signout"}
         
   describe "Sign in" do
     
@@ -60,7 +60,7 @@ let(:path_sign_out) {"api/v0/sign_out"}
     
     it "should fail without email" do
       delete path_sign_out, user.as_json(root: true, only: [:authentication_token])
-      puts response 
+      #puts response 
       expect_response_to_have(response,sucess=false,status=:unprocessable_entity,msg="Missing login email parameter")
     end
 

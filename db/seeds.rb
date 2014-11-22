@@ -30,11 +30,11 @@ if Rails.env == 'development'
 # 
 # 
 # # Content: it will create users
-  50.times do
-        FactoryGirl.create :content, photo_token: nil 
-  end
+  # 50.times do
+        # FactoryGirl.create :content, photo_token: nil 
+  # end
   
-  # # response it will create user and content 
+  # user response it will create user and content 
   10.times do 
     loop do
       response =     FactoryGirl.build :user_response
@@ -42,6 +42,18 @@ if Rails.env == 'development'
     end
   end
   
+    # comment will create user and content 
+  10.times do 
+    FactoryGirl.create :comment 
+  end
+
+  # comment response will create user and content and comment 
+  10.times do 
+    loop do
+      response =     FactoryGirl.build :comment_response
+      break response.save if response.valid? 
+    end
+  end
 end
 
 =begin

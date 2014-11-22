@@ -36,8 +36,8 @@ class API::V0::RegistrationsController < Devise::RegistrationsController
     
     if user.save
       user.ensure_authentication_token!
-      render :json => {:success => true, :user => user.as_json(only: [:id,:user_type_id,:email,:authentication_token])}, :status=> :created
-    return
+      #render :json => {:success => true, :user => user.as_json(only: [:id,:user_type_id,:email,:authentication_token])}, :status=> :created
+      render :json => {:success => true, :user => user.as_json}, :status=> :created
     else
       warden.custom_failure!
       render :json => {:success => false, :message => (user.errors.as_json)}, :status=> :unprocessable_entity

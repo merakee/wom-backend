@@ -4,7 +4,7 @@ class Content < ActiveRecord::Base
   has_many  :user_response, dependent: :destroy
   validates :user, :content_category, presence: true
   validates :text, presence: true, length: { minimum: APIConstants::CONTENT::MIN_TEXT_LENGTH,
-    maximum: APIConstants::CONTENT::MAX_TEXT_LENGTH}
+    maximum: APIConstants::CONTENT::MAX_TEXT_LENGTH }
   
   # change validation of presence of text with condition on photo_tag 
   validates :text, uniqueness: { scope: [:user_id, :content_category_id],
@@ -20,6 +20,5 @@ class Content < ActiveRecord::Base
   def add_user_response
     UserResponse.new(:user_id => self.user_id, :content_id => self.id, response: true).save
   end
-  
     
 end

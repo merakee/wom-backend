@@ -19,6 +19,7 @@ require 'benchmark'
 
 # set server location
 uengine = ApiManager.new(ARGV[0])
+content_id = ARGV[1]
 
 # get user
 email = "test_user1@test.com"
@@ -32,7 +33,13 @@ puts user.to_json
 
 # get contents
 Benchmark.bm(7) do |x|
-  x.report("for:")   { contents = uengine.get_content(user)
+  x.report("for:")   { 
+    contents = if content_id
+    uengine.get_content(user,content_id)
+    else
+      uengine.get_contentlist(user)
+    end
+    
     puts contents #.map{|content| content['id']}
   }
 end

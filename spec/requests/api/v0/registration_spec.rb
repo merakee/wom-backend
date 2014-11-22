@@ -31,7 +31,7 @@ end
 end
 
 describe "API Registration" do
-  let(:path) {"api/v0/sign_up"}
+  let(:path) {"api/v0/signup"}
   let(:user){{user:{email:"usernew@email.com",password:"password",password_confirmation:"password",user_type_id:2}}}
   let(:user_anon_type){{user:{email:"useranon@email.com",password:"password",password_confirmation:"password",user_type_id:1}}}
 

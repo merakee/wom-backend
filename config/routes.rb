@@ -15,40 +15,67 @@ Rails.application.routes.draw do
       devise_scope :api_v0_user do
       # devise/registrations
       #get 'sign_up' => 'registrations#new', :as => :new_user_registration
-        post 'sign_up' => 'registrations#create', :as => :user_registration
+        post 'signup' => 'registrations#create', :as => :user_registration
         #get 'accounts/cancel' => 'registrations#cancel', :as => :cancel_user_registration
         #get 'accounts/edit' => 'registrations#edit', :as => :edit_user_registration
         #put 'accouts' => 'registrations#update'
         #delete 'accounts/cancel' => 'registrations#destroy'
 
         # devise/sessions
-        #get 'sign_in' => 'sessions#new', :as => :new_user_session
-        post 'sign_in' => 'sessions#create', :as => :user_session
-        delete 'sign_out' => 'sessions#destroy', :as => :destroy_user_session
+        #get 'signin' => 'sessions#new', :as => :new_user_session
+        post 'signin' => 'sessions#create', :as => :user_session
+        delete 'signout' => 'sessions#destroy', :as => :destroy_user_session
       end
 
       # RESOURCES ---------------
       #resources :users, only: [:show]
-      get 'profile', to: 'users#show'
-      resources :contents, only: [:index,:create]
-      # use post t get content : added duplicate path for getting content 
-      post 'get_contents' => 'contents#index'
-      resources :user_responses, only: [:create]
+      #get 'profile', to: 'users#show'
+      
+      # contents 
+      #resources :contents, only: [:index,:create]
+      # use post t get content : added duplicate path for getting content
+      post 'contents/create' => 'contents#create'
+      post 'contents/getlist' => 'contents#index'
+      post 'contents/getcontent' => 'contents#get_content'
+      
+      # user response 
+      #resources :user_responses, only: [:create]
+      post 'contents/response' => 'user_responses#create'
+            
+      # conent flag       
+      post 'contents/flag' => 'content_flag#create'
+            
+      # comments
+      #resources :comments, only: [:create]
+      post 'comments/create' => 'comments#create'
+      post 'comments/getlist' => 'comments#index'
 
+      # comment response
+      #resources :comment_responses, only: [:create]
+      post 'comments/response' => 'comment_responses#create'
+      
+      # history
+      post 'history/contents' => 'history#contents'
+      post 'history/comments' => 'history#comments'
+      
+      # notifications
+      post 'notifications/getlist' => 'notifications#index'
+      post 'notifications/count' => 'notifications#count'
+      post 'notifications/reset/content' => 'notifications#content_reset'
+      post 'notifications/reset/comment' => 'notifications#comment_reset'
+      
     end
   end
-  
-  # for sidekiq monitoring 
+
+  # for sidekiq monitoring
   # require 'sidekiq/web'
   # map '/sidekiq' do
-    # use Rack::Auth::Basic, "Protected Area" do |username, password|
-    # username == 'wom-admin' && password == 'freelogue2014'
+  # use Rack::Auth::Basic, "Protected Area" do |username, password|
+  # username == 'wom-admin' && password == 'freelogue2014'
   # end
 
-
-
   # catch all routes
-  match "*all" , :to => 'application#routing_error', :via => :all, :defaults => {:format => :json} 
+  match "*all" , :to => 'application#routing_error', :via => :all, :defaults => {:format => :json}
 end
 
 =begin

@@ -24,6 +24,19 @@ class ApplicationController < ActionController::API
     @content_selection_manager ||= ContentSelectionManager.new
   end 
   
+  def comment_selection_manager
+    @comment_selection_manager ||= CommentSelectionManager.new
+  end 
+  
+  def history_manager
+    @history_manager ||= HistoryManager.new
+  end 
+
+  def notifications_manager
+    @notifications_manager ||= NotificationsManager.new
+  end 
+    
+    
   private
 
   def render_error(status, exception)

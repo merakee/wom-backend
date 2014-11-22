@@ -3,12 +3,9 @@ class API::V0::APIController < ApplicationController
   #http_basic_authenticate_with name:"admin", password:"password";
   
   rescue_from(ActionController::ParameterMissing) do |parameter_missing_exception|
-    error = {}
-    error[parameter_missing_exception.param] = ['parameter is required']
-    response = { errors: [error] }
-    respond_to do |format|
-      format.json { render json: response, status: :unprocessable_entity }
-    end
+    errors = {}
+    errors[parameter_missing_exception.param] = ['parameter is required']
+    render :json => {:success => false, :message => (errors.as_json)}, :status=> :unprocessable_entity
   end
 
   private
@@ -25,6 +22,5 @@ class API::V0::APIController < ApplicationController
   def user_params
     params.require(:user).permit(:email,:authentication_token)
   end
-
 
 end

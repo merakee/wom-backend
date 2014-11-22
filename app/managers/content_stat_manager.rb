@@ -1,21 +1,30 @@
 class ContentStatManager
-  def self.update_with_response(response)
+ def self.update_with_response(response)
     if (content = Content.where(:id => response.content_id).first)
-      if response.response.nil?
-        #content.increment!(:no_response_count)
-        elsif response.response
-          #content.increment!(:spread_count)
-          Content.update_counters content.id, :spread_count => 1, :total_spread => 1
-        else
+      if response.response == true
+        #content.increment!(:spread_count)
+        Content.update_counters content.id, :spread_count => 1, :total_spread => 1
+      elsif response.response == false
         #content.increment!(:kill_count)
-          Content.update_counters content.id, :kill_count => 1, :total_spread => 1
-        end
-      # update stat
-      update_stat(content)
+        Content.update_counters content.id, :kill_count => 1, :total_spread => 1
+      end
+      # update stat only if response is not nil
+      update_stat(content) if response.response != nil
     end
-
   end
 
+ def self.update_with_comment(comment)
+    if comment
+      Content.update_counters comment.content_id, :comment_count => 1, :new_comment_count => 1
+    end
+  end
+  
+   def self.update_with_flag(flag)
+    if flag
+      Content.update_counters flag.content_id, :flag_count => 1
+    end
+  end
+  
   def self.update_stat(content)
     stat = get_stat(content.spread_count, content.kill_count)
     content.update(freshness_factor: stat[:freshness_factor], spread_efficiency:stat[:spread_efficiency], spread_index: stat[:spread_index])
@@ -48,7 +57,7 @@ class ContentStatManager
     Content.find_each do |content|
       total_errors += check_count_and_stat(content)
     end
-    puts "Total mismatch: #{total_errors}"
+   Rails.logger.info "Total mismatch: #{total_errors}"
   end
   
   def self.check_count_and_stat(content)
@@ -60,7 +69,7 @@ class ContentStatManager
      content.spread_efficiency!=stat[:spread_efficiency]||
      content.freshness_factor!=stat[:freshness_factor]||
      content.spread_index!=stat[:spread_index])
-     #puts "Mismatch found: #{content.id}...updating information"
+     #Rails.logger.info "Mismatch found: #{content.id}...updating information"
      content.update(spread_count: count[:spread_count] , kill_count: count[:kill_count],total_spread: count[:spread_count]+count[:kill_count], freshness_factor: stat[:freshness_factor], spread_efficiency:stat[:spread_efficiency], spread_index: stat[:spread_index])
      return 1
    end

@@ -5,7 +5,7 @@ class UserResponse < ActiveRecord::Base
   validates :response, inclusion: { in: [true, false] }
   #validates :response, allow_nil: true
   validates :user_id, uniqueness: { scope: [:content_id],
-    message: "Cannot have more than one response per user per content" }
+    message: "User already responsed to this content. User cannot respond to the same content more than once." }
 
   # update content stats
   after_save :update_content_stat

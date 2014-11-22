@@ -2,7 +2,8 @@ require 'rails_helper'
 
 describe UserResponse do
   let(:user){create(:user)}
-  let(:content) {build(:content, user: user)}
+  let(:user_c){create(:user)}
+  let(:content) {create(:content, user: user_c)}
 
   it "has a valid factory" do
   # Using the shortened version of FactoryGirl syntax.
@@ -12,7 +13,7 @@ describe UserResponse do
 
   # Lazily loaded to ensure it's only used when it's needed
   # RSpec tip: Try to avoid @instance_variables if possible. They're slow.
-  let(:user_response) {build(:user_response, user_id: user.id, content_id: content.id)}
+  let(:user_response) {create(:user_response, user: user, content: content)}
 
   describe "ActiveModel validations" do
 
@@ -25,7 +26,7 @@ describe UserResponse do
     it { expect(user_response).to allow_value(true).for(:response) }
     it { expect(user_response).to allow_value(false).for(:response) }
     it { expect(user_response).not_to allow_value(nil).for(:response) }
-    #it { expect(user_response).to validate_uniqueness_of(:response).scoped_to([:user_id, :content_id]).with_message("Cannot have more than one response per user per content")}
+    it { expect(user_response).to validate_uniqueness_of(:user_id).scoped_to([:content_id]).with_message("User already responsed to this content. User cannot respond to the same content more than once.")}
 
 
   #it { expect(user_response).to_not allow_value("1er").for(:response) }

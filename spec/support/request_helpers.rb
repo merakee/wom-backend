@@ -16,7 +16,7 @@ module Requests
     end
     
     def get_user_anonymous
-      signup = "api/v0/sign_up"
+      signup = "api/v0/signup"
       user_anon = build :user, :anonymous
       post signup, user_anon.as_json(root: true)
       user_anon.id = json['user']['id']
