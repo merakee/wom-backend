@@ -21,12 +21,13 @@ require './api_manager.rb'
 uengine = ApiManager.new(ARGV[0])
 
 # sign up/sign_in user
-uengine.sign_up_user 
+user=ApiManager::User.new
+uengine.sign_up_user(user)
 
 # get feed from buzzfeed
 feed = get_buzzfeed()
 
 # post feed
 feed.each { |text|
-  uengine.post_content(uengine.create_content(text))
+  uengine.post_content(user,uengine.create_content(text))
 }

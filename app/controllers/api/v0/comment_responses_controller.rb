@@ -6,7 +6,7 @@ class API::V0::CommentResponsesController < API::V0::APIController
     cresponse.user_id = @current_user.id
     if cresponse.save
       #render :json => {:success => true, :response => cresponse.as_json(only: [:id, :user_id, :comment_id, :response])}, :status=> :created #201
-      render :json => {:success => true, :response => cresponse.as_json}, :status=> :created #201
+      render :json => {:success => true, :comment_response => cresponse.as_json}, :status=> :created #201
     return
     else
       warden.custom_failure!

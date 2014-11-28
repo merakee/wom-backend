@@ -16,11 +16,11 @@ describe "API " do
        post path, auth_params(user).merge(user_response.as_json(root: true, only: [:content_id, :response]))
         expect_response_to_have(response,sucess=true,status=:created)
         # check that the attributes are the same.
-        expect(json['response']).to include('id','user_id','content_id','response')
-        expect(json['response']['id']).not_to be nil
-        expect(json['response']['user_id']).to eq(user.id)
-        expect(json['response']['content_id']).to eq(user_response.content_id)
-        expect(json['response']['response']).to eq(user_response.response)
+        expect(json['content_response']).to include('id','user_id','content_id','response')
+        expect(json['content_response']['id']).not_to be nil
+        expect(json['content_response']['user_id']).to eq(user.id)
+        expect(json['content_response']['content_id']).to eq(user_response.content_id)
+        expect(json['content_response']['response']).to eq(user_response.response)
       end
      end
     
