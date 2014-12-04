@@ -18,6 +18,7 @@ require 'highline/import'
 
 class InteractiveClient
   def initialize
+    @user =  nil 
     #self.action_list
   end
 
@@ -34,7 +35,8 @@ class InteractiveClient
     print "Enter User email: "
     email = gets.chomp
     password = ask("Enter password: ") { |q| q.echo = "*" }
-    @user = ApiManager::User.new(email,password)
+    user_type = (email.empty?&&password.empty?)?1:2
+    @user = ApiManager::User.new(email,password,user_type)
     set_and_sign_in_user
   end
 
@@ -60,7 +62,7 @@ class InteractiveClient
 
   def set_action_list
     @action_list = []
-    if(@server.eql?('p'))
+    if @api_manager.api_version==1
       @action_list <<  ActionItem.new("Get content list (default)","content_getlist")
       @action_list <<  ActionItem.new("Post content","content_post")
       @action_list <<  ActionItem.new("Response to a content","content_response")
@@ -77,7 +79,7 @@ class InteractiveClient
       @action_list <<  ActionItem.new("Post comment for content","comment_post")
       @action_list <<  ActionItem.new("Like a comment","comment_response")
       @action_list <<  ActionItem.new("Get History - content","history_contents")
-      @action_list <<  ActionItem.new("Get History - comment","history_comment")
+      @action_list <<  ActionItem.new("Get History - comment","history_comments")
       @action_list <<  ActionItem.new("Get Notification - count","notification_count")
       @action_list <<  ActionItem.new("Get Notification - list","notification_getlist")
       @action_list <<  ActionItem.new("Reset Notification - content","notification_reset_content")
@@ -91,14 +93,14 @@ class InteractiveClient
   def set_action
     puts "Select action:"
     @action_list.each_with_index{|item, ind| puts "  #{ind+1}. " + item.displayText}
-    invalid_action= true 
-    while invalid_action
+    while true
       print "Enter your selection: "
       action_ind = gets.chomp
       action_ind = action_ind.to_i if action_ind.is_a?String
       action_ind -=1
-      puts " Not a valid selection. Please select again."
       invalid_action = action_ind > @action_list.count || action_ind <0
+      break unless invalid_action
+      puts " Not a valid selection. Please select again."
     end
     @action = @action_list[action_ind]
   end
@@ -119,8 +121,8 @@ class InteractiveClient
       comment_getlist
     when "comment_post"
       comment_post
-    when "comment_like"
-      comment_like
+    when "comment_response"
+      comment_response
     when "history_contents"
       history_contents
     when "history_comments"
@@ -278,7 +280,7 @@ class InteractiveClient
     puts @api_manager.get_notifications_list(@user)
   end
 
-  def notifications_reset_content
+  def notification_reset_content
     content_id =get_content_id
     count = get_reset_count
     puts @action.displayText + "...."

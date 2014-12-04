@@ -47,11 +47,11 @@ class ApiManager
     path_aws_d = 'http://wom-dev.freelogue.net/'
     path_local = 'http://localhost:3000/'
     api_path = 'api/v0/'
-    if @server == "local"
+    if @server.eql? "local"
     path_local + api_path
-    elsif @server == "production"
+    elsif @server.eql? "production"
     path_aws_p + api_path
-    elsif @server == "production_v2"
+    elsif @server.eql?"production_v2"
     path_aws_p2 + api_path
     else
     path_aws_d + api_path
@@ -63,9 +63,14 @@ class ApiManager
     base_url+path
   end
 
+  def api_version
+    #return 1 if ["production", "development"].include?@server
+    return 1 if ["production"].include?@server
+    return 2
+  end
   def get_path_for(action)
     # suppoer
-    return get_path_for_server_v1(action) if @server.eql?"production"
+    return get_path_for_server_v1(action) if api_version==1
 
     case action
     when "signup"
@@ -90,9 +95,9 @@ class ApiManager
       "comments/getlist"
     when "comment_response"
       "comments/response"
-    when "hostory_contents"
+    when "history_contents"
       "history/contents"
-    when "hostory_comments"
+    when "history_comments"
       "history/comments"
     when "notification_getlist"
       "notifications/getlist"
@@ -178,13 +183,13 @@ class ApiManager
   #===========================================
   # User Session
   class User
-    attr_reader :email, :password, :password_confirmation, :user_type_id
-    attr_accessor :authentication_token, :user_id
-    def initialize (email = "admin@system.com", password = "adminpassword")
+    attr_reader  :password, :password_confirmation, :user_type_id
+    attr_accessor :email, :authentication_token, :user_id
+    def initialize (email = "admin@system.com", password = "adminpassword",user_type_id = 2)
       @email = email
       @password = password
       @password_confirmation = @password
-      @user_type_id = 2
+      @user_type_id = user_type_id 
       @authentication_token = nil
       @user_id = nil
     end
@@ -213,6 +218,7 @@ class ApiManager
   def sign_up_user(user = admin_user)
     api_call('post',get_path_for('signup'),{:user => user.sign_up})
     if @@success
+      user.email = @@response['user']['email'] if @@response['user']['user_type_id'] == 1
       user.authentication_token = @@response['user']['authentication_token']
       user.user_id = @@response['user']['id']
     end
@@ -267,7 +273,7 @@ class ApiManager
 
   def flag_content(user = admin_user, content_id)
     # flag content 
-    api_call('post',get_path_for('contents_flag'),{:user => user.auth, :params => {content_id: content_id}})
+    api_call('post',get_path_for('content_flag'),{:user => user.auth, :params => {content_id: content_id}})
     procesd_response_with_msg('content_flag',"Flag content failed")
   end
   
@@ -283,7 +289,7 @@ class ApiManager
     uresponse = create_user_response(content_id, response)
     puts "---------- posting: #{uresponse} for #{user.email}" if @verbose
     api_call('post',get_path_for('content_response'), {:user => user.auth, :user_response => uresponse})
-    if(@server.eql?"production")
+    if(api_version==1)
       procesd_response_with_msg('response',"Post response failed")
     else
       procesd_response_with_msg('content_response',"Post response failed")
@@ -365,13 +371,13 @@ class ApiManager
 
   def reset_notification_content(user = admin_user,content_id,count)
     rnparams = create_reset_notification_content_params(content_id,count)
-    api_call('post',get_path_for('notifications_reset_content'),{:user => user.auth, :params => rnparams})
+    api_call('post',get_path_for('notification_reset_content'),{:user => user.auth, :params => rnparams})
     procesd_response_with_msg('content',"Reset notifications Content failed")
   end
   
   def reset_notification_comment(user = admin_user,comment_id,count)
     rnparams = create_reset_notification_comment_params(comment_id,count)
-    api_call('post',get_path_for('notifications_reset_comment'),{:user => user.auth, :params => rnparams})
+    api_call('post',get_path_for('notification_reset_comment'),{:user => user.auth, :params => rnparams})
     procesd_response_with_msg('comment',"Reset notifications Comment failed")
   end  
    

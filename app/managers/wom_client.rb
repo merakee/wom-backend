@@ -2,7 +2,7 @@
 # Client to access the WoM backend server.  The WoM backend will try to connect to a frontend server but leaves a port open for direct testing.
 #
 class WomClient
-  DEFAULT_SERVER = ENV["RECOM_ENGINE_SERVER"] || "recommendsvd.freelogue.net"
+  DEFAULT_SERVER = ENV["RECOM_ENGINE_SERVER"] || "localhost" #"recommendsvd.freelogue.net"
   DEFAULT_PORT   = 2014
 
   def initialize (_server=nil, _port=nil)
