@@ -39,9 +39,8 @@ class API::V0::ContentsController < API::V0::APIController
   private
 
   def content_params
-    params_fil = params.require(:content).permit(:content_category_id,:text, :photo_token)
-    process_photo_token_params(params[:content][:photo_token])
-    params_fil     
+    process_photo_token_params(params[:content][:photo_token]) unless params[:content].nil? 
+    params.require(:content).permit(:content_category_id,:text, :photo_token)
   end
 
   def get_content_params

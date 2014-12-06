@@ -24,7 +24,7 @@ gem 'sinatra',  :require => nil
 
 
 # uploading and processing photos
-gem 'fog', require: "fog/aws/storage" # require to Optimized Loading of Fog. must be before carrierwave gem
+gem 'fog' , '1.24', require: "fog/aws/storage" # require to Optimized Loading of Fog. must be before carrierwave gem
 gem 'carrierwave'
 gem 'mini_magick'
 

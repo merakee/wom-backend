@@ -204,6 +204,7 @@ class InteractiveClient
     image = gets.chomp
 
     content = @api_manager.create_content_with_image(text,image)
+    return if content.nil? 
     #puts content[:text]
     #puts content[:photo_token][:filename]     if content[:photo_token]
     # puts content[:photo_token][:file]     if content[:photo_token]

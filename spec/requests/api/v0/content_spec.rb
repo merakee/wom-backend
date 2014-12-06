@@ -1,18 +1,18 @@
 require 'rails_helper'
 def able_to_get_contentlist(path,user,msg=nil)
-    post getlist_path, auth_params(user)
+    post path, auth_params(user)
     expect_response_to_have(response,sucess=true,status=:ok,msg)
     expect(json["contents"]).not_to be_nil
     expect(json['contents'][0]).to include("id", "user_id", "content_category_id", "text", "photo_token", "total_spread", "spread_count", "kill_count", "comment_count", "new_comment_count", "created_at", "updated_at")
 end
 
 def not_able_to_get_contentlist(path,user,msg=nil)
-    post getlist_path, auth_params(user)
+    post path, auth_params(user)
     expect_response_to_have(response,sucess=false,status=:unauthorized,msg)
 end
 
 def able_to_get_content(path,user,content_id,msg=nil)
-    post getcontent_path, auth_params(user).merge({params:{content_id: content_id}})
+    post path, auth_params(user).merge({params:{content_id: content_id}})
     expect_response_to_have(response,sucess=true,status=:ok,msg)
     expect(json["content"]).not_to be_nil     
     expect(json["content"]).to include("id", "user_id", "content_category_id", "text", "photo_token", "total_spread", "spread_count", "kill_count", "comment_count", "new_comment_count", "created_at", "updated_at")
@@ -20,7 +20,7 @@ def able_to_get_content(path,user,content_id,msg=nil)
 end
 
 def not_able_to_get_content(path,user,content_id,msg=nil)
-    post getcontent_path, auth_params(user).merge({params:{content_id: content_id}})
+    post path, auth_params(user).merge({params:{content_id: content_id}})
     expect_response_to_have(response,sucess=false,status=:unauthorized,msg)
 end
 
@@ -32,59 +32,59 @@ end
 shared_examples "get content" do
   it 'can get content' do
     content = create(:content,user: user)
-    able_to_get_content(path,user,content.id)
+    able_to_get_content(getcontent_path,user,content.id)
   end
 
   it 'cannot get content if email is missing' do
     user.email=""
-    not_able_to_get_content(path,user,content.id)
+    not_able_to_get_content(getcontent_path,user,content.id)
   end
 
   it 'cannot get content if token is missing' do
     user.authentication_token=""
-    not_able_to_get_content(path,user,content.id)
+    not_able_to_get_content(getcontent_path,user,content.id)
   end
 
   it 'cannot get content if email is wrong' do
     user.email="user@wrong.com"
-    not_able_to_get_content(path,user,content.id)
+    not_able_to_get_content(getcontent_path,user,content.id)
   end
 
   it 'cannot get content if token is wrong' do
     user.authentication_token = user.authentication_token.chop
-    not_able_to_get_content(path,user,content.id)
+    not_able_to_get_content(getcontent_path,user,content.id)
   end
 end
 
 shared_examples "get content list" do
   it 'can get content' do
     add_content
-    able_to_get_contentlist(path,user)
+    able_to_get_contentlist(getlist_path,user)
   end
 
   it 'cannot get content if email is missing' do
     user.email=""
-    not_able_to_get_contentlist(path,user)
+    not_able_to_get_contentlist(getlist_path,user)
   end
 
   it 'cannot get content if token is missing' do
     user.authentication_token=""
-    not_able_to_get_contentlist(path,user)
+    not_able_to_get_contentlist(getlist_path,user)
   end
 
   it 'cannot get content if email is wrong' do
     user.email="user@wrong.com"
-    not_able_to_get_contentlist(path,user)
+    not_able_to_get_contentlist(getlist_path,user)
   end
 
   it 'cannot get content if token is wrong' do
     user.authentication_token = user.authentication_token.chop
-    not_able_to_get_contentlist(path,user)
+    not_able_to_get_contentlist(getlist_path,user)
   end
   
   it 'can get content list' do
     add_content(11)
-    able_to_get_contentlist(path,user)
+    able_to_get_contentlist(getlist_path,user)
     expect(json["contents"].count).to eq(11)
   end
 
@@ -183,17 +183,19 @@ shared_examples "post content" do
   end
   
     xit 'can post content with photo' do
-      contentwp = {content: {content_category_id: content.content_category_id,
-        text: content.text,
-        photo_token: {
+      content = build(:content,:with_photo, user_id: nil)
+
+      contentwp = {content: 
+          {content_category_id: content.content_category_id,
+          text: content.text,
+          photo_token: {
           file: Base64.encode64(File.new(content.photo_token.url, 'rb').read),
           filename: "image.jpg",
-          content_type: "image/jpeg"}}}
-
-            
+          content_type: "image/jpeg"}
+          }
+        }
     #post path, auth_params(user).merge(content.as_json(root: true, only: [:content_category_id, :text, :photo_token]))
-      post create_path, auth_params(user).merge(contentwp)      
-    
+    post create_path, auth_params(user).merge(contentwp)      
     # expect_response_to_have(response,sucess=true,status=:created)
     # check that the attributes are the same.
     expect(json['content']).to include('user_id','content_category_id','text','photo_token')

@@ -14,14 +14,14 @@ describe "API " do
      for ind in 1..100 do 
        comment = create(:comment, user: user_content, content: content)
        comment_response= build(:comment_response, user: user, comment: comment)
-       post path, auth_params(user).merge(comment_response.as_json(root: true, only: [:comment_id, :response]))
-        expect_response_to_have(response,sucess=true,status=:created)
-        # check that the attributes are the same.
-        expect(json['response']).to include('id','comment_id','user_id','response') 
-        expect(json['response']['id']).not_to be nil
-        expect(json['response']['user_id']).to eq(user.id)
-        expect(json['response']['comment_id']).to eq(comment_response.comment_id)
-        expect(json['response']['response']).to eq(comment_response.response)
+       post path, auth_params(user).merge(comment_response.as_json(root: true, only: [:comment_id, :response])) 
+       expect_response_to_have(response,sucess=true,status=:created)
+       # check that the attributes are the same.
+       expect(json['comment_response']).to include('id','comment_id','user_id','response') 
+       expect(json['comment_response']['id']).not_to be nil
+       expect(json['comment_response']['user_id']).to eq(user.id)
+       expect(json['comment_response']['comment_id']).to eq(comment_response.comment_id)
+       expect(json['comment_response']['response']).to eq(comment_response.response)
       end
      end
     

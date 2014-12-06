@@ -11,6 +11,7 @@
 
 require 'rest_client'
 require 'json'
+require 'base64'
 
 
 class ApiManager
@@ -243,12 +244,17 @@ class ApiManager
   # Content   
   def create_content_with_image(text=nil, imageFile="",category = 1)
     return create_content(text, category) if imageFile.nil? || imageFile.empty? 
+    begin
      {:content_category_id => category, :text => text, :photo_token =>   
        {
-          file: Base64.encode64(File.new(imageFile, 'rb').read),
-          filename:"file.jpg", content_type: "image/jpeg"
+         file: Base64.encode64(File.new(imageFile, 'rb').read),
+         filename:"file.jpg", content_type: "image/jpeg"
          }
        }
+    rescue => e
+      puts e.message 
+      nil 
+    end
   end
   
   def create_content(text=nil, category = 1)
@@ -346,7 +352,7 @@ class ApiManager
   def get_history_comment(user = admin_user, count=20,offset=0)
     hparams = create_history_params(count,offset)
     api_call('post',get_path_for('history_comments'),{:user => user.auth, :params => hparams})
-    procesd_response_with_msg('contents',"Get history content failed")
+    procesd_response_with_msg('comments',"Get history comment failed")
   end
 
   #=========================================
