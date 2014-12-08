@@ -126,7 +126,22 @@ describe "Routes for" do
       :controller => "api/v0/contents",
       :action => "get_content",
       :format =>:json)
-    end        
+    end 
+    
+    specify "getcontentrecent" do
+      expect(:post =>  "api/v0/contents/getrecent").to route_to(
+      :controller => "api/v0/contents",
+      :action => "get_recent",
+      :format =>:json)
+    end 
+    
+    specify "deletecontent" do
+      expect(:post =>  "api/v0/contents/delete").to route_to(
+      :controller => "api/v0/contents",
+      :action => "destroy",
+      :format =>:json)
+    end 
+    
   end
 
   describe "User Response Paths: " do

@@ -36,6 +36,29 @@ class API::V0::ContentsController < API::V0::APIController
      clean_tempfile
   end
 
+
+   def get_recent
+    # get contents recent: content selection manager
+    contents = content_selection_manager.get_contents_recent(get_recent_params)
+    render :json => {:success => true,:contents => contents.as_json}, :status=> :ok
+  end
+  
+  def destroy
+    # check if admin 
+    render :json => {:success => false, :message=> "Unauthorized user"}, :status => :unauthorized and return unless is_admin
+    
+    # delete content
+    content = Content.where(id:delete_content_params[:content_id])[0]
+    if content.delete
+      #render :json => {:success => true,:content => (content.as_json(only: select_keys_for_content))}, :status=> :created
+      render :json => {:success => true,:content => content.as_json}, :status=> :ok
+    else
+      warden.custom_failure!
+      render :json => {:success => false, :message => content.errors.as_json}, :status=> :unprocessable_entity
+    end
+  end
+  
+  
   private
 
   def content_params
@@ -45,6 +68,21 @@ class API::V0::ContentsController < API::V0::APIController
 
   def get_content_params
     params.require(:params).permit(:content_id) 
+  end
+  
+  def get_recent_params
+    params_ = params.require(:params).permit(:count,:offset)
+    convert_params_to_int(params_,[:count,:offset])
+    params_
+  end
+    
+  def delete_content_params
+      params.require(:params).permit(:content_id) 
+  end
+    
+  def is_admin
+    admin_pass = params.require(:params).permit(:admin_pass)[:admin_pass]
+    (!admin_pass.blank?) && admin_pass.eql?(ENV['ADMIN_PASS']) 
   end
   
   def process_photo_token_params(photo_token)

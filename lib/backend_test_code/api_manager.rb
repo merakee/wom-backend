@@ -86,6 +86,10 @@ class ApiManager
       "contents/getlist"
     when "content_get"
       "contents/getcontent"
+    when "content_get_recentlist"
+      "contents/getrecent"
+    when "content_delete"
+      "contents/delete"
     when "content_response"
       "contents/response"
     when "content_flag"
@@ -265,6 +269,13 @@ class ApiManager
     {:content_id => content_id, :response => response}
   end
    
+  def create_get_content_recent_params(count=20,offset=0)
+    {:count => count, :offset => offset}
+  end
+  def create_delete_content_params(content_id,admin_pass)
+    {content_id: content_id ,admin_pass: admin_pass}
+  end
+    
   def get_content(user = admin_user, content_id)
     # get single content 
     api_call('post',get_path_for('content_get'),{:user => user.auth, :params => {content_id: content_id}})
@@ -277,6 +288,13 @@ class ApiManager
     procesd_response_with_msg('contents',"Get content List failed")
   end
 
+  def get_content_recentlist(user = admin_user,count=20,offset=0)
+    rparams = create_get_content_recent_params(count,offset)
+    # get  content recent list
+    api_call('post',get_path_for('content_get_recentlist'),{:user => user.auth, :params => rparams})
+    procesd_response_with_msg('contents',"Get content Recent List failed")
+  end
+  
   def flag_content(user = admin_user, content_id)
     # flag content 
     api_call('post',get_path_for('content_flag'),{:user => user.auth, :params => {content_id: content_id}})
@@ -300,7 +318,13 @@ class ApiManager
     else
       procesd_response_with_msg('content_response',"Post response failed")
     end
-    
+  end
+  
+  def delete_content(user = admin_user,content_id, admin_pass)
+    dparams = create_delete_content_params(content_id, admin_pass)
+    # delete  content 
+    api_call('post',get_path_for('content_delete'),{:user => user.auth, :params => dparams})
+    procesd_response_with_msg('content',"Delete content failed")
   end
   
   #=========================================

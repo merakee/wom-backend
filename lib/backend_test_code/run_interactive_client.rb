@@ -84,6 +84,8 @@ class InteractiveClient
       @action_list <<  ActionItem.new("Get Notification - list","notification_getlist")
       @action_list <<  ActionItem.new("Reset Notification - content","notification_reset_content")
       @action_list <<  ActionItem.new("Reset Notification - comment","notification_reset_comment")
+      @action_list <<  ActionItem.new("* Get content Recent list (default)","content_get_recentlist")
+      @action_list <<  ActionItem.new("* Delete content","content_delete")
       @action_list <<  ActionItem.new("***Change User","change_user")
       @action_list <<  ActionItem.new("***Change Server","change_server")
       @action_list <<  ActionItem.new("***Exit","exit")
@@ -111,12 +113,16 @@ class InteractiveClient
       content_getlist
     when "content_get"
       content_get
+    when "content_get_recentlist"
+      content_get_recentlist
     when "content_post"
       content_post
     when "content_response"
       content_response
     when 'content_flag'
       content_flag
+    when 'content_delete'
+      content_delete
     when "comment_getlist"
       comment_getlist
     when "comment_post"
@@ -166,7 +172,7 @@ class InteractiveClient
     [mode,count,offset]
   end
 
-  def get_history_options
+  def get_count_offset_options
     #print "Enter mode(1: recent (default), 2: popular): "
     #(gets.chomp.to_i==2) ? (mode='popular'):(mode='recent')
     count = get_count
@@ -212,6 +218,12 @@ class InteractiveClient
     puts @api_manager.post_content(@user,content)
   end
 
+  def content_get_recentlist
+    count,offset=get_count_offset_options
+    puts @action.displayText + "...."
+    puts @api_manager.get_content_recentlist(@user,count,offset)
+  end
+  
   def content_get
     content_id  = get_content_id
     puts @action.displayText + "...."
@@ -232,6 +244,13 @@ class InteractiveClient
     puts @api_manager.flag_content(@user,content_id)
   end
 
+  def content_delete
+    content_id  = get_content_id
+    admin_pass = ask("Enter admin password: ") { |q| q.echo = "*" }
+    puts @action.displayText + "...."
+    puts @api_manager.delete_content(@user,content_id,admin_pass)
+  end
+  
   #=============== Comment
   def comment_getlist
     content_id  = get_content_id
@@ -258,13 +277,13 @@ class InteractiveClient
   #=============== History
 
   def history_contents
-    count,offset=get_history_options
+    count,offset=get_count_offset_options
     puts @action.displayText + "...."
     puts @api_manager.get_history_content(@user,count,offset)
   end
 
   def history_comments
-    count,offset=get_history_options
+    count,offset=get_count_offset_options
     puts @action.displayText + "...."
     puts @api_manager.get_history_comment(@user,count,offset)
   end

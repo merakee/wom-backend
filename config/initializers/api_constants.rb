@@ -43,6 +43,10 @@ module APIConstants
     # black list
     BLACKLIST_SIZE = 200
     BLACKLIST_EXPIRY_TIME = 600
+    
+    # Recent list
+    RECENT_BLOCKSIZE_DEFAULT = 100
+    RECENT_BLOCKSIZE_MAX = 1000
   end
   
    # CONTENT SELECTION

@@ -37,6 +37,8 @@ Rails.application.routes.draw do
       post 'contents/create' => 'contents#create'
       post 'contents/getlist' => 'contents#index'
       post 'contents/getcontent' => 'contents#get_content'
+      post 'contents/getrecent' => 'contents#get_recent'
+      post 'contents/delete' => 'contents#destroy'
       
       # user response 
       #resources :user_responses, only: [:create]

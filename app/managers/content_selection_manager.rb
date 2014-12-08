@@ -116,4 +116,20 @@ class ContentSelectionManager
     "#{APIConstants::SYSTEM_CONSTANTS::REDIS_KEY_PREFIX}blacklist:uid:#{user_id}"
   end
 
+
+
+# methods for selecting recent contents
+
+  def get_contents_recent(params)
+    # chek params and set default 
+    set_default_params(params)
+    Content.order(created_at: :desc).limit(params[:count]).offset(params[:offset])
+  end
+  
+  def set_default_params(params)
+    params[:count] = APIConstants::CONTENT_SELECTION::RECENT_BLOCKSIZE_DEFAULT unless params.has_key?(:count) && params[:count] && params[:count]>0
+    params[:count] = APIConstants::CONTENT_SELECTION::RECENT_BLOCKSIZE_MAX if params[:count] > APIConstants::CONTENT_SELECTION::RECENT_BLOCKSIZE_MAX
+    params[:offset] = 0 unless params.has_key?(:offset) && params[:offset] && params[:offset] >= 0
+  end
+  
 end
