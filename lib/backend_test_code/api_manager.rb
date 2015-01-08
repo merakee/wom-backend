@@ -32,7 +32,7 @@ class ApiManager
       puts "Api Manager: Connection to AWS - Production server with #{@verbose?"verbose":"silent"} mode......"
    elsif (server_flag =="-p2")
       @server = "production_v2"
-      puts "Api Manager: Connection to AWS - Production server with #{@verbose?"verbose":"silent"} mode......"
+      puts "Api Manager: Connection to AWS - Production server (V2) with #{@verbose?"verbose":"silent"} mode......"
       
     else
       @server = "development"

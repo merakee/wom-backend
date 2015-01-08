@@ -4,6 +4,11 @@
 Database Diagram: erdall (alias)
 
 
+#--------------------------------------------
+# Rails Related
+#--------------------------------------------
+1. Generate secret key: rake secret
+
 
 #--------------------------------------------
 # Trouble Shooting
@@ -17,3 +22,61 @@ S. Make sure no two files share the same method name or shared example name or d
 # Trouble Shooting
 #--------------------------------------------
 Rails Dir: /var/app/current
+
+
+AWS work flow:
+#--------------------------------------------
+1. Elastic Beanstalk
+2. RDS (ElastiCache)
+3. Recommeder (EC2)
+
+
+Steps:
+0. Overall setup
+	1. Pick an exisiting keypair for all EC2 instance or create a new one for all EC2 instances: example wom-backend-production. If new, store the prm file and add command to local bash_aliases_aws file
+	2. Pick an exisiting security group for all EC2 intances or create a new one for all EC2 instances. If new, set permission for inbound request for the group and assoviated elasticbeanstalk as follows
+		A. For recommender: Custom TCP Rule: TCP: 2014 : elastic beanstalk sucerity group
+		B. For Redis Custom TCP Rule: TCP: 6379 : elastic beanstalk sucerity group
+	
+1. Set up Elastic Beanstalk
+	1. EC2 type (Amazon Linux) 
+	2. Web server with loadblancing 
+	3. Ruby and Rails server version
+	4. Assign name and end point 
+	4. KeyPair for SSH access
+	5. RDS (postgress)
+	6. Start with default app and test the link for success 
+	
+	RDS: 
+	1. Set master db user name and pass word
+	2. Need to give permission to Recommender 
+	
+2. Set up Redis
+	1. Luanch an instance
+	2. Assign security group from existing list: example all-ec2-wombackend-production. The security group must have persmission for ElasticBeanStalk security group (Inbound custom TCP rules: port 2014)
+
+3. Set up Recommender
+	1. Follow all instraction for Recommender installation provided in Recommender WrokFlow
+	2. Assign security group from existing list: example all-ec2-wombackend-production. The security group must have persmission for ElasticBeanStalk security group (Inbound custom TCP rules: port 2014)
+	3. Set all ENV variables.
+	4. Add  right access to Elasticbean talk
+	5 Set up Route 53 name: Type A with ip
+	6. Start the recommender in screen mode (or after the database is set up with all the tables)
+	
+4. Upload application
+	1. Set up number of instance and parameters for scalling
+	2. Set up all config variables
+	3. Set up notification
+	4. Set up RDS and in security group add permission for inbound request form Recommender 
+	5. Crearte zip file from Git. git archive --format zip --output ./production_zip_files/zipfilename.zip branchname. 
+	6. Upload the zip file. Make sure the all the files are at the top level
+	7. SSH to instance and check dir /var/app/current
+	     Run: rake db:seed // only onece at the start
+	8. Test with rails c
+		a. Check seed: UserType.count must be 5
+		b. Check Redis: >> redis = DataStore.redis and then >>redis.keys
+	
+	
+	
+	
+	
