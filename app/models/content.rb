@@ -2,7 +2,7 @@ class Content < ActiveRecord::Base
   belongs_to :content_category
   belongs_to :user
   has_many  :user_response, dependent: :destroy
-  has_many :user_ratings, dependent: :destroy
+  has_many :user_rating, dependent: :destroy
   validates :user, :content_category, presence: true
 
   # change validation of presence of text with condition on photo_tag

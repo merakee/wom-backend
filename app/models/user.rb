@@ -2,11 +2,13 @@ class User < ActiveRecord::Base
   belongs_to :user_type
   has_many :content, dependent: :destroy
   has_many :user_response, dependent: :destroy
-  has_many :user_ratings, dependent: :destroy
+  has_many :user_rating, dependent: :destroy
   validates :user_type, presence: true
   validates :password_confirmation, presence: true
   validates_format_of :email,:with => Devise.email_regexp
   validates_confirmation_of :password
+  # alpha numeric validation of a string
+  # validates :userid, format: /\A[\sa-z0-9]+\Z/i 
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
