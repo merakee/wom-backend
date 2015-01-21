@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   belongs_to :user_type
   has_many :content, dependent: :destroy
   has_many :user_response, dependent: :destroy
+  has_many :user_ratings, dependent: :destroy
   validates :user_type, presence: true
   validates :password_confirmation, presence: true
   validates_format_of :email,:with => Devise.email_regexp
