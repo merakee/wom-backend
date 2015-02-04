@@ -73,30 +73,22 @@ describe "Routes for" do
 
   end
 
-  # describe "User Paths: " do
-    # specify "show" do
-      # expect(:get =>  "api/v0/profile").to route_to(
-      # :controller => "api/v0/users",
-      # :action => "show",
-      # :format =>:json)
-    # end
-# 
-    # it "show via delete" do
-      # expect(:delete =>  "api/v0/profile").to route_to(
-      # :controller => "application",
-      # :action => "routing_error",
-      # :format =>:json,
-      # :all => "api/v0/profile")
-    # end
-    # it "show via post" do
-      # expect(:post =>  "api/v0/profile").to route_to(
-      # :controller => "application",
-      # :action => "routing_error",
-      # :format =>:json,
-      # :all => "api/v0/profile")
-    # end
-# 
-  # end
+  describe "User Paths: " do
+    specify "profile" do
+      expect(:post =>  "api/v0/users/profile").to route_to(
+      :controller => "api/v0/users",
+      :action => "profile",
+      :format =>:json)
+    end
+
+    it "update" do
+      expect(:post =>  "api/v0/users/update").to route_to(
+      :controller => "api/v0/users",
+      :action => "update",
+      :format =>:json)
+    end
+
+  end
 
   describe "Content Paths: " do
     specify "index via get" do
@@ -161,6 +153,32 @@ describe "Routes for" do
     end
 
   end
+  
+  describe "Favorite Content Paths: " do
+    specify "favorite" do
+      expect(:post =>  "api/v0/favorite_contents/favorite").to route_to(
+      :controller => "api/v0/favorite_contents",
+      :action => "create",
+      :format =>:json)
+    end
+    
+    
+    specify "unfavorite" do
+      expect(:post =>  "api/v0/favorite_contents/unfavorite").to route_to(
+      :controller => "api/v0/favorite_contents",
+      :action => "destroy",
+      :format =>:json)
+    end
+
+    specify "getlist" do
+      expect(:post =>  "api/v0/favorite_contents/getlist").to route_to(
+      :controller => "api/v0/favorite_contents",
+      :action => "getlist",
+      :format =>:json)
+    end
+    
+  end
+  
   
   describe "Content Flag Paths: " do
     specify "flag" do

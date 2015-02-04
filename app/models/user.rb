@@ -8,8 +8,11 @@ class User < ActiveRecord::Base
   validates_format_of :email,:with => Devise.email_regexp
   validates_confirmation_of :password
   # alpha numeric validation of a string
-  # validates :userid, format: /\A[\sa-z0-9]+\Z/i 
-
+  validates :nickname, presence: true, format: /\A[a-z0-9]+\Z/i, length: { in: 2..17 } #, if: "user_type_id==2"
+  validates :bio, length: { in: 1..100 }
+  validates :avatar, presence: true, if: "user_type_id==2"
+  validates :hometown, format: /\A[a-z0-9,\s]+\Z/i, length: { in: 1..40 } #, if: "user_type_id==2"
+  
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable,
@@ -19,6 +22,10 @@ class User < ActiveRecord::Base
   :trackable,
   :validatable
 
+
+  # carried wave - uploader
+  mount_uploader :avatar, ContentPhotoUploader
+  
   #attr_accessible :name, :email, :authentication_token
 
   before_save :ensure_authentication_token!
@@ -39,6 +46,11 @@ class User < ActiveRecord::Base
   def is_anonymous?
     self.user_type_id == 1 
   end
+  
+  def is_signedin?
+    self.user_type_id == 2 
+  end
+  
   private
 
   def generate_authentication_token

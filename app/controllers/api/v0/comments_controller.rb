@@ -13,6 +13,7 @@ class API::V0::CommentsController < API::V0::APIController
   end
 
   def create
+    return if invalid_action_for_anonymous_user?(@current_user)    
     # add new comment
     comment = Comment.new(comment_params_for_create)
     comment.user_id = @current_user.id

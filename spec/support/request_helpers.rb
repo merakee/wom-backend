@@ -35,7 +35,7 @@ module Requests
     end
         
     def auth_params(user)
-      user.as_json(only: [:email, :authentication_token], root: true)
+      user.as_json(only: [:email, :authentication_token,:user_type_id], root: true)
     end
 
     def json

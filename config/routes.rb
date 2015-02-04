@@ -29,8 +29,9 @@ Rails.application.routes.draw do
 
       # RESOURCES ---------------
       #resources :users, only: [:show]
-      #get 'profile', to: 'users#show'
-      
+      post 'users/profile' => 'users#profile'
+      post 'users/update' => 'users#update'
+            
       # contents 
       #resources :contents, only: [:index,:create]
       # use post t get content : added duplicate path for getting content
@@ -43,7 +44,13 @@ Rails.application.routes.draw do
       # user response 
       #resources :user_responses, only: [:create]
       post 'contents/response' => 'user_responses#create'
-            
+
+      # favorite content  
+      #resources :favorite_contents, only: [:create]
+      post 'favorite_contents/favorite' => 'favorite_contents#create'
+      post 'favorite_contents/unfavorite' => 'favorite_contents#destroy'
+      post 'favorite_contents/getlist' => 'favorite_contents#getlist'
+                  
       # conent flag       
       post 'contents/flag' => 'content_flag#create'
             

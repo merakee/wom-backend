@@ -21,6 +21,7 @@ class API::V0::ContentsController < API::V0::APIController
   end
   
   def create
+    return if invalid_action_for_anonymous_user?(@current_user) 
     # add new content
     content = Content.new(content_params)
     content.user_id = @current_user.id
@@ -38,12 +39,14 @@ class API::V0::ContentsController < API::V0::APIController
 
 
    def get_recent
+    return if invalid_action_for_anonymous_user?(@current_user) 
     # get contents recent: content selection manager
     contents = content_selection_manager.get_contents_recent(get_recent_params)
     render :json => {:success => true,:contents => contents.as_json}, :status=> :ok
   end
   
   def destroy
+    #return if invalid_action_for_anonymous_user?(@current_user) 
     # check if admin 
     render :json => {:success => false, :message=> "Unauthorized user"}, :status => :unauthorized and return unless is_admin
     

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150121010901) do
+ActiveRecord::Schema.define(version: 20150205214630) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -72,6 +72,15 @@ ActiveRecord::Schema.define(version: 20150121010901) do
   add_index "contents", ["spread_index"], name: "index_contents_on_spread_index", using: :btree
   add_index "contents", ["user_id"], name: "index_contents_on_user_id", using: :btree
 
+  create_table "favorite_contents", force: true do |t|
+    t.integer  "user_id",    limit: 8
+    t.integer  "content_id", limit: 8
+    t.datetime "created_at"
+  end
+
+  add_index "favorite_contents", ["content_id"], name: "index_favorite_contents_on_content_id", using: :btree
+  add_index "favorite_contents", ["user_id"], name: "index_favorite_contents_on_user_id", using: :btree
+
   create_table "user_ratings", force: true do |t|
     t.integer  "user_id",    limit: 8
     t.integer  "content_id", limit: 8
@@ -101,21 +110,25 @@ ActiveRecord::Schema.define(version: 20150121010901) do
   end
 
   create_table "users", force: true do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
+    t.string   "email",                  default: "",           null: false
+    t.string   "encrypted_password",     default: "",           null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",          default: 0,            null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.string   "authentication_token"
-    t.string   "userid"
+    t.string   "nickname",               default: "Anonymous",  null: false
     t.integer  "user_type_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "avatar",                 default: "avatar.jpg", null: false
+    t.text     "bio",                    default: " ",          null: false
+    t.string   "social_tags",            default: [],                        array: true
+    t.string   "hometown",               default: " ",          null: false
   end
 
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", unique: true, using: :btree

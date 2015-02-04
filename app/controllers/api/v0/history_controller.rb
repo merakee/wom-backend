@@ -1,5 +1,7 @@
 class API::V0::HistoryController < API::V0::APIController
+  before_filter  :permit_only_signedin_user!
   before_filter  :authenticate_user_from_token!
+  
   def contents
     # get contents for user: History  manager
     contents = history_manager.get_contents(history_params.merge({user_id:@current_user.id}))

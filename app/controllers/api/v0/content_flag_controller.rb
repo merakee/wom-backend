@@ -1,5 +1,7 @@
 class API::V0::ContentFlagController < API::V0::APIController
+  before_filter  :permit_only_signedin_user!
   before_filter  :authenticate_user_from_token!
+  
   def create
     # add new flag
     cflag = ContentFlag.new(response_params)

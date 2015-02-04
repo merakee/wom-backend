@@ -10,7 +10,7 @@
 
 # parmanent seeds
 # user_type
-%w[Anonymous Wom Facebook Twitter GooglePlus Others].each do |type|
+%w[Anonymous Email Facebook Twitter GooglePlus Others].each do |type|
 UserType.create :user_type => type
 end
 
