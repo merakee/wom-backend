@@ -37,7 +37,7 @@ class ApplicationController < ActionController::API
   end 
 
   def favorite_content_manager
-    @notifications_manager ||= NotificationsManager.new
+    @favorite_content_manager ||= FavoriteContentManager.new
   end 
       
     

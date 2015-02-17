@@ -77,7 +77,7 @@ describe "API Registration" do
       should_have_follwoing_fileds_in_message(false,false,true)
     end
 
-    it "should fail without password confirmation" do
+    xit "should fail without password confirmation" do
       user[:user].delete(:password_confirmation)
       should_fail_with_unprocessable_entity(path, user)
       should_have_follwoing_fileds_in_message(false,false,true)

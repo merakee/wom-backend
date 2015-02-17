@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   has_many :user_response, dependent: :destroy
   has_many :user_rating, dependent: :destroy
   validates :user_type, presence: true
-  validates :password_confirmation, presence: true
+  #validates :password_confirmation, presence: true
   validates_format_of :email,:with => Devise.email_regexp
   validates_confirmation_of :password
   # alpha numeric validation of a string

@@ -5,8 +5,8 @@ class API::V0::UsersController < API::V0::APIController
   def profile
     # get user info 
     user = User.where(id:params_profile[:user_id])[0]
-    if content   
-      render :json => {:success => true, :user => user.as_json}, :status=> :ok
+    if user  
+      render :json => {:success => true, :user => user.as_json(only: [:id,:user_type_id,:nickname,:avatar,:bio,:social_tags,:hometown])}, :status=> :ok
     else
       render :json => {:success => false, :message => "Invalid user id"}, :status=> :unprocessable_entity
     end

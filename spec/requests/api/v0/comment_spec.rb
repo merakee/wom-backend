@@ -67,6 +67,24 @@ shared_examples "user with access to comment" do
     expect(json['comment']['content_id']).to eq(content.id)
   end
 
+  it 'can post long comment (400)' do
+    comment.text = Faker::Lorem.characters(400)
+    post post_path, auth_params(user).merge(comment.as_json(root: true, only: [:content_id, :text]))
+    expect_response_to_have(response,sucess=true,status=:created)
+    # check that the attributes are the same.
+    expect(json['comment']).to include("id", "user_id", "content_id", "text")
+    expect(json['comment']).not_to include('did_like')
+    expect(json['comment']['user_id']).to eq(user.id)
+    expect(json['comment']['text']).to eq(comment.text)
+    expect(json['comment']['content_id']).to eq(content.id)
+  end
+  
+  it 'cannot post comment over 400 charecters' do
+    comment.text = Faker::Lorem.characters(401)
+    post post_path, auth_params(user).merge(comment.as_json(root: true, only: [:content_id, :text]))
+    expect_response_to_have(response,sucess=false,status=:unprocessable_entity)
+  end
+  
   it 'cannot post comment without user email' do
     post post_path, user.as_json(root: true, only: [:authentication_token]).merge(comment.as_json(root: true, only: [:content_id, :text]))
     expect_response_to_have(response,sucess=false,status=:unauthorized)
