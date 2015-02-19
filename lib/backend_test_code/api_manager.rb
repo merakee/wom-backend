@@ -66,7 +66,7 @@ class ApiManager
 
   def api_version
     #return 1 if ["production", "development"].include?@server
-    return 1 if ["production"].include?@server
+    return 3 if ["local"].include?@server
     return 2
   end
   def get_path_for(action)
@@ -112,6 +112,16 @@ class ApiManager
       "notifications/reset/content"
     when "notification_reset_comment"
       "notifications/reset/comment"
+    when "favorite_content"
+      "favorite_contents/favorite"
+    when "unfavorite_content"
+      "favorite_contents/unfavorite"
+    when "favorite_content_getlist"
+      "favorite_contents/getlist"
+    when "profile_get"
+      "users/profile"
+    when "profile_update"
+      "users/update"
     else
     puts "***************** ERROR: No such action #{action} on #{@server} server"
     ""
@@ -153,7 +163,7 @@ class ApiManager
       @@response = JSON::parse(response)
       @@success = true
       @@success = @@response['success'] if @@response['success'].nil?
-      
+
     rescue => error
     @@error = error
     @@success = false
@@ -411,4 +421,46 @@ class ApiManager
     procesd_response_with_msg('comment',"Reset notifications Comment failed")
   end  
    
+  #=========================================
+  # Favorite Content   
+  def favorite_content(user = admin_user, content_id)
+    # favorite content 
+    api_call('post',get_path_for('favorite_content'),{:user => user.auth, :params => {content_id: content_id}})
+    procesd_response_with_msg('favorite_content',"Favorite content failed")
+  end
+
+  def unfavorite_content(user = admin_user, content_id)
+    # unfavorite content 
+    api_call('post',get_path_for('unfavorite_content'),{:user => user.auth, :params => {content_id: content_id}})
+    procesd_response_with_msg('message',"Unfavorite content failed")
+  end
+  
+  def favorite_content_getlist(user = admin_user, user_id)
+    # get favorite content list 
+    api_call('post',get_path_for('favorite_content_getlist'),{:user => user.auth, :params => {user_id: user_id}})
+    procesd_response_with_msg('contents',"Get favorite content list failed")
+  end
+  
+  #=========================================
+  # User profile 
+  def  process_profile_params(params)
+    # need to add logic to filter out nil params
+    params 
+  end
+  def profile_get(user = admin_user,user_id)
+    api_call('post',get_path_for('profile_get'),{:user => user.auth, :params => {user_id: user_id}})
+    procesd_response_with_msg('user',"Get user profile failed")
+  end
+
+  def profile_update(user = admin_user, params)
+    params = process_profile_params(params)
+    if params.empty? 
+      puts "Nothing to update" 
+      return 
+    end
+    
+    api_call('post',get_path_for('profile_update'),{:user => user.auth, :params => params})
+    user.email = @@response['user']['email'] if @@success 
+    procesd_response_with_msg('user',"Update Profile failed")
+  end
 end
