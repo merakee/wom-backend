@@ -66,7 +66,7 @@ class ApiManager
 
   def api_version
     #return 1 if ["production", "development"].include?@server
-    return 3 if ["local"].include?@server
+    return 3 if ["local", "development"].include?@server
     return 2
   end
   def get_path_for(action)
