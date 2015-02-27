@@ -56,6 +56,8 @@ group :development, :test do
   gem 'rails-erd'
   gem 'spring' # preloader to seep up development process
   gem 'request-log-analyzer' # for analyzing log data on local machine 
+  gem 'yard'
+
 end
 
 group :test do

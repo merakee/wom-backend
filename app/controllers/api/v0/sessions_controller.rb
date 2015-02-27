@@ -8,6 +8,32 @@ class API::V0::SessionsController < Devise::SessionsController
   before_filter :ensure_params_exist
   respond_to :json
   #force_ssl
+  
+  # Sign in user 
+  # @action POST
+  # @url /api/v0/signin
+  # @discussion Permitted action for all users 
+  # @required body  
+  # @response User Object 
+  # @response :unprocessable_entity
+  # @response :unauthorized
+  # @example_request { "user": { "user_type_id": 2, "email": "test_user1@test.com", "password": "password"}}
+  # @example_response 
+  #   { "success":true,
+  #      "user":{ "id":82,
+  #                   "email":"test_user1@test.com",
+  #                    "authentication_token":"oTL6Koq5VESxbr_6K9rJ",
+  #                    "nickname":"Anonymous",
+  #                    "user_type_id":2,
+  #                    "created_at":"2015-02-20T21:26:46.478Z",
+  #                    "updated_at":"2015-02-20T23:19:40.181Z",
+  #                    "avatar":{ "url":"https://wombackend-dev-freelogue.s3.amazonaws.com/uploads/user/avatar/82/avatar.jpg?AWSAccessKeyId=AKIAJ66HRUSQUNFK7PXA\u0026Signature=dCo9iin9CxOrO5G51KoF0%2B8t234%3D\u0026Expires=1425071229",
+  #                     "thumb":{ "url":"https://wombackend-dev-freelogue.s3.amazonaws.com/uploads/user/avatar/82/thumb_avatar.jpg?AWSAccessKeyId=AKIAJ66HRUSQUNFK7PXA\u0026Signature=JldttOSc0okqnLJlt4cCj29Tykk%3D\u0026Expires=1425071229"}},
+  #                     "bio":" ",
+  #                     "social_tags":[],
+  #                     "hometown":" "}}
+  # 
+    
   def create
     user = User.find_for_database_authentication(:email => params[:user][:email])
     return invalid_login_attempt("invalid_email") unless user
@@ -24,6 +50,17 @@ class API::V0::SessionsController < Devise::SessionsController
     invalid_login_attempt("invalid_password")
   end
 
+  # Sign out user 
+  # @action DELETE 
+  # @url /api/v0/signout
+  # @discussion Permitted action for only signed in user (non anonymous)
+  # @required body  
+  # @response Success message 
+  # @response :unprocessable_entity
+  # @response :unauthorized
+  # @example_request { "user": { "user_type_id": 2, "email": "test_user1@test.com", "password": "password"}}
+  # @example_response { "success" : true, "message" :  "Authetication token deleted" }
+  
   def destroy
     user = User.find_for_database_authentication(:email => params[:user][:email],:authentication_token => params[:user][:authentication_token])
     if user && user.authentication_token

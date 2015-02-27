@@ -212,6 +212,7 @@ GEM
       rack (>= 1.0)
     whenever (0.9.4)
       chronic (>= 0.6.3)
+    yard (0.8.7.6)
 
 PLATFORMS
   ruby
@@ -239,3 +240,4 @@ DEPENDENCIES
   thin
   warden
   whenever
+  yard

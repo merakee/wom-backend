@@ -1,28 +1,19 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+===Project name: Word Of Mouth 
 
-Things you may want to cover:
+====Rails Backend: JSON based REST API 
 
-* Ruby version
+====Project Start Date: 25 Jan 2014
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+====Description: Backend API for Word Of Mouth Project. 
+  * All calls to back end API is via POST unless mentioned otherwise
+  * All parameters are passed view json body
+  * All calls needs user auth params in the json body as user hash unless mentioned otherwise:
+  {
+    user: {
+  			email: "user_email", 
+  			authentication_token: "auth token" 
+  		}
+  }
+  

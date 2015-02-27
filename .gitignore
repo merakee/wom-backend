@@ -27,11 +27,17 @@ tmp/*
 # Gemlock  - comment out for Heroku isntall
 #Gemfile.lock
 
+# public folders
+/public
+
 # doc folders
 doc/api
 doc/app
 doc/*
 .yardoc/ # for YARD
+.yardoc/**/*
+.yardoc/*
+
 
 # Comment out these rules if you are OK with secrets being uploaded to the repo
 config/initializers/secret_token.rb

@@ -160,6 +160,7 @@ class ApiManager
       response = RestClient.get  path  if verb=='get'
       response = RestClient.delete  path, data.to_json,  :content_type => :json, :accept => :json     if verb=='delete'
 
+puts response 
       @@response = JSON::parse(response)
       @@success = true
       @@success = @@response['success'] if @@response['success'].nil?
@@ -252,6 +253,12 @@ class ApiManager
       user.user_id = @@response['user']['id']
     end
     rest_call_error("Sign in failed")
+  end
+  
+  def sign_out_user(user = admin_user)
+    # User Session: sign_out
+    api_call('delete',get_path_for('signout'),{:user => user.auth})
+    rest_call_error("Sign out failed")
   end
   
   #=========================================
