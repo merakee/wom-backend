@@ -9,6 +9,24 @@ Database Diagram: erdall (alias)
 #--------------------------------------------
 1. Generate secret key: rake secret
 
+#--------------------------------------------
+# Git Related
+#--------------------------------------------
+Github SSH keys and access:
+1. Generate key: ssh-keygen -t rsa -C "your_email@example.com"
+2. Add key to agent: ssh-add ~/.ssh/file_name
+3. Check saved keys: ssh-add -l
+4. Delete all cached keys: ssh-add -D
+5. Modify .ssh/config to add section:  
+						# github - Merakee
+						Host github.merakee
+						   HostName github.com
+						   User git
+						   IdentityFile /Users/bijit/.ssh/identity.github.merakee
+   
+6. Add SSH key to github account
+	a. copy: pbcopy < ~/.ssh/id_rsa.pub # Copies the contents of the id_rsa.pub file to your clipboard
+	b. In the website SSH keys > Add SSH key > paste > Add key
 
 #--------------------------------------------
 # Trouble Shooting
@@ -17,12 +35,73 @@ RSpec:
 P. Individual tests runs fine but have erros when run togather
 S. Make sure no two files share the same method name or shared example name or describe or it block name. This can happen from cut and paste code. 
 
+Config: 
+1. secrets.yml file; not part of git, copy from other project and may change the values
+2. fog_credentials.yml: not part of git, copy from other project and may change the values
 
 #--------------------------------------------
 # Trouble Shooting
 #--------------------------------------------
-Rails Dir: /var/app/current
+1. Rails Dir on AWS: /var/app/current
+2. ENV variables: printenv to see ENV 
+     echo $DB_NAME
+     unset DB_NAME to clear out old value 
 
+
+#--------------------------------------------
+# Production Zip
+#--------------------------------------------
+# create zip files for production
+git archive --format=zip HEAD > production_zip_files/swayamvara-backend-production-03Nov2014.zip
+
+#--------------------------------------------
+# Database Related
+#--------------------------------------------
+# Postgres transfer
+1. Dump data: pg_dump --h <database_host> -p <port> -U <username> -d <database> -f <filename.sql>
+2. Restore:  psql-h <database_host> -U <username> -d <database> -f <filename.sql>
+
+Database dump and restore steps:
+1. Dump the database to a file (from local machine): 
+	* Use alias: pg_dump_remote (){ pg_dump -v --host=$1 --port=5432 --username=$2 --password  --dbname=$3 --file=$4; } 
+	* Example: pg_dump_remote abcd.xyxxyzxyz.us-west-2.rds.amazonaws.com root wom_dev dump_awspg_wom_dev.sql
+
+2. Restore the database:
+	* User alias: pg_restore_remote (){ psql --host=$1 --port=5432 --username=$2 --password  --dbname=$3 --file=$4; } 
+	* Example: pg_restore_remote abcd.xyxxyzxyz.us-west-2.rds.amazonaws.com root wom_dev dump_awspg_wom_dev.sql 
+	
+Note: May need to stop other connections: 
+	* Stop all psql connection to DB
+	* Stop the EB EC2 instance to DB. Once an EC2 instance is stopped it can be restarted. But AWS termintes the old one and starts a new one with new instance id. 
+#--------------------------------------------
+#AWS flow and information:
+#--------------------------------------------
+
+Part I: Information
+App directory: /var/app/current
+Rails console: rails c
+Generate secret key: rake secret
+
+First time tasks:
+SSH to EB instance
+Cd to /var/app/current
+run > rake db:seed
+
+
+
+PART II: Flow
+
+1. Create EB instance with DB (pg)
+2. Create ElastiCache (redis)
+	Grant permission for EC instances
+	Get URL - need this to set REDIS_URL ENV var in EB (rails)
+	
+3. EB needs connection to 
+	S3: via ENV vars AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
+	ElastiCache: via ENV var REDIS_URL
+	
+	
+PART III: Resources
 
 AWS work flow:
 #--------------------------------------------
@@ -33,7 +112,7 @@ AWS work flow:
 
 Steps:
 0. Overall setup
-	1. Pick an exisiting keypair for all EC2 instance or create a new one for all EC2 instances: example wom-backend-production. If new, store the prm file and add command to local bash_aliases_aws file
+	1. Pick an exisiting keypair for all EC2 instance or create a new one for all EC2 instances: example swayamvara-backend-production. If new, store the prm file and add command to local bash_aliases_aws file
 	2. Pick an exisiting security group for all EC2 intances or create a new one for all EC2 instances. If new, set permission for inbound request for the group and assoviated elasticbeanstalk as follows
 		A. For recommender: Custom TCP Rule: TCP: 2014 : elastic beanstalk sucerity group
 		B. For Redis Custom TCP Rule: TCP: 6379 : elastic beanstalk sucerity group
@@ -53,11 +132,11 @@ Steps:
 	
 2. Set up Redis
 	1. Luanch an instance
-	2. Assign security group from existing list: example all-ec2-wombackend-production. The security group must have persmission for ElasticBeanStalk security group (Inbound custom TCP rules: port 2014)
+	2. Assign security group from existing list: example all-ec2-swayamvarabackend-production. The security group must have persmission for ElasticBeanStalk security group (Inbound custom TCP rules: port 2014)
 
 3. Set up Recommender
 	1. Follow all instraction for Recommender installation provided in Recommender WrokFlow
-	2. Assign security group from existing list: example all-ec2-wombackend-production. The security group must have persmission for ElasticBeanStalk security group (Inbound custom TCP rules: port 2014)
+	2. Assign security group from existing list: example all-ec2-swayamvarabackend-production. The security group must have persmission for ElasticBeanStalk security group (Inbound custom TCP rules: port 2014)
 	3. Set all ENV variables.
 	4. Add  right access to Elasticbean talk
 	5 Set up Route 53 name: Type A with ip

@@ -121,13 +121,13 @@ ActiveRecord::Schema.define(version: 20150205214630) do
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.string   "authentication_token"
-    t.string   "nickname",               default: "Anonymous",  null: false
     t.integer  "user_type_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "nickname",               default: "Anonymous",  null: false
     t.string   "avatar",                 default: "avatar.jpg", null: false
     t.text     "bio",                    default: " ",          null: false
-    t.string   "social_tags",            default: [],                        array: true
+    t.string   "social_tags",            default: [],           null: false, array: true
     t.string   "hometown",               default: " ",          null: false
   end
 

@@ -26,7 +26,7 @@ class InteractiveClient
     print "Select server: local (l), development (d - default), or production (p), or production v2 (p2): "
     #print "Select server: local (l), development (d - default), or production (p): "
     @server = gets.chomp
-    @server = "d" unless @server.eql?("l") || @server.eql?("p")  || @server.eql?("p2")
+    #@server = "d" unless @server.eql?("l") || @server.eql?("p")  || @server.eql?("p2")
     @api_manager = ApiManager.new("-"+@server)
     set_and_sign_in_user
     set_action_list
@@ -110,7 +110,7 @@ class InteractiveClient
       @action_list <<  ActionItem.new("Reset Notification - comment","notification_reset_comment")
       @action_list <<  ActionItem.new("Get user profile","profile_get")
       @action_list <<  ActionItem.new("Update user profile","profile_update")
-      @action_list <<  ActionItem.new("* Get content Recent list (default)","content_get_recentlist")
+      @action_list <<  ActionItem.new("* Get content Recent list","content_get_recentlist")
       @action_list <<  ActionItem.new("* Delete content","content_delete")
       @action_list <<  ActionItem.new("***Change User","change_user")
       @action_list <<  ActionItem.new("***Change Server","change_server")

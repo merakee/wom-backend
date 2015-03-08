@@ -41,7 +41,7 @@ doc/*
 
 # Comment out these rules if you are OK with secrets being uploaded to the repo
 config/initializers/secret_token.rb
-config/secrets.yml
+#config/secrets.yml
 # credentials
 config/*credentials.yml
 
@@ -66,3 +66,6 @@ public/uploads/**/*
 
 # all production zip files
 production_zip_files/
+
+# all database dump files
+database_dump_files/

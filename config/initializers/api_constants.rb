@@ -9,6 +9,16 @@ module APIConstants
     OTHERS =6
   end
 
+  # USER RELATED
+  module USER
+    NICKNAME_LENGTH_MIN = 2
+    NICKNAME_LENGTH_MAX = 17
+    BIO_LENGTH_MIN = 1
+    BIO_LENGTH_MAX = 100
+    HOMETOWN_LENGTH_MIN = 1
+    HOMETOWN_LENGTH_MAX = 40
+  end
+  
   # CONTENT RELARED
   module CONTENT
     MIN_TEXT_LENGTH =1

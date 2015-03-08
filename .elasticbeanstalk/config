@@ -1,58 +1,27 @@
 [global]
 ApplicationName=wom-backend
-ApplicationVersionName=git-541e35fab1e1d18222484ede7d39c918a2c88293-1407350982634
-AwsCredentialFile=/Users/bijit/.elasticbeanstalk/aws_credential_file_master
+AwsCredentialFile=/Users/bijit/.elasticbeanstalk/aws_credential_file_wom_dev
 DevToolsEndpoint=git.elasticbeanstalk.us-west-2.amazonaws.com
-EnvironmentName=wom-backend-master-env
-EnvironmentTier=WebServer::Standard::1.0
-EnvironmentType=LoadBalanced
+EnvironmentName=wom-dev-api1-v3-env
+EnvironmentTier=
+EnvironmentType=SingleInstance
 InstanceProfileName=aws-elasticbeanstalk-ec2-role
-OptionSettingFile=/Users/bijit/DesignAndDevelopment/WebApp/RoRProjects/wom-backend/.elasticbeanstalk/optionsettings.wom-backend-master-env
-RdsDeletionPolicy=Snapshot
-RdsEnabled=Yes
-RdsSourceSnapshotName=
+OptionSettingFile=/Users/bijit/DesignAndDevelopment/WebApp/RoRProjects/wom-backend/.elasticbeanstalk/optionsettings.wom-dev-api1-v3-env
+RdsEnabled=No
 Region=us-west-2
 ServiceEndpoint=https://elasticbeanstalk.us-west-2.amazonaws.com
-SolutionStack=64bit Amazon Linux 2014.03 v1.0.4 running Ruby 2.0 (Passenger Standalone)
+SolutionStack=64bit Amazon Linux 2014.09 v1.2.0 running Ruby 2.1 (Puma)
 
 [branches]
-master=wom-backend-master-env
-workingcode=wom-backend-master-env
-production=wom-backend-produc-env
+master=wom-dev-api1-v3-env
+workingcode=wom-dev-api1-v3-env
+newebsettings=wom-dev-api1-v3-env
 
 [branch:master]
-ApplicationVersionName=Development Version - Master 
-EnvironmentName=wom-backend-master-env
-EnvironmentTier=WebServer::Standard::1.0
-EnvironmentType=LoadBalanced
-InstanceProfileName=aws-elasticbeanstalk-ec2-role
-OptionSettingFile=/Users/bijit/DesignAndDevelopment/WebApp/RoRProjects/wom-backend/.elasticbeanstalk/optionsettings.wom-backend-master-env
-RdsDeletionPolicy=Snapshot
-RdsEnabled=Yes
-RdsSourceSnapshotName=
+ApplicationVersionName=WoM Development Version - Master 
 
 [branch:workingcode]
-ApplicationVersionName=Development Version - Working Code
-EnvironmentName=wom-backend-master-env
-EnvironmentTier=WebServer::Standard::1.0
-EnvironmentType=LoadBalanced
-InstanceProfileName=aws-elasticbeanstalk-ec2-role
-OptionSettingFile=/Users/bijit/DesignAndDevelopment/WebApp/RoRProjects/wom-backend/.elasticbeanstalk/optionsettings.wom-backend-master-env
-RdsDeletionPolicy=Snapshot
-RdsEnabled=Yes
-RdsSourceSnapshotName=
+ApplicationVersionName=WoM Development Version - WorkingCode 
 
-[branch:production]
-AwsCredentialFile=/Users/bijit/.elasticbeanstalk/aws_credential_file_production
-ApplicationName=wom-backend-production-v1
-ApplicationVersionName=WoM Production Version - AWS 
-EnvironmentName=wom-backend-produc-env
-EnvironmentTier=WebServer::Standard::1.0
-EnvironmentType=LoadBalanced
-InstanceProfileName=aws-elasticbeanstalk-ec2-role
-OptionSettingFile=/Users/bijit/DesignAndDevelopment/WebApp/RoRProjects/wom-backend/.elasticbeanstalk/optionsettings.wom-backend-produc-env
-RdsDeletionPolicy=Snapshot
-RdsEnabled=Yes
-RdsSourceSnapshotName=
-
-
+[branch:newebsettings]
+ApplicationVersionName=WoM Development Version - NewEBSettings

@@ -33,10 +33,13 @@ class ApiManager
    elsif (server_flag =="-p2")
       @server = "production_v2"
       puts "Api Manager: Connection to AWS - Production server (V2) with #{@verbose?"verbose":"silent"} mode......"
+   elsif (server_flag =="-d0")
+      @server = "development_v0"
+      puts "Api Manager: Connection to AWS - Development server (Version old) with #{@verbose?"verbose":"silent"} mode......"
       
     else
       @server = "development"
-      puts "Api Manager: Connection to AWS Development server with #{@verbose?"verbose":"silent"} mode......"
+      puts "Api Manager: Connection to AWS Development server (API:1 V:3) with #{@verbose?"verbose":"silent"} mode......"
     end
   end
 
@@ -45,7 +48,8 @@ class ApiManager
     #aws_path = 'http://wom-backend-master-env-hv2gxttyvi.elasticbeanstalk.com/'
     path_aws_p = 'http://wom.freelogue.net/'
     path_aws_p2 = 'http://wom-v2.freelogue.net/'
-    path_aws_d = 'http://wom-dev.freelogue.net/'
+    path_aws_d = 'http://wom-dev-v3.freelogue.net/'
+    path_aws_d0 = 'http://wom-dev.freelogue.net/'
     path_local = 'http://localhost:3000/'
     api_path = 'api/v0/'
     if @server.eql? "local"
@@ -54,6 +58,8 @@ class ApiManager
     path_aws_p + api_path
     elsif @server.eql?"production_v2"
     path_aws_p2 + api_path
+    elsif @server.eql?"development_v0"
+    path_aws_d0 + api_path
     else
     path_aws_d + api_path
     end
@@ -66,7 +72,7 @@ class ApiManager
 
   def api_version
     #return 1 if ["production", "development"].include?@server
-    return 3 if ["local", "development"].include?@server
+    return 3 if ["local", "development", "development_v0"].include?@server
     return 2
   end
   def get_path_for(action)

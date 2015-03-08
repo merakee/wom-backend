@@ -8,6 +8,7 @@ class ContentRecommendationManager
 
   # RUN SQL
   def get_recomlist_for_user(user_id,count=APIConstants::CONTENT_SELECTION::CONTENT_COUNT_PER_REQUEST,blacklist=[])
+    return [] unless recommendation_engine_on?
     recom_list = get_recommendation_list(user_id,count,blacklist)
     normalize_recomlist(recom_list)
   end
@@ -109,4 +110,7 @@ class ContentRecommendationManager
     values.each{|val| @redis.lrem(key,0,val)}
   end
 
+  def recommendation_engine_on?
+    @recommendation_engine_on ||= (ENV["RECOM_ENGINE_SWITCH"]) && ("ON".casecmp(ENV["RECOM_ENGINE_SWITCH"])==0)
+  end
 end
