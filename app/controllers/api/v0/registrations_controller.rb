@@ -94,14 +94,14 @@ class API::V0::RegistrationsController < Devise::RegistrationsController
     params.require(:user).permit(:user_type_id, :email,:password,:password_confirmation,:nickname,:avatar,:bio,:social_tags,:hometown)
   end
 
-  def process_avatar_params(avatar)
+ def process_avatar_params(avatar)
     if avatar && avatar[:file]
       @tempfile = Tempfile.new('user_photo')
       @tempfile.binmode
       @tempfile.write Base64.decode64(avatar[:file])
       @tempfile.rewind
 
-      params[:content][:avatar] = ActionDispatch::Http::UploadedFile.new(
+      params[:user][:avatar] = ActionDispatch::Http::UploadedFile.new(
       :tempfile => @tempfile,
       :content_type => avatar[:content_type],
       :filename => avatar[:filename])

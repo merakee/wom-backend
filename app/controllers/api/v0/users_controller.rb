@@ -100,18 +100,18 @@ class API::V0::UsersController < API::V0::APIController
   end
   
   def params_update
-    process_avatar_params(params[:user][:avatar]) unless params[:user].nil? 
+    process_avatar_params(params[:params][:avatar]) unless params[:params].nil? 
     params.require(:params).permit(:nickname,:email,:password,:password_confirmation,:avatar,:bio,:social_tags,:hometown)
   end
   
-    def process_avatar_params(avatar)
+  def process_avatar_params(avatar)
     if avatar && avatar[:file]
       @tempfile = Tempfile.new('user_photo')
       @tempfile.binmode
       @tempfile.write Base64.decode64(avatar[:file])
       @tempfile.rewind
 
-      params[:content][:avatar] = ActionDispatch::Http::UploadedFile.new(
+      params[:params][:avatar] = ActionDispatch::Http::UploadedFile.new(
       :tempfile => @tempfile,
       :content_type => avatar[:content_type],
       :filename => avatar[:filename])

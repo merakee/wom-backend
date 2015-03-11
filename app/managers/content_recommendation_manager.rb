@@ -93,7 +93,7 @@ class ContentRecommendationManager
   end
 
   def get_recomlist_tag_for_user(user_id)
-    "#{APIConstants::SYSTEM_CONSTANTS::REDIS_KEY_PREFIX}recomlist:uid:#{user_id}"
+    "#{DataStore.tag_prefix}:recomlist:uid:#{user_id}"
   end
 
   def get_val_from_json(json_string)

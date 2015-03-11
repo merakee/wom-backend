@@ -113,7 +113,7 @@ class ContentSelectionManager
   end
 
   def get_blacklist_key_for_user(user_id)
-    "#{APIConstants::SYSTEM_CONSTANTS::REDIS_KEY_PREFIX}blacklist:uid:#{user_id}"
+    "#{DataStore.tag_prefix}:blacklist:uid:#{user_id}"
   end
 
 
